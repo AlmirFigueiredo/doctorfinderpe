@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
-  console.log('Fala manos e manas!');
+  console.log('Home!');
   res.sendStatus(200);
 });
 
