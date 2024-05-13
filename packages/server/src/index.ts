@@ -1,12 +1,36 @@
-import express from 'express'
-import cors from 'cors'
-import routes from './routes'
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import sequelize from './config/database'; 
+import User from './models/user'; 
 
-const app = express()
+const PORT = process.env.PORT || 3333;
 
-app.use(cors())
-app.use(routes)
+const app = express();
 
-app.listen(3333, () => {
-    console.log('Server running')
-})
+app.use(express.json());
+app.use(cors());
+
+app.get('/', (req: Request, res: Response) => {
+  console.log('Fala manos e manas!');
+  res.sendStatus(200);
+});
+
+app.get('/users', async (req: Request, res: Response) => {
+    try {
+        const users = await User.findAll();
+        return res.status(200).json(users);
+    } catch (err: any) {
+        return res.status(400).send(err);
+    }
+});
+
+(async () => {
+    try {
+        await sequelize.authenticate();
+        await sequelize.sync({ alter: true });
+        console.log('Connection has been established successfully.');
+        app.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
+    } catch (error: any) {
+        console.error('Unable to connect to the database:', error);
+    }
+})();
