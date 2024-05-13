@@ -1,0 +1,14 @@
+{
+  "name": "doctorfinderpe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "repository": "https://github.com/AlmirFigueiredo/doctorfinderpe.git",
+  "author": "Jose Almir <joseamfj@outlook.com>",
+  "license": "MIT"
+}
