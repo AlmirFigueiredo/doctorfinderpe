@@ -10,5 +10,8 @@
   },
   "repository": "https://github.com/AlmirFigueiredo/doctorfinderpe.git",
   "author": "Jose Almir <joseamfj@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
