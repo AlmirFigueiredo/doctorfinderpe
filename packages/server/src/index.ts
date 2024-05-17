@@ -1,3 +1,4 @@
+import './config/dotenv'
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import sequelize from './config/database'; 
