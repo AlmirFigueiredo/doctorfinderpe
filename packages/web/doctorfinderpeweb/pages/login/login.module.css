@@ -3,8 +3,92 @@
     padding-bottom: 12px;
     text-align: center;
     border-bottom: 1px solid #edeff2;
+    margin-bottom: 32px;
 }
 
 .header h1 {
     font-weight: 600;
+}
+
+.container {
+    width: 100%;
+    max-width: 1160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginBox {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.loginBox h1 {
+    font-weight: 600;
+    color: #1b2734;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.loginBox form .formGroup {
+    margin-bottom: 16px;
+}
+
+.loginBox form input {
+    padding: 8px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+    font-weight: 400;
+    border: 1px solid #dcdfe3;
+    color: #495057;
+}
+
+.loginBox form button {
+    cursor: pointer;
+    background-color: #2f7add;
+    border-color: #3d83df;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: .534rem .8rem;
+    border-radius: 4px;
+    border: .06667rem solid rgba(0,0,0,0);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.loginBox .forgetPassword {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    font-weight: 400;
+    color: #1662c6;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #edeff2;
+}
+
+.loginBox .createAccountLogin {
+    text-align: center;
+}
+
+.loginBox .createAccountLogin span {
+    color: #627282;
+    font-size: 14px;
+}
+
+.loginBox .createAccountLogin a {
+    color: #1662c6;
+    font-size: 14px;
+    
+}
+
+
+@media (max-width: 600px) {
+    .container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 }
