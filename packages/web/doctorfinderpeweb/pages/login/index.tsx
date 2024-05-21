@@ -1,35 +1,40 @@
 "use client"
-import React from "react"
-import styles from "./login.module.css"
+import React from "react";
+import styles from "./login.module.css";
+
+type FormData = {
+    email: string;
+    password: string;
+}
 
 export default function Login() {
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = React.useState<FormData>({
         email: "",
         password: ""
-    })
+    });
 
-    const handleChange = (e: any) => {
-        const {name, value} = e.target;
-        setFormData((prevState) => ({...prevState, [name]: value}));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
     }
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const serializedBody = JSON.stringify(formData);
-        const fetchOptions = {
-            method: 'post',
+        const fetchOptions: RequestInit = {
+            method: 'POST',
             body: serializedBody,
             headers: { 'Content-Type': 'application/json' }
         };
-        
+
         try {
             const response = await fetch('/api', fetchOptions);
 
-            if(response.ok) {
+            if (response.ok) {
                 console.log('success');
             } else {
-                console.log('account already created i supose');
+                console.log('account already created I suppose');
             }
         } catch (error) {
             console.log(error);
@@ -46,10 +51,10 @@ export default function Login() {
                     <h1>Faça login em sua conta</h1>
                     <form onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
-                            <input name="email" value={formData.email} onChange={handleChange} type="text" placeholder="E-mail"/>
+                            <input name="email" value={formData.email} onChange={handleChange} type="text" placeholder="E-mail" />
                         </div>
                         <div className={styles.formGroup}>
-                            <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Senha"/>
+                            <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Senha" />
                         </div>
                         <button>Entrar</button>
                     </form>
@@ -62,7 +67,6 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            
         </>
-    )
+    );
 }
