@@ -58,7 +58,7 @@ export default function Login() {
                     </div>
                     <div className={styles.createAccountLogin}>
                         <span>Ainda não tem uma conta?</span>
-                        <a href="#"> Faça seu cadastro!</a>
+                        <a href="./register"> Faça seu cadastro!</a>
                     </div>
                 </div>
             </div>
