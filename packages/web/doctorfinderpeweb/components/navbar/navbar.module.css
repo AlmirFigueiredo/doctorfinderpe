@@ -80,8 +80,8 @@
 
 @media (max-width: 1000px) {
     .navbar {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
     }
 }
 
