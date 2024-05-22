@@ -1,0 +1,114 @@
+.main {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.main .centralized {
+    margin: 0 auto;
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main .centralized h1 {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.main .centralized p {
+    font-size: 15px;
+    margin-bottom: 36px;
+}
+
+
+.main .centralized .btns .bookBtn {
+    background-color: #006A6A;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-align: center;
+    margin-right: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: .2s;
+}
+
+.main .centralized .btns .bookBtn:hover {
+    background-color: #025353;
+}
+
+.main .centralized .btns .learnBtn {
+    border: 1px solid #006A6A;
+    padding: 12px 36px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #006A6A;
+    transition: .2s;
+}
+
+.main .centralized .btns .learnBtn:hover {
+    background-color: #006A6A;
+    color: #fff;
+}
+
+@media (max-width: 1000px) {
+    .main {
+        padding-top: 30px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 30px;
+    }
+    
+    .main .centralized img {
+        max-width: 529px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 604px) {
+    
+
+    .main .centralized {
+        flex-direction: column;
+    }
+
+    .main .centralized .btns {
+        margin-bottom: 36px;
+    }
+
+    .main .centralized img {
+        max-width: 400px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+}
+
+@media (max-width: 500px) {
+    .main .centralized h1 {
+        font-size: 24px;
+    }
+    .main .centralized p {
+        font-size: 12px;
+    }
+    .main .centralized .btns .bookBtn {
+        padding: 12px 24px;
+        font-size: 12px;
+    }
+
+    
+
+    .main .centralized .btns .learnBtn {
+        padding: 12px 24px;
+        font-size: 12px;
+    }
+    
+}
