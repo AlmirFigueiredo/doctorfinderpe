@@ -1,0 +1,129 @@
+.navbar {
+    max-width: 100%;
+    background-color: #006A6A;
+}
+
+.navbar .center {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.navbar .logoAndLinks {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar .logoAndLinks h1 {
+    color: #FFFCF6;
+}
+
+.navbar .logoAndLinks ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: #FFFCF6;
+}
+
+.navbar .logoAndLinks ul li a {
+    color: #FFFCF6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.navbar .logoAndLinks ul li a:hover {
+    color: #e4e1db;
+}
+
+.navbar .btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.navbar .btn .signUp {
+    background-color: #FFFCF6;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.navbar .btn .signUp:hover {
+    background-color: #e4e1db;
+}
+
+.navbar .btn .signIn {
+    color: #FFFCF6;
+    transition: color 0.2s;
+}
+
+.navbar .btn .signIn:hover {
+    color: #e4e1db;
+}
+
+.navbar .hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #FFFCF6;
+}
+
+@media (max-width: 1000px) {
+    .navbar {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .navbar .logoAndLinks ul,
+    .navbar .btn {
+        display: none;
+    }
+
+    .navbar .hamburger {
+        display: block;
+    }
+
+    .navbar .center {
+        justify-content: space-between;
+    }
+
+    .navbar .mobileMenu {
+        display: block;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #006A6A;
+        padding: 12px;
+    }
+
+    .navbar .mobileMenu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .navbar .mobileMenu ul li {
+        margin: 12px 0;
+    }
+
+    .navbar .mobileMenu ul li a {
+        color: #FFFCF6;
+        text-decoration: none;
+        display: block;
+        padding: 8px 12px;
+    }
+
+    .navbar .mobileMenu ul li a:hover {
+        background-color: #e4e1db;
+        color: #006A6A;
+    }
+}
