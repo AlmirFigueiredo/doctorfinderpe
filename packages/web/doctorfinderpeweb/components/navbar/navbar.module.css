@@ -21,6 +21,7 @@
 
 .navbar .logoAndLinks h1 {
     color: #FFFCF6;
+    font-size: 20px;
 }
 
 .navbar .logoAndLinks ul {
@@ -35,6 +36,7 @@
     color: #FFFCF6;
     text-decoration: none;
     transition: color 0.2s;
+    font-size: 14px;
 }
 
 .navbar .logoAndLinks ul li a:hover {
@@ -51,6 +53,7 @@
     background-color: #FFFCF6;
     padding: 6px 12px;
     border-radius: 4px;
+    font-size: 14px;
     transition: background-color 0.2s;
 }
 
@@ -61,6 +64,7 @@
 .navbar .btn .signIn {
     color: #FFFCF6;
     transition: color 0.2s;
+    font-size: 14px;
 }
 
 .navbar .btn .signIn:hover {

@@ -10,7 +10,7 @@ export default function Hero() {
               <h1>Get Access to Qualified Doctors Around the World</h1>
               <p>Let's connect you to over 5,000 qualified and trained doctors for your inquiries and diagnosis</p>
               <div className={styles.btns}>
-                <a className={styles.bookBtn} href="#">Book a Session</a>
+                <a className={styles.bookBtn} href="#">Search a Doctor</a>
                 <a className={styles.learnBtn} href="#">Learn More</a>
               </div>
             </div>
