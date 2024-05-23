@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/app.js"
   },  
   "dependencies": {
     "cors": "^2.8.5",
