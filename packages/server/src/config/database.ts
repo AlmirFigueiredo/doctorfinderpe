@@ -15,10 +15,10 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL as string, {
   dialect: 'postgres',
   dialectOptions: {
     // Esse ssl eh so pra producao, se for testar local, pode tirar
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
+    // ssl: {
+    //   require: true,
+    //   rejectUnauthorized: false
+    // }
   }
 });
 
