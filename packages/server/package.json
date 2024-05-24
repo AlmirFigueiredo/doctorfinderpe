@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/app.ts"
+    "start": "ts-node src/app.ts",
+    "dev": "ts-node src/app.ts"
   },  
   "dependencies": {
     "cors": "^2.8.5",
