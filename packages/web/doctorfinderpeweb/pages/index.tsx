@@ -6,7 +6,6 @@ import { HealthArea } from "@/components/home/healthArea";
 export default function Home() {
   return (
     <>
-        <Navbar/>
         <Hero/>
         <Solution/>
         <HealthArea/>

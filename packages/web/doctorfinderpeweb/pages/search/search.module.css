@@ -1,0 +1,189 @@
+.formContainer {
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.centralized {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.formContainer form {
+    display: flex;
+    max-width: 400px; 
+    width: 100%; 
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.inputWrapper input {
+    padding-left: 36px; 
+    padding-right: 70px; 
+    padding-top: 12px;
+    padding-bottom: 12px;
+    height: 40px;
+    width: 100%; 
+    border: 1px solid #006A6A;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.inputWrapper input:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px #006A6A;
+}
+
+.inputWrapper .icon {
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+}
+
+.inputWrapper button {
+    position: absolute;
+    right: 8px;
+    height: 32px;
+    border: none;
+    font-weight: 500;
+    background-color: #006A6A;
+    color: white;
+    padding: 0 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: .2s;
+}
+
+.inputWrapper button:hover {
+    background-color: #025353;
+}
+
+.resultsList {
+    margin-top: 32px;
+
+}
+
+.resultsList h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.doctorBox {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    max-width: 900px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.doctorContent {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 0px 0px 24px;
+}
+
+.doctorInfo {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.doctorInfo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.doctorInfo p {
+    font-size: 16px;
+    max-width: 35ch;
+    line-height: 1.5;
+    font-size: 400;
+    color: #1b2734;
+}
+
+.doctorInfo span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.doctorAddress button {
+    padding: 8px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #006A6A;
+    font-weight: 500;
+}
+
+.doctorAddress button:hover {
+    color: #025353;
+}
+
+.doctorAddress button.active {
+    border-bottom: 2px solid #006A6A;
+    color: #025353;
+}
+
+.doctorAddress button + button{
+    margin-left: 8px;
+}
+
+.doctorAddress span {
+    font-size: 14px;
+}
+
+.addressText {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.maps {
+    border: 0;
+    border-radius: 0px 8px 8px 0px;
+}
+
+@media (max-width: 900px) {
+    .formContainer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .doctorBox {
+        flex-direction: column;
+        width: fit-content;
+        margin-bottom: 24px;
+    }
+
+    .maps {
+        max-width: 100%;   
+        border-radius: 0px 0px 8px 8px;
+    }
+    .doctorInfo {
+        flex-direction: column;
+    }
+
+    .doctorInfo p {
+        font-size: 14px;
+    }
+
+    .doctorContent {
+        margin-bottom: 16px;
+        padding: 12px 12px 0 12px;
+        gap: 8px;
+    }
+    
+
+}
