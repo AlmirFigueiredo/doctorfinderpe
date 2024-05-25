@@ -1,4 +1,3 @@
-import { IntegerDataType } from 'sequelize';
 import Admin from '../models/Admin';
 
 export const getAllAdmins = async () => {
@@ -10,7 +9,7 @@ export const getAllAdmins = async () => {
   }
 };
 
-export const createAdmin = async (adminData: { id:IntegerDataType; admName: string; surname: string; birthday: Date; username: string; password: string }) => {
+export const createAdmin = async (adminData: { name: string; surname: string; birthday: Date; username: string; password: string }) => {
   try {
     return await Admin.create(adminData);
   } catch (error) {

@@ -15,16 +15,16 @@ app.get('/', (req, res) => {
 
 app.post('/createAdmin', async (req, res) => {
   try {
-    const { id, admName, surname, birthday, username, password } = req.body;
+    const { name, surname, birthday, username, password } = req.body;
 
     // Verificação simples dos dados recebidos
-    if (!id || !admName || !surname || !birthday || !username || !password) {
+    if ( !name || !surname || !birthday || !username || !password) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
     // Criação de um novo administrador
     const newAdmin = await Admin.create({
-      admName,
+      name,
       surname,
       birthday,
       username,
@@ -38,6 +38,57 @@ app.post('/createAdmin', async (req, res) => {
   }
 });
 
+app.get('/admins', async (req, res) => {
+  try {
+    const admins = await Admin.findAll();
+    res.status(200).json(admins);
+  } catch (error) {
+    console.error('Error fetching admins:', error);
+    res.status(500).json({ error: 'Failed to fetch admins' });
+  }
+});
+
+app.put('/admins/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, surname, birthday, username, password } = req.body;
+
+    const admin = await Admin.findByPk(id);
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    admin.name = name || admin.name;
+    admin.surname = surname || admin.surname;
+    admin.birthday = birthday || admin.birthday;
+    admin.username = username || admin.username;
+    admin.password = password || admin.password;
+
+    await admin.save();
+    res.status(200).json(admin);
+  } catch (error) {
+    console.error('Error updating admin:', error);
+    res.status(500).json({ error: 'Failed to update admin' });
+  }
+});
+
+app.delete('/admins/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const admin = await Admin.findByPk(id);
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    await admin.destroy();
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error deleting admin:', error);
+    res.status(500).json({ error: 'Failed to delete admin' });
+  }
+});
+
 // Testar conexão com o banco de dados
 sequelize.authenticate()
   .then(() => {
@@ -45,6 +96,14 @@ sequelize.authenticate()
   })
   .catch((error: any) => {
     console.error('Unable to connect to the database:', error);
+  });
+
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log('All models were synchronized successfully.');
+  })
+  .catch((error) => {
+    console.error('Error synchronizing models:', error);
   });
 
 // Iniciar o servidor

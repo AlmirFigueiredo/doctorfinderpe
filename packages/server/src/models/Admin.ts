@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 
 class Admin extends Model {
-  public id!: number;
+  public admId!: number;
   public name!: string;
   public surname!: string;
   public birthday!: Date;
@@ -12,12 +12,12 @@ class Admin extends Model {
 
 Admin.init(
   {
-    id: {
+    admId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    AdmName: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -40,7 +40,7 @@ Admin.init(
   },
   {
     sequelize,
-    tableName: 'admins'
+    tableName: 'Admins'
   }
 );
 

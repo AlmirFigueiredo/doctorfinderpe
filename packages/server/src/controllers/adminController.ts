@@ -12,8 +12,8 @@ export const getAllAdminsController = async (req: Request, res: Response) => {
 
 export const createAdminController = async (req: Request, res: Response) => {
   try {
-    const { id, admName, surname, birthday, username, password} = req.body;
-    const newAdmin = await createAdmin({ id , admName, surname, birthday, username, password });
+    const { name, surname, birthday, username, password} = req.body;
+    const newAdmin = await createAdmin({ name, surname, birthday, username, password });
     res.status(201).json({ success: true, data : newAdmin });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error creating admin' });
