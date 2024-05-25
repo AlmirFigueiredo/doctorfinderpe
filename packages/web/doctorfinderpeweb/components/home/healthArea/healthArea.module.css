@@ -1,0 +1,88 @@
+.healthArea {
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.centralized {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    background-color: #006A6A;
+    border-radius: 8px;
+    padding: 32px;
+    justify-content: space-between;
+    gap: 36px;
+}
+
+.box img {
+    width: 100%;
+}
+
+.body {
+    max-width: 400px;
+}
+
+.body h1 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #fff;
+
+}
+
+.body ul {
+    margin-bottom: 32px;
+}
+
+.body li {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.body a {
+    border: 1px solid #fff;
+    background-color: #fff;
+    padding: 12px 36px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #006A6A;
+    transition: .2s;
+}
+
+.body a:hover {
+    color: #fff;
+    background-color: #006A6A;
+}
+
+
+@media (max-width: 764px) {
+    .box {
+        flex-direction: column;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 32px;
+    }
+
+    .box h1 {
+        font-size: 20px;
+    }
+
+    .box img {
+        margin-bottom: 16px;
+    }
+
+    .body ul {
+        margin-bottom: 32px;
+    }
+}
