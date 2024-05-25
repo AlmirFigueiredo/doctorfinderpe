@@ -1,10 +1,12 @@
-import { Router } from 'express';
-import { getAllAdminsController } from '../controllers/adminController';
+import express from 'express';
+import { getAllAdminsController, createAdminController, getAdminByIdController, updateAdminController, deleteAdminController } from '../controllers/adminController';
 
-const router = Router();
+const router = express.Router();
 
-
-router.get('/', getAllAdminsController); // Rota exemplo -> n eh eficiente ter uma rota que retorna todo mundo
-// rotas para o CRUD -> Create, Read, Update e Delete -> Fazer por pessoa e nao para todos de uma vez 
+router.get('/', getAllAdminsController);
+router.post('/', createAdminController);
+router.get('/:id', getAdminByIdController);
+router.put('/:id', updateAdminController);
+router.delete('/:id', deleteAdminController);
 
 export default router;

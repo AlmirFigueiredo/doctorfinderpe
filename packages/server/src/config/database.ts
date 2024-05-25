@@ -23,3 +23,7 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL as string, {
 });
 
 export default sequelize; 
+//p rodar: abre o cmd no server, bota:
+//npm run dev
+//abre no browser: 
+//http://localhost:3000/
