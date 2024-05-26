@@ -13,12 +13,12 @@ export const getAllAdminsController = async (req: Request, res: Response) => {
 
 export const createAdminController = async (req: Request, res: Response) => {
   try {
-    const { name, surname, birthday, username, password } = req.body;
+    const { admin_id, user_id, role } = req.body;
 
-    if (!name || !surname || !birthday || !username || !password) {
+    if (!admin_id || !user_id || !role ) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newAdmin = await Admin.create({ name, surname, birthday, username, password });
+    const newAdmin = await Admin.create({ admin_id, user_id, role });
     res.status(201).json(newAdmin);
   } catch (error) {
     console.error('Error creating admin:', error);
@@ -43,17 +43,15 @@ export const getAdminByIdController = async (req: Request, res: Response) => {
 export const updateAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, surname, birthday, username, password } = req.body;
+    const { admin_id, user_id, role } = req.body;
     const admin = await Admin.findByPk(id);
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
 
-    admin.name = name || admin.name;
-    admin.surname = surname || admin.surname;
-    admin.birthday = birthday || admin.birthday;
-    admin.username = username || admin.username;
-    admin.password = password || admin.password;
+    admin.admin_id = admin_id || admin.admin_id;
+    admin.user_id = user_id || admin.user_id;
+    admin.role = role || admin.role;
 
     await admin.save();
     res.status(200).json(admin);

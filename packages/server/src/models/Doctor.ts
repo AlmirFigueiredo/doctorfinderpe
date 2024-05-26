@@ -2,17 +2,17 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 class Doctor extends Model {
-    public medico_id!: number;
+    public doctor_id!: number;
     public user_id!: number;
-    public endereco!: string;
-    public especialidade!: string;
-    public aceita_dinheiro!: boolean;
-    public aceita_plano!: boolean;
+    public address!: string;
+    public specialty!: string;
+    public accept_money!: boolean;
+    public accept_plan!: boolean;
 }
 
 Doctor.init(
     {
-        medico_id: {
+        doctor_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
@@ -21,26 +21,26 @@ Doctor.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        endereco: {
+        address: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        especialidade: {
+        specialty: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        aceita_dinheiro: {
+        accept_money: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        aceita_plano: {
+        accept_plan: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
     },
     {
         sequelize,
-        tableName: 'medicos',
+        tableName: 'doctor',
     }
 );
 
