@@ -1,4 +1,4 @@
-import Admin from '../models/Admin';
+import Admin from '../models/admin';
 
 export const getAllAdmins = async () => {
   try {

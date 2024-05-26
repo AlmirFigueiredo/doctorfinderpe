@@ -1,4 +1,4 @@
-import Patient from '../models/Patient';
+import Patient from '../models/patient';
 //import Fastify from 'fastify';
 //import cors from '@fastify/cors'
 
