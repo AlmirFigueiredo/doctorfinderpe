@@ -2,46 +2,31 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 
 class Admin extends Model {
-  public admId!: number;
-  public name!: string;
-  public surname!: string;
-  public birthday!: Date;
-  public username!: string;
-  public password!: string;
+    public admin_id!: number;
+    public user_id!: number;
+    public role!: string;
 }
 
 Admin.init(
-  {
-    admId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+    {
+        admin_id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    surname: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    birthday: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
+    {
+        sequelize,
+        tableName: 'admins'
     }
-  },
-  {
-    sequelize,
-    tableName: 'Admins'
-  }
 );
 
 export default Admin;
