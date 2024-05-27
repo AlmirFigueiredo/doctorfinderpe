@@ -131,3 +131,72 @@
     color: #000;
     font-weight: bold;
 }
+
+.userInfo {
+    padding: 24px 32px;
+    border-bottom: 1px solid #E1E1E6;
+}
+
+.userInfo div {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    margin-bottom: 12px;
+}
+
+.userInfo div label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #7C7C8A;
+}
+
+.userInfo div input {
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #E1E1E6;
+    color: #000;
+    font-weight: bold;
+}
+
+.userInfo div textarea {
+    resize: none;
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #E1E1E6;
+    color: #000;
+    font-weight: bold;
+}
+
+.userInfo div section {
+    display: flex;
+    flex-direction: column;
+}
+
+.userInfo div section input + input {
+    margin-top: 8px;
+}
+
+.userInfo div span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #7C7C8A;
+}
+
+.userInfo div button {
+    max-width: 100px;
+    border: 0;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #121214;
+    color: #fff;
+}
+
+.userInfo div button:hover {
+    background-color: #29292E;
+    transition: .2s;
+}
