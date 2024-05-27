@@ -1,0 +1,133 @@
+.profile {
+    width: 100%;
+}
+
+.profile > header {
+    max-width: 1000px;
+    margin: 60px auto 0;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.profileContainer {
+    max-width: 1000px;
+    margin: 30px auto;
+    display: flex;
+    gap: 32px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.main {
+    flex: 1;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar button {
+    border: 0;
+    padding: 12px;
+    border-radius: 2px;
+    min-width: 200px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #C4C4CC;
+    border-bottom: none;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.sidebar button + button {
+    border: 1px solid #d6d6d6;
+}
+
+
+.sidebar button.active {
+    background-color: #E1E1E6;
+}
+
+.main {
+    border: 1px solid #C4C4CC;
+}
+
+.main header {
+    font-size: 20px;
+    border-bottom: 1px solid #E1E1E6;
+    padding: 16px 32px;
+}
+
+.profileImage {
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid #E1E1E6;
+    align-items: flex-start;
+}
+
+.profileImage span {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    color: #7C7C8A;
+}
+
+.profileImage img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.imageContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    max-width: 400px;
+}
+
+
+.imageContent div {
+    display: flex;
+    gap: 16px;
+}
+
+.imageContent div button {
+    border: 0;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.username {
+    padding: 24px 32px;
+    border-bottom: 1px solid #E1E1E6;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+
+}
+
+.username span {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    color: #7C7C8A;
+}
+
+.username > div {
+    max-width: 400px;
+ 
+}
+
+.username div input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #E1E1E6;
+    color: #000;
+    font-weight: bold;
+}
