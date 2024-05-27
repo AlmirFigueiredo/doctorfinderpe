@@ -3,6 +3,7 @@ import sequelize from './config/database';
 //import Admin from './models/Admin';
 import adminRoutes from './routes/adminRoutes';
 import doctorRoutes from './routes/doctorRoutes';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 // Usar as rotas do adm
 app.use('/Admins', adminRoutes); //http://localhost:3000/Admins
 app.use('/Doctors', doctorRoutes); //http://localhost:3000/Doctors
+app.use('/Users', userRoutes); //http://localhost:3000/Users
 
 // Testar conexão com o banco de dados
 sequelize.authenticate()

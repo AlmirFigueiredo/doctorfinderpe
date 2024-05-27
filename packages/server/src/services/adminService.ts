@@ -9,7 +9,7 @@ export const getAllAdmins = async () => {
   }
 };
 
-export const createAdmin = async (adminData: { name: string; surname: string; birthday: Date; username: string; password: string }) => {
+export const createAdmin = async (adminData: { user_id: number; role: string }) => {
   try {
     return await Admin.create(adminData);
   } catch (error) {
@@ -29,7 +29,7 @@ export const getAdminById = async (adminId: string) => {
   }
 };
 
-export const updateAdmin = async (adminId: string, updatedData: {  id?: string; admName?: string; surname?: string; birthday?: Date; username?: string; password?: string }) => {
+export const updateAdmin = async (adminId: string, updatedData: {  admin_id: number; user_id: number; role: string }) => {
   try {
     const admin = await Admin.findByPk(adminId);
     if (!admin) {

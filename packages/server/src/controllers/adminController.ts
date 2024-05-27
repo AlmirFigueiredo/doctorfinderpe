@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import Admin from '../models/Admin';
+import { getAllAdmins, createAdmin, getAdminById, updateAdmin, deleteAdmin } from '../services/adminService';
 
 export const getAllAdminsController = async (req: Request, res: Response) => {
   try {
-    const admins = await Admin.findAll();
+    const admins = await getAllAdmins();
     res.status(200).json(admins);
   } catch (error) {
     console.error('Error fetching admins:', error);
@@ -13,12 +14,12 @@ export const getAllAdminsController = async (req: Request, res: Response) => {
 
 export const createAdminController = async (req: Request, res: Response) => {
   try {
-    const { admin_id, user_id, role } = req.body;
+    const { user_id, role } = req.body;
 
-    if (!admin_id || !user_id || !role ) {
+    if (  !user_id || !role ) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newAdmin = await Admin.create({ admin_id, user_id, role });
+    const newAdmin = await createAdmin({ user_id, role });
     res.status(201).json(newAdmin);
   } catch (error) {
     console.error('Error creating admin:', error);
@@ -29,7 +30,7 @@ export const createAdminController = async (req: Request, res: Response) => {
 export const getAdminByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const admin = await Admin.findByPk(id);
+    const admin = await getAdminById(id);
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
@@ -44,7 +45,7 @@ export const updateAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { admin_id, user_id, role } = req.body;
-    const admin = await Admin.findByPk(id);
+    const admin = await updateAdmin(id, { admin_id, user_id, role });
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
@@ -64,7 +65,7 @@ export const updateAdminController = async (req: Request, res: Response) => {
 export const deleteAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const admin = await Admin.findByPk(id);
+    const admin = await deleteAdmin(id);
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }

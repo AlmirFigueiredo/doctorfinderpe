@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import Doctor from '../models/Doctor';
+import { createDoctor, getAllDoctors, getDoctorById, updateDoctor, deleteDoctor } from '../services/doctorService';
 
 export const getAllDoctorsController = async (_req: Request, res: Response) => {
   try {
-    const doctors = await Doctor.findAll();
+    const doctors = await getAllDoctors();
     res.status(200).json(doctors);
   } catch (error) {
     console.error('Error fetching doctors:', error);
@@ -18,8 +19,7 @@ export const createDoctorController = async (req: Request, res: Response) => {
     if (!user_id || !address || !specialty || accept_money === undefined || accept_plan === undefined ) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-
-    const newDoctor = await Doctor.create({ user_id, address, specialty, accept_money, accept_plan });
+    const newDoctor = await createDoctor({ user_id, address, specialty, accept_money, accept_plan });
     res.status(201).json(newDoctor);
   } catch (error) {
     console.error('Error creating doctor:', error);
@@ -30,7 +30,7 @@ export const createDoctorController = async (req: Request, res: Response) => {
 export const getDoctorByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const doctor = await Doctor.findByPk(id);
+    const doctor = await getDoctorById(Number(id));
     if (!doctor) {
       return res.status(404).json({ error: 'Doctor not found' });
     }
@@ -45,36 +45,21 @@ export const updateDoctorController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { user_id, address, specialty, accept_money, accept_plan } = req.body;
-    const doctor = await Doctor.findByPk(id);
-    if (!doctor) {
-      return res.status(404).json({ error: 'Doctor not found' });
-    }
-
-    doctor.user_id = user_id || doctor.user_id;
-    doctor.address = address || doctor.address;
-    doctor.specialty = specialty || doctor.specialty;
-    doctor.accept_money = accept_money ?? doctor.accept_money;
-    doctor.accept_plan = accept_plan ?? doctor.accept_plan;
-
-    await doctor.save();
-    res.status(200).json(doctor);
-  } catch (error) {
+    const updatedDoctor = await updateDoctor(Number(id), { user_id, address, specialty, accept_money, accept_plan });
+    res.status(200).json(updatedDoctor);
+} catch (error) {
     console.error('Error updating doctor:', error);
     res.status(500).json({ error: 'Failed to update doctor' });
-  }
+}
 };
 
 export const deleteDoctorController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const doctor = await Doctor.findByPk(id);
-    if (!doctor) {
-      return res.status(404).json({ error: 'Doctor not found' });
-    }
-    await doctor.destroy();
+    await deleteDoctor(Number(id));
     res.status(204).send();
-  } catch (error) {
+} catch (error) {
     console.error('Error deleting doctor:', error);
     res.status(500).json({ error: 'Failed to delete doctor' });
-  }
+}
 };
