@@ -34,7 +34,6 @@ export default function Search() {
                         q: query
                     }
                 });
-                console.log(response.data); // Verifique a resposta da API no console
                 setDoctors(response.data);
     
                 // Definir o primeiro endereço como ativo para cada médico

@@ -200,3 +200,45 @@
     background-color: #29292E;
     transition: .2s;
 }
+
+@media (max-width: 768px) {
+    .profile > header {
+        margin-top: 40px;
+    }
+    .profileContainer {
+        flex-direction: column;
+    }
+    .profileImage {
+        grid-template-columns: 1fr;
+    }
+    .profileImage span {
+        margin-bottom: 16px;
+    }
+    .imageContent {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .username {
+        grid-template-columns: 1fr;
+    }
+    .username span {
+        margin-bottom: 16px;
+    }
+    .userInfo div {
+        grid-template-columns: 1fr;
+        margin-bottom: 16px;
+    }
+    .userInfo div label {
+        margin-bottom: 4px;
+    }
+
+    .userInfo div span {
+        margin-bottom: 8px;
+    }
+
+    .userInfo div button[type="submit"] {
+        width: 100%;
+        max-width: 100%;
+    }
+}
