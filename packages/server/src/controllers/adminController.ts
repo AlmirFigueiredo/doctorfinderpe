@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
-import Admin from '../models/Admin';
-import { getAllAdmins, createAdmin, getAdminById, updateAdmin, deleteAdmin } from '../services/adminService';
+import { 
+  getAllAdmins, 
+  createAdmin, 
+  getAdminById, 
+  updateAdmin, 
+  deleteAdmin 
+} from '../services/adminService';
 
 export const getAllAdminsController = async (req: Request, res: Response) => {
   try {

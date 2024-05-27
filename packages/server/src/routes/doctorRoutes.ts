@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import {
   createDoctorController,
   getAllDoctorsController,
@@ -7,7 +7,7 @@ import {
   deleteDoctorController
 } from '../controllers/doctorController';
 
-const router = express.Router();
+const router = Router();
 
 router.post('/', createDoctorController);
 router.get('/', getAllDoctorsController);

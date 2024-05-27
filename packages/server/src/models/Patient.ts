@@ -2,13 +2,13 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 class Patient extends Model {
-    public paciente_id!: number;
+    public patient_id!: number;
     public user_id!: number;
 }
 
 Patient.init(
     {
-        paciente_id: {
+        patient_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,

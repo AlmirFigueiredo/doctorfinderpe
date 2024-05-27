@@ -1,9 +1,12 @@
 import express from 'express';
 import sequelize from './config/database';
-//import Admin from './models/Admin';
 import adminRoutes from './routes/adminRoutes';
 import doctorRoutes from './routes/doctorRoutes';
 import userRoutes from './routes/userRoutes';
+import patientRoutes from './routes/patientRoutes';
+import appointmentRoutes from './routes/appointmentRoutes';
+import availabilityRoutes from './routes/avaliabilityRoutes';
+import feedbackRoutes from './routes/feedbackRoutes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,10 +19,13 @@ app.get('/', (req, res) => {
   res.send('Connected :D');
 });
 
-// Usar as rotas do adm
 app.use('/Admins', adminRoutes); //http://localhost:3000/Admins
 app.use('/Doctors', doctorRoutes); //http://localhost:3000/Doctors
 app.use('/Users', userRoutes); //http://localhost:3000/Users
+app.use('/Patients', patientRoutes); //http://localhost:3000/Patients
+app.use('/Appointments', appointmentRoutes); //http://localhost:3000/Appointments
+app.use('/Availabilities', availabilityRoutes); //http://localhost:3000/Availabilities
+app.use('/Feedbacks', feedbackRoutes); //http://localhost:3000/Feedbacks
 
 // Testar conexão com o banco de dados
 sequelize.authenticate()

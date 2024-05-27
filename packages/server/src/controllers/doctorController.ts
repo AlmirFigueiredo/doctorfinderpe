@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
-import Doctor from '../models/Doctor';
-import { createDoctor, getAllDoctors, getDoctorById, updateDoctor, deleteDoctor } from '../services/doctorService';
+import { 
+  createDoctor, 
+  getAllDoctors, 
+  getDoctorById, 
+  updateDoctor, 
+  deleteDoctor 
+} from '../services/doctorService';
 
 export const getAllDoctorsController = async (_req: Request, res: Response) => {
   try {
