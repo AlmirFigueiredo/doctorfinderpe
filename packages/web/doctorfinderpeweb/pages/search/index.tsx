@@ -18,12 +18,13 @@ interface Doctor {
     description: string;
     enderecos_amout: number;
     feedbacksCount: number;
+    imageSrc: string;
 }
 
 export default function Search() {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [query, setQuery] = useState("");
-    const [activeAddressIndex, setActiveAddressIndex] = useState<number>(0); // estado para controlar o endereço ativo
+    const [activeAddressIndexes, setActiveAddressIndexes] = useState<number[]>([]);
 
     useEffect(() => {
         async function loadDoctors(query?: string) {
@@ -35,21 +36,28 @@ export default function Search() {
                 });
                 console.log(response.data); // Verifique a resposta da API no console
                 setDoctors(response.data);
+    
+                // Definir o primeiro endereço como ativo para cada médico
+                const initialActiveIndexes = response.data.map(() => 0);
+                setActiveAddressIndexes(initialActiveIndexes);
             } catch (error) {
                 console.error("Error fetching doctors:", error);
             }
         }
         loadDoctors(query);
     }, [query]);
+    
 
-    const handleAddressClick = (index: number) => {
-        setActiveAddressIndex(index); // atualiza o endereço ativo quando um botão é clicado
-    }
+    const handleAddressClick = (doctorIndex: number, addressIndex: number) => {
+        const newActiveIndexes = [...activeAddressIndexes];
+        newActiveIndexes[doctorIndex] = addressIndex; // atualiza o endereço ativo para o médico específico
+        setActiveAddressIndexes(newActiveIndexes);
+    };
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const searchQuery = (event.target as HTMLFormElement).elements.namedItem('search') as HTMLInputElement;
-        setQuery(searchQuery.value);
+        const searchQuery =String((event.target as HTMLFormElement).querySelector<HTMLInputElement>('input[name="search"]')?.value);
+        setQuery(searchQuery);
     };
 
     return (
@@ -71,11 +79,11 @@ export default function Search() {
                 <div className={styles.resultsList}>
                     <h1>Search Results</h1>
                     {doctors.length > 0 ? (
-                        doctors.map((doctor) => (
+                        doctors.map((doctor, doctorIndex) => (
                             <article key={doctor.medico_id} className={styles.doctorBox}>
                                 <div className={styles.doctorContent}>
                                     <div className={styles.doctorInfo}>
-                                        <img src="https://github.com/IagoCarvalhoG.png" alt="" />
+                                        <img src={doctor.imageSrc} alt="" />
                                         <div>
                                             <strong>{doctor.name}</strong>
                                             <p>{doctor.description}</p>
@@ -83,11 +91,11 @@ export default function Search() {
                                         </div>
                                     </div>
                                     <div className={styles.doctorAddress}>
-                                        {doctor.enderecos.map((address, index) => (
+                                        {doctor.enderecos.map((address, addressIndex) => (
                                             <button
                                                 key={address.id}
-                                                className={`${styles.addressButton} ${index === activeAddressIndex ? styles.active : ''}`}
-                                                onClick={() => handleAddressClick(index)} // adiciona um manipulador de clique para alternar entre os endereços
+                                                className={`${styles.addressButton} ${addressIndex === activeAddressIndexes[doctorIndex] ? styles.active : ''}`}
+                                                onClick={() => handleAddressClick(doctorIndex, addressIndex)} // adiciona um manipulador de clique para alternar entre os endereços
                                             >
                                                 Address {address.id}
                                             </button>
@@ -95,7 +103,7 @@ export default function Search() {
                                     </div>
                                     <div className={styles.addressText}>
                                         <MapPinLine size={20} />
-                                        <span>{doctor.enderecos[activeAddressIndex].endereco}</span>
+                                        <span>{activeAddressIndexes[doctorIndex] !== undefined && doctor.enderecos[activeAddressIndexes[doctorIndex]] ? doctor.enderecos[activeAddressIndexes[doctorIndex]].endereco : ''}</span>
                                     </div>
                                 </div>
                                 <iframe
