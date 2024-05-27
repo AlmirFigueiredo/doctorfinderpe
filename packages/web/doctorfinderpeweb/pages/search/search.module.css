@@ -88,7 +88,7 @@
 .doctorContent {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
     padding: 24px 0px 0px 24px;
 }
 
@@ -145,7 +145,6 @@
 }
 
 .addressText {
-    margin-top: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
