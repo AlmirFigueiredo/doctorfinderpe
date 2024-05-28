@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 class Admin extends Model {

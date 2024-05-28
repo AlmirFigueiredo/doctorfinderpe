@@ -1,7 +1,13 @@
-import express from 'express';
-import { getAllAdminsController, createAdminController, getAdminByIdController, updateAdminController, deleteAdminController } from '../controllers/adminController';
+import { Router } from 'express';
+import { 
+    getAllAdminsController, 
+    createAdminController, 
+    getAdminByIdController, 
+    updateAdminController, 
+    deleteAdminController 
+} from '../controllers/adminController';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/', getAllAdminsController);
 router.post('/', createAdminController);

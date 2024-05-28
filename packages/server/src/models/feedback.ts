@@ -3,9 +3,9 @@ import sequelize from '../config/database';
 
 class Feedback extends Model {
     public feedback_id!: number;
-    public medico_id!: number;
-    public paciente_id!: number;
-    public comentario!: string;
+    public doctor_id!: number;
+    public patient_id!: number;
+    public comment!: string;
     public data!: string;
 }
 
@@ -16,15 +16,15 @@ Feedback.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        medico_id: {
+        doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        paciente_id: {
+        patient_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        comentario: {
+        comment: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
@@ -35,7 +35,7 @@ Feedback.init(
     },
     {
         sequelize,
-        tableName: 'feedbacks',
+        tableName: 'feedback',
     }
 );
 

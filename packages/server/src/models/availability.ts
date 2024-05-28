@@ -2,40 +2,40 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 class Availability extends Model {
-    public disponibilidade_id!: number;
-    public medico_id!: number;
-    public dia!: string;
-    public hora_inicio!: string;
-    public hora_fim!: string;
+    public availability_id!: number;
+    public doctor_id!: number;
+    public day!: string;
+    public start_time!: string;
+    public end_time!: string;
 }
 
 Availability.init(
     {
-        disponibilidade_id: {
+        availability_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        medico_id: {
+        doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        dia: {
+        day: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        hora_inicio: {
+        start_time: {
             type: DataTypes.TIME,
             allowNull: false,
         },
-        hora_fim: {
+        end_time: {
             type: DataTypes.TIME,
             allowNull: false,
         },
     },
     {
         sequelize,
-        tableName: 'disponibilidade',
+        tableName: 'availability',
     }
 );
 

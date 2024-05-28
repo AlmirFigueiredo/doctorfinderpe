@@ -2,26 +2,26 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 class Appointment extends Model {
-    public agendamento_id!: number;
-    public medico_id!: number;
-    public paciente_id!: number;
+    public appointment_id!: number;
+    public doctor_id!: number;
+    public patient_id!: number;
     public data!: string;
-    public hora!: string;
+    public hour!: string;
     public status!: string;
 }
 
 Appointment.init(
     {
-        agendamento_id: {
+        appointment_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        medico_id: {
+        doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        paciente_id: {
+        patient_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -29,7 +29,7 @@ Appointment.init(
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
-        hora: {
+        hour: {
             type: DataTypes.TIME,
             allowNull: false,
         },
@@ -40,7 +40,7 @@ Appointment.init(
     },
     {
         sequelize,
-        tableName: 'agendamentos',
+        tableName: 'appointment',
     }
 );
 

@@ -1,9 +1,18 @@
 import { Router } from 'express';
-import { getAllDoctorsController } from '../controllers/doctorController';
+import {
+  createDoctorController,
+  getAllDoctorsController,
+  getDoctorByIdController,
+  updateDoctorController,
+  deleteDoctorController
+} from '../controllers/doctorController';
 
 const router = Router();
 
-router.get('/', getAllDoctorsController); // Rota exemplo -> n eh eficiente ter uma rota que retorna todo mundo
-// rotas para o CRUD -> Create, Read, Update e Delete -> Fazer por pessoa e nao para todos de uma vez 
+router.post('/', createDoctorController);
+router.get('/', getAllDoctorsController);
+router.get('/:id', getDoctorByIdController);
+router.put('/:id', updateDoctorController);
+router.delete('/:id', deleteDoctorController);
 
 export default router;

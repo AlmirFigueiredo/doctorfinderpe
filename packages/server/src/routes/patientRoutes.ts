@@ -1,9 +1,18 @@
 import { Router } from 'express';
-import { getAllPatientsController } from '../controllers/patientController';
+import { 
+    getAllPatientsController, 
+    createPatientController, 
+    getPatientByIdController, 
+    updatePatientController, 
+    deletePatientController 
+} from '../controllers/patientController';
 
 const router = Router();
 
 router.get('/', getAllPatientsController);
-// Essa rota nao eh eficiente, porque ela retorna tudo, faz as rotas para o CRUD por usuario -> Create, Read, Update and Delete
+router.post('/', createPatientController);
+router.get('/:id', getPatientByIdController);
+router.put('/:id', updatePatientController);
+router.delete('/:id', deletePatientController);
 
 export default router;

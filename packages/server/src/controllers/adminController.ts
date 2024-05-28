@@ -1,22 +1,34 @@
 import { Request, Response } from 'express';
-import { getAllAdmins, createAdmin, getAdminById, updateAdmin, deleteAdmin } from '../services/adminService';
+import { 
+  getAllAdmins, 
+  createAdmin, 
+  getAdminById, 
+  updateAdmin, 
+  deleteAdmin 
+} from '../services/adminService';
 
 export const getAllAdminsController = async (req: Request, res: Response) => {
   try {
     const admins = await getAllAdmins();
-    res.status(200).json({ success: true, data : admins });
+    res.status(200).json(admins);
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error retrieving admins' });
+    console.error('Error fetching admins:', error);
+    res.status(500).json({ error: 'Failed to fetch admins' });
   }
 };
 
 export const createAdminController = async (req: Request, res: Response) => {
   try {
-    const { name, surname, birthday, username, password} = req.body;
-    const newAdmin = await createAdmin({ name, surname, birthday, username, password });
-    res.status(201).json({ success: true, data : newAdmin });
+    const { user_id, role } = req.body;
+
+    if (  !user_id || !role ) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    const newAdmin = await createAdmin({ user_id, role });
+    res.status(201).json(newAdmin);
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error creating admin' });
+    console.error('Error creating admin:', error);
+    res.status(500).json({ error: 'Failed to create admin' });
   }
 };
 
@@ -25,37 +37,47 @@ export const getAdminByIdController = async (req: Request, res: Response) => {
     const { id } = req.params;
     const admin = await getAdminById(id);
     if (!admin) {
-      return res.status(404).json({ success: false, message: 'Admin not found' });
+      return res.status(404).json({ error: 'Admin not found' });
     }
-    res.status(200).json({ success: true, data : admin });
+    res.status(200).json(admin);
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error retrieving admin' });
+    console.error('Error fetching admin:', error);
+    res.status(500).json({ error: 'Failed to fetch admin' });
   }
 };
 
 export const updateAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const updatedData = req.body;
-    const updatedAdmin = await updateAdmin(id, updatedData);
-    if (!updatedAdmin) {
-      return res.status(404).json({ success: false, message: 'Admin not found' });
+    const { admin_id, user_id, role } = req.body;
+    const admin = await updateAdmin(id, { admin_id, user_id, role });
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
     }
-    res.status(200).json({ success: true, data : updatedAdmin });
+
+    admin.admin_id = admin_id || admin.admin_id;
+    admin.user_id = user_id || admin.user_id;
+    admin.role = role || admin.role;
+
+    await admin.save();
+    res.status(200).json(admin);
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error updating admin' });
+    console.error('Error updating admin:', error);
+    res.status(500).json({ error: 'Failed to update admin' });
   }
 };
 
 export const deleteAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const deletedAdmin = await deleteAdmin(id);
-    if (!deletedAdmin) {
-      return res.status(404).json({ success: false, message: 'Admin not found' });
+    const admin = await deleteAdmin(id);
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
     }
-    res.status(200).json({ success: true, data : deletedAdmin });
+    await admin.destroy();
+    res.status(204).send();
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error deleting admin' });
+    console.error('Error deleting admin:', error);
+    res.status(500).json({ error: 'Failed to delete admin' });
   }
 };
