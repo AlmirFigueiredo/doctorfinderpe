@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Rota para a URL raiz
 app.get('/', (req, res) => {
-  res.send('Connected :D');
+    res.send('Connected :D');
 });
 
 app.use('/Admins', adminRoutes); //http://localhost:3000/Admins
@@ -27,24 +27,29 @@ app.use('/Appointments', appointmentRoutes); //http://localhost:3000/Appointment
 app.use('/Availabilities', availabilityRoutes); //http://localhost:3000/Availabilities
 app.use('/Feedbacks', feedbackRoutes); //http://localhost:3000/Feedbacks
 
-// Testar conexão com o banco de dados
-sequelize.authenticate()
-  .then(() => {
-    console.log('Database connected successfully.');
-  })
-  .catch((error: any) => {
-    console.error('Unable to connect to the database:', error);
-  });
+if (process.env.NODE_ENV !== 'test') {
+    // Testar conexão com o banco de dados
+    sequelize.authenticate()
+        .then(() => {
+            console.log('Database connected successfully.');
+        })
+        .catch((error: any) => {
+            console.error('Unable to connect to the database:', error);
+        });
 
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log('All models were synchronized successfully.');
-  })
-  .catch((error) => {
-    console.error('Error synchronizing models:', error);
-  });
+    sequelize.sync({ alter: true })
+        .then(() => {
+            console.log('All models were synchronized successfully.');
+        })
+        .catch((error) => {
+            console.error('Error synchronizing models:', error);
+        });
 
-// Iniciar o servidor
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+    // Iniciar o servidor
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
+
+export { app, sequelize };
+
