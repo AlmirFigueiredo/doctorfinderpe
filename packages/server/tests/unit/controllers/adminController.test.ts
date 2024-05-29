@@ -1,7 +1,8 @@
 import request from 'supertest';
 import { app, sequelize } from '../../../src/app';
 import {
-    createAdmin
+    createAdmin,
+    getAllAdmins
 } from '../../../src/services/adminService';
 
 jest.mock('../../../src/services/adminService', () => ({
@@ -70,4 +71,40 @@ describe('Admin Controllers', () => {
             expect(consoleSpy).toHaveBeenCalledWith('Error creating admin:', expect.any(Error));
         });
     });
+    
+    describe('getAllAdminsController', () => {
+        let originalConsoleError: any;
+
+        beforeAll(() => {
+            originalConsoleError = console.error;
+            console.error = jest.fn();
+        });
+
+        afterAll(() => {
+            console.error = originalConsoleError;
+        });
+
+        it('should return all admins', async () => {
+            const admins = [
+                { id: 1, user_id: 1, role: 'admin' },
+                { id: 2, user_id: 2, role: 'superadmin' },
+            ];
+            (getAllAdmins as jest.Mock).mockResolvedValue(admins);
+
+            const response = await request(app).get('/Admins');
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(admins);
+        });
+
+        it('should handle errors', async () => {
+            (getAllAdmins as jest.Mock).mockRejectedValue(new Error('Failed to fetch admins'));
+
+            const response = await request(app).get('/Admins');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to fetch admins' });
+        });
+    });
+
 });
