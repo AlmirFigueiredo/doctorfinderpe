@@ -6,6 +6,8 @@ import {
   updateUser,
   deleteUser,
 } from '../services/userService';
+import { createPatient } from '../services/patientService';
+interface UserCreateForm{name: string; email: string; password: string; role: String; crm?:string; }
 
 // Controlador para obter todos os usuários
 export const getAllUsersController = async (_req: Request, res: Response) => {
@@ -21,13 +23,20 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 // Controlador para criar um novo usuário
 export const createUserController = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, crm } = req.body;
 
     if (!name || !email || !password || !role) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
+    if (role === "Doctor" && !crm) {
+      return res.status(400).json({ error: 'CRM is required for doctors' });
+    }
+
     const newUser = await createUser({ name, email, password, role });
+    if(role === "Patient"){
+      await createPatient({ user_id: newUser.user_id })
+      }
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error creating user:', error);

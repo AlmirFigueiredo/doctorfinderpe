@@ -7,6 +7,7 @@ class Doctor extends Model {
     public doctor_id!: number;
     public user_id!: number;
     public address!: string;
+    public crm!: String;
     public specialty!: string;
     public accept_money!: boolean;
     public accept_plan!: boolean;
@@ -31,6 +32,13 @@ Doctor.init(
         address: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        crm: {
+            type: DataTypes.STRING,
+            autoIncrement: false,
+            primaryKey: false,
+            allowNull: false,
+
         },
         specialty: {
             type: DataTypes.STRING,
