@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
+import User from './User';
+
 class Admin extends Model {
     public admin_id!: number;
     public user_id!: number;
@@ -17,6 +19,11 @@ Admin.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+
+            references: {
+                model: User,
+                key: 'user_id',
+            },
         },
         role: {
             type: DataTypes.STRING,
@@ -28,5 +35,8 @@ Admin.init(
         tableName: 'admins'
     }
 );
+Admin.hasOne(User, { foreignKey: 'user_id' });
+User.belongsTo(Admin, { foreignKey: 'user_id' });
+
 
 export default Admin;

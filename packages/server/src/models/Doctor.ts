@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
+import User from './User';
+
 class Doctor extends Model {
     public doctor_id!: number;
     public user_id!: number;
@@ -20,6 +22,11 @@ Doctor.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+
+            references: {
+                model: User,
+                key: 'user_id',
+            },
         },
         address: {
             type: DataTypes.STRING,
@@ -43,5 +50,15 @@ Doctor.init(
         tableName: 'doctor',
     }
 );
+
+User.hasOne(Doctor, { foreignKey: 'user_id' });
+Doctor.belongsTo(User, { foreignKey: 'user_id' });
+
+Doctor.beforeCreate(async (doctor, options) => {
+    const user = await User.findByPk(doctor.user_id);
+    if (!user) {
+        throw new Error('user_id não encontrado na tabela users');
+    }
+});
 
 export default Doctor;
