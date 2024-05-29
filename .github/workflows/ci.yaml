@@ -1,4 +1,4 @@
-name: CI Backend
+name: CI
 
 on:
   push:
@@ -8,12 +8,26 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]  
+        node-version: [14.x, 16.x]
 
     steps:
     - name: Checkout code
@@ -31,6 +45,15 @@ jobs:
       run: yarn install
       working-directory: ./packages/server  
 
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "$(date) - waiting for database to start"
+          sleep 1
+        done
+
     - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       run: yarn test
       working-directory: ./packages/server  
