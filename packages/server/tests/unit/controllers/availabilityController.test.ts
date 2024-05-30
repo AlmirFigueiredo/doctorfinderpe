@@ -1,13 +1,19 @@
 import request from 'supertest';
 import { app, sequelize } from '../../../src/app';
-import { 
-    createAvailability, 
+import {
+    createAvailability,
     getAllAvailabilities,
+    getAvailabilityById,
+    deleteAvailability,
+    updateAvailability
 } from '../../../src/services/availabilityService';
 
 jest.mock('../../../src/services/availabilityService', () => ({
     createAvailability: jest.fn(),
     getAllAvailabilities: jest.fn(),
+    getAvailabilityById: jest.fn(),
+    deleteAvailability: jest.fn(),
+    updateAvailability: jest.fn()
 }));
 
 beforeAll(async () => {
@@ -99,6 +105,129 @@ describe('Availability Controllers', () => {
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create availability' });
+        });
+    });
+    describe('getAvailabilityByIdController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should return an availability by id', async () => {
+            const availability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' };
+            (getAvailabilityById as jest.Mock).mockResolvedValue(availability);
+
+            const response = await request(app).get('/availabilities/1');
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(availability);
+        });
+
+        it('should handle not found availability', async () => {
+            (getAvailabilityById as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app).get('/availabilities/999');
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Availability not found' });
+        });
+
+        it('should handle errors', async () => {
+            (getAvailabilityById as jest.Mock).mockRejectedValue(new Error('Failed to fetch availability'));
+
+            const response = await request(app).get('/availabilities/1');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to fetch availability' });
+        });
+    });
+
+    describe('updateAvailabilityController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should update an availability', async () => {
+            const updatedAvailability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '10:00', end_time: '18:00' };
+            (updateAvailability as jest.Mock).mockResolvedValue(updatedAvailability);
+
+            const response = await request(app)
+                .put('/availabilities/1')
+                .send({ start_time: '10:00', end_time: '18:00' });
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(updatedAvailability);
+        });
+
+        it('should handle not found availability', async () => {
+            (updateAvailability as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app)
+                .put('/availabilities/999')
+                .send({ start_time: '10:00', end_time: '18:00' });
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Availability not found' });
+        });
+
+        it('should handle errors', async () => {
+            (updateAvailability as jest.Mock).mockRejectedValue(new Error('Failed to update availability'));
+
+            const response = await request(app)
+                .put('/availabilities/1')
+                .send({ start_time: '10:00', end_time: '18:00' });
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to update availability' });
+        });
+    });
+
+    describe('deleteAvailabilityController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should delete an availability', async () => {
+            (deleteAvailability as jest.Mock).mockResolvedValue({ id: 1, doctor_id: 1 });
+
+            const response = await request(app).delete('/availabilities/1');
+
+            expect(response.status).toBe(204);
+        });
+
+        it('should handle not found availability', async () => {
+            (deleteAvailability as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app).delete('/availabilities/999');
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Availability not found' });
+        });
+
+        it('should handle errors', async () => {
+            (deleteAvailability as jest.Mock).mockRejectedValue(new Error('Failed to delete availability'));
+
+            const response = await request(app).delete('/availabilities/1');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to delete availability' });
         });
     });
 });
