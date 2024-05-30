@@ -1,81 +1,95 @@
 {
-    "doctors": [
+  "doctors": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "enderecos": [
         {
-            "medico_id": 1,
-            "user_id": 1,
-            "enderecos": [
-                {
-                    "id": 1,
-                    "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
-                },
-                {
-                    "id": 2,
-                    "endereco": "Rua xavier de brito"
-                }
-            ],
-            "especialidade": "nutricionista",
-            "aceita_plano": false,
-            "name": "Iago Carvalho",
-            "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
-            "enderecos_amout": 2,
-            "feedbacksCount": 10,
-            "imageSrc": "https://github.com/IagoCarvalhoG.png"
+          "id": 1,
+          "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
         },
         {
-            "medico_id": 2,
-            "user_id": 2,
-            "enderecos": [
-                {
-                    "id": 1,
-                    "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
-                },
-                {
-                    "id": 2,
-                    "endereco": "Rua xavier de brito"
-                }
-            ],
-            "especialidade": "nutricionista",
-            "aceita_plano": false,
-            "name": "Isadora xavier",
-            "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
-            "enderecos_amout": 2,
-            "feedbacksCount": 10,
-            "imageSrc": "https://github.com/isadoravrx.png"
-        },
-        {
-            "medico_id": 3,
-            "user_id": 3,
-            "enderecos": [
-                {
-                    "id": 1,
-                    "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
-                },
-                {
-                    "id": 2,
-                    "endereco": "Rua xavier de brito"
-                }
-            ],
-            "especialidade": "nutricionista",
-            "aceita_plano": false,
-            "name": "Eduarda santana",
-            "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
-            "enderecos_amout": 2,
-            "feedbacksCount": 10,
-            "imageSrc": "https://github.com/eduardaSantanab.png"
+          "id": 2,
+          "endereco": "Rua xavier de brito"
         }
-    ],
-    "users": [
+      ],
+      "especialidade": "nutricionista",
+      "aceita_plano": false,
+      "name": "Iago Carvalho",
+      "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
+      "enderecos_amout": 2,
+      "feedbacksCount": 10,
+      "imageSrc": "https://github.com/IagoCarvalhoG.png"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "enderecos": [
         {
-            "name": "Iago Carvalho",
-            "email": "IagoCarvalho@gmail.com"
+          "id": 1,
+          "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
         },
         {
-            "name": "Isadora xavier",
-            "email": "isadora@gmail.com" 
-        },
-        {
-            "name":"Eduarda santana",
-            "email": "eduarda@gmail.com"
+          "id": 2,
+          "endereco": "Rua xavier de brito"
         }
-    ]
+      ],
+      "especialidade": "nutricionista",
+      "aceita_plano": false,
+      "name": "Isadora xavier",
+      "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
+      "enderecos_amout": 2,
+      "feedbacksCount": 10,
+      "imageSrc": "https://github.com/isadoravrx.png"
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "enderecos": [
+        {
+          "id": 1,
+          "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
+        },
+        {
+          "id": 2,
+          "endereco": "Rua xavier de brito"
+        }
+      ],
+      "especialidade": "nutricionista",
+      "aceita_plano": false,
+      "name": "Eduarda santana",
+      "description": "Nutricionista (Nutrição para diabetes, Nutrição nas doenças crônicas, Modulação intestinal, Nutrição autoimunes)",
+      "enderecos_amout": 2,
+      "feedbacksCount": 10,
+      "imageSrc": "https://github.com/eduardaSantanab.png"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "MarceloCoelho1",
+      "name": "Marcelo Henrique",
+      "email": "marcelo@gmail.com",
+      "password": "123",
+      "role": "client"
+    },
+    {
+      "username": "maronect",
+      "name": "marone caralho",
+      "email": "marone@gmail.com",
+      "password": "123",
+      "role": "client",
+      "id": 2
+    },
+    {
+      "username": "doctortest",
+      "name": "doctor",
+      "email": "doctor@doctor",
+      "password": "123",
+      "role": "doctor",
+      "license": "133131",
+      "CRM": "3131313",
+      "id": 3
+    }
+  ]
 }

@@ -1,9 +1,11 @@
 "use client"
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./register.module.css";
+import { api } from "@/lib/axios";
 
 type InitialFormData = {
   username: string;
+  name: string;
   email: string;
   password: string;
   role: string;
@@ -17,6 +19,7 @@ type DoctorFormData = {
 export default function Login() {
   const [initialFormData, setInitialFormData] = useState<InitialFormData>({
     username: "",
+    name: "",
     email: "",
     password: "",
     role: ""
@@ -44,16 +47,12 @@ export default function Login() {
     if (initialFormData.role === 'doctor') {
       formData = { ...formData, ...doctorFormData };
     }
-    const serializedBody = JSON.stringify(formData);
-    const fetchOptions = {
-      method: 'POST',
-      body: serializedBody,
-      headers: { 'Content-Type': 'application/json' }
-    };
+    
     
     try {
-      const response = await fetch('/api', fetchOptions);
-      if (response.ok) {
+      const response = await api.post('/users', formData);
+      if (response.status) {
+        console.log(response.data)
         console.log('Success');
       } else {
         console.log('Account already created, I suppose');
@@ -80,6 +79,16 @@ export default function Login() {
                 onChange={handleChange}
                 type="text"
                 placeholder="Username"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <input
+                name="name"
+                required
+                value={initialFormData.name}
+                onChange={handleChange}
+                type="text"
+                placeholder="Name"
               />
             </div>
             <div className={styles.formGroup}>

@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import styles from "./login.module.css";
+import { api } from "@/lib/axios";
 
 type FormData = {
     email: string;
@@ -21,18 +22,13 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const serializedBody = JSON.stringify(formData);
-        const fetchOptions: RequestInit = {
-            method: 'POST',
-            body: serializedBody,
-            headers: { 'Content-Type': 'application/json' }
-        };
+       
 
         try {
-            const response = await fetch('/api', fetchOptions);
+            const response = await api.post('/users', formData);
 
-            if (response.ok) {
-                console.log('success');
+            if (response.status) {
+                console.log('logged');
             } else {
                 console.log('account already created I suppose');
             }
