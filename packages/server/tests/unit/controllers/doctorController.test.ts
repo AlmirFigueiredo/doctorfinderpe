@@ -4,14 +4,16 @@ import {
     createDoctor,
     getAllDoctors,
     getDoctorById,
-    updateDoctor
+    updateDoctor,
+    deleteDoctor
 } from '../../../src/services/doctorService';
 
 jest.mock('../../../src/services/doctorService', () => ({
     createDoctor: jest.fn(),
     getAllDoctors: jest.fn(),
     getDoctorById: jest.fn(),
-    updateDoctor: jest.fn()
+    updateDoctor: jest.fn(),
+    deleteDoctor: jest.fn()
 }));
 
 beforeAll(async () => {
@@ -187,6 +189,43 @@ describe('Doctor Controllers', () => {
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to update doctor' });
+        });
+    });
+    describe('deleteDoctorController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should delete a doctor', async () => {
+            (deleteDoctor as jest.Mock).mockResolvedValue({ id: 1, user_id: 1, address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: false });
+
+            const response = await request(app).delete('/doctors/1');
+
+            expect(response.status).toBe(204);
+        });
+
+        it('should handle not found doctor', async () => {
+            (deleteDoctor as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app).delete('/doctors/999');
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Doctor not found' });
+        });
+
+        it('should handle errors', async () => {
+            (deleteDoctor as jest.Mock).mockRejectedValue(new Error('Failed to delete doctor'));
+
+            const response = await request(app).delete('/doctors/1');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to delete doctor' });
         });
     });
 });
