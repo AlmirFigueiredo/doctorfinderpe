@@ -5,7 +5,7 @@ import {
   getAvailabilityById, 
   updateAvailability, 
   deleteAvailability 
-} from '../services/avaliabilityService';
+} from '../services/availabilityService';
 
 export const getAllAvailabilitiesController = async (_req: Request, res: Response) => {
   try {

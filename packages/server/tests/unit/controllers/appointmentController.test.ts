@@ -4,7 +4,8 @@ import {
     getAllAppointments,
     getAppointmentById,
     deleteAppointment,
-    updateAppointment
+    updateAppointment,
+    createAppointment
 
 } from '../../../src/services/appointmentService';
 
@@ -13,6 +14,7 @@ jest.mock('../../../src/services/appointmentService', () => ({
     getAppointmentById: jest.fn(),
     deleteAppointment: jest.fn(),
     updateAppointment: jest.fn(),
+    createAppointment: jest.fn(),
 }));
 
 beforeAll(async () => {
@@ -29,6 +31,49 @@ afterAll(async () => {
 });
 
 describe('Appointment Controllers', () => {
+    describe('createAppointmentController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should create a new appointment', async () => {
+            const newAppointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' };
+            (createAppointment as jest.Mock).mockResolvedValue(newAppointment);
+
+            const response = await request(app)
+                .post('/appointments')
+                .send({ doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' });
+
+            expect(response.status).toBe(201);
+            expect(response.body).toEqual(newAppointment);
+        });
+
+        it('should handle validation errors', async () => {
+            const response = await request(app)
+                .post('/appointments')
+                .send({ doctor_id: 1 });
+
+            expect(response.status).toBe(400);
+            expect(response.body).toEqual({ error: 'All fields are required' });
+        });
+
+        it('should handle errors', async () => {
+            (createAppointment as jest.Mock).mockRejectedValue(new Error('Failed to create appointment'));
+
+            const response = await request(app)
+                .post('/appointments')
+                .send({ doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' });
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to create appointment' });
+        });
+    });
     describe('getAllAppointmentsController', () => {
         let consoleSpy: jest.SpyInstance;
 
