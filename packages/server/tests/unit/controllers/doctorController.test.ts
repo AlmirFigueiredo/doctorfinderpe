@@ -1,10 +1,17 @@
 import request from 'supertest';
 import { app, sequelize } from '../../../src/app';
-import { createDoctor, getAllDoctors } from '../../../src/services/doctorService';
+import {
+    createDoctor,
+    getAllDoctors,
+    getDoctorById,
+    updateDoctor
+} from '../../../src/services/doctorService';
 
 jest.mock('../../../src/services/doctorService', () => ({
     createDoctor: jest.fn(),
     getAllDoctors: jest.fn(),
+    getDoctorById: jest.fn(),
+    updateDoctor: jest.fn()
 }));
 
 beforeAll(async () => {
@@ -25,7 +32,7 @@ describe('Doctor Controllers', () => {
         let consoleSpy: jest.SpyInstance;
 
         beforeEach(() => {
-            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         });
 
         afterEach(() => {
@@ -59,7 +66,7 @@ describe('Doctor Controllers', () => {
         let consoleSpy: jest.SpyInstance;
 
         beforeEach(() => {
-            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         });
 
         afterEach(() => {
@@ -96,6 +103,90 @@ describe('Doctor Controllers', () => {
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create doctor' });
+        });
+    });
+    describe('getDoctorByIdController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should return a doctor by id', async () => {
+            const doctor = { id: 1, user_id: 1, address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: false };
+            (getDoctorById as jest.Mock).mockResolvedValue(doctor);
+
+            const response = await request(app).get('/doctors/1');
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(doctor);
+        });
+
+        it('should handle not found doctor', async () => {
+            (getDoctorById as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app).get('/doctors/999');
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Doctor not found' });
+        });
+
+        it('should handle errors', async () => {
+            (getDoctorById as jest.Mock).mockRejectedValue(new Error('Failed to fetch doctor'));
+
+            const response = await request(app).get('/doctors/1');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to fetch doctor' });
+        });
+    });
+    describe('updateDoctorController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should update a doctor', async () => {
+            const updatedDoctor = { id: 1, user_id: 1, address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: true };
+            (updateDoctor as jest.Mock).mockResolvedValue(updatedDoctor);
+
+            const response = await request(app)
+                .put('/doctors/1')
+                .send({ address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(updatedDoctor);
+        });
+
+        it('should handle not found doctor', async () => {
+            (updateDoctor as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app)
+                .put('/doctors/999')
+                .send({ address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Doctor not found' });
+        });
+
+        it('should handle errors', async () => {
+            (updateDoctor as jest.Mock).mockRejectedValue(new Error('Failed to update doctor'));
+
+            const response = await request(app)
+                .put('/doctors/1')
+                .send({ address: '123 Street', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to update doctor' });
         });
     });
 });
