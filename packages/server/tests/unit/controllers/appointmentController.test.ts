@@ -1,14 +1,18 @@
 import request from 'supertest';
 import { app, sequelize } from '../../../src/app';
-import { 
+import {
     getAllAppointments,
-    getAppointmentById
+    getAppointmentById,
+    deleteAppointment,
+    updateAppointment
 
 } from '../../../src/services/appointmentService';
 
 jest.mock('../../../src/services/appointmentService', () => ({
     getAllAppointments: jest.fn(),
     getAppointmentById: jest.fn(),
+    deleteAppointment: jest.fn(),
+    updateAppointment: jest.fn(),
 }));
 
 beforeAll(async () => {
@@ -29,7 +33,7 @@ describe('Appointment Controllers', () => {
         let consoleSpy: jest.SpyInstance;
 
         beforeEach(() => {
-            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         });
 
         afterEach(() => {
@@ -62,7 +66,7 @@ describe('Appointment Controllers', () => {
         let consoleSpy: jest.SpyInstance;
 
         beforeEach(() => {
-            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         });
 
         afterEach(() => {
@@ -95,6 +99,88 @@ describe('Appointment Controllers', () => {
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to fetch appointment' });
+        });
+    });
+    describe('updateAppointmentController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should update an appointment', async () => {
+            const updatedAppointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '11:00', status: 'scheduled' };
+            (updateAppointment as jest.Mock).mockResolvedValue(updatedAppointment);
+
+            const response = await request(app)
+                .put('/appointments/1')
+                .send({ hour: '11:00' });
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(updatedAppointment);
+        });
+
+        it('should handle not found appointment', async () => {
+            (updateAppointment as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app)
+                .put('/appointments/999')
+                .send({ hour: '11:00' });
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Appointment not found' });
+        });
+
+        it('should handle errors', async () => {
+            (updateAppointment as jest.Mock).mockRejectedValue(new Error('Failed to update appointment'));
+
+            const response = await request(app)
+                .put('/appointments/1')
+                .send({ hour: '11:00' });
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to update appointment' });
+        });
+    });
+    describe('deleteAppointmentController', () => {
+        let consoleSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        });
+
+        afterEach(() => {
+            consoleSpy.mockRestore();
+        });
+
+        it('should delete an appointment', async () => {
+            (deleteAppointment as jest.Mock).mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' });
+
+            const response = await request(app).delete('/appointments/1');
+
+            expect(response.status).toBe(204);
+        });
+
+        it('should handle not found appointment', async () => {
+            (deleteAppointment as jest.Mock).mockResolvedValue(null);
+
+            const response = await request(app).delete('/appointments/999');
+
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ error: 'Appointment not found' });
+        });
+
+        it('should handle errors', async () => {
+            (deleteAppointment as jest.Mock).mockRejectedValue(new Error('Failed to delete appointment'));
+
+            const response = await request(app).delete('/appointments/1');
+
+            expect(response.status).toBe(500);
+            expect(response.body).toEqual({ error: 'Failed to delete appointment' });
         });
     });
 });
