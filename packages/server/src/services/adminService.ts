@@ -41,7 +41,7 @@ export const updateAdmin = async (adminId: string, updatedData: {  admin_id?: nu
   }
 };
 
-export const deleteAdmin = async (adminId: string) => {
+export const deleteAdmin = async (adminId: number) => {
   try {
     const admin = await Admin.findByPk(adminId);
     if (!admin) {

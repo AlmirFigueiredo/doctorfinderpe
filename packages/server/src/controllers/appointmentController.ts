@@ -64,7 +64,7 @@ export const updateAppointmentController = async (req: Request, res: Response) =
 export const deleteAppointmentController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const deletedAppointment = deleteAppointment(Number(id));
+    const deletedAppointment = await deleteAppointment(Number(id));
     
     if (!deletedAppointment) {
       return res.status(404).json({ error: 'Appointment not found' });
