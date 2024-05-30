@@ -5,7 +5,7 @@ import {
     getAvailabilityByIdController, 
     updateAvailabilityController, 
     deleteAvailabilityController 
-} from '../controllers/avaliabilityController';
+} from '../controllers/availabilityController';
 
 const router = Router();
 
