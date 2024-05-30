@@ -51,6 +51,9 @@ export const updateAvailabilityController = async (req: Request, res: Response) 
     const { id } = req.params;
     const { doctor_id, day, start_time, end_time } = req.body;
     const updatedAvailability = await updateAvailability(Number(id), { doctor_id, day, start_time, end_time });
+    if (!updatedAvailability) {
+      return res.status(404).json({ error: 'Availability not found' });
+    }
     res.status(200).json(updatedAvailability);
   } catch (error) {
     console.error('Error updating availability:', error);
@@ -61,7 +64,10 @@ export const updateAvailabilityController = async (req: Request, res: Response) 
 export const deleteAvailabilityController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deleteAvailability(Number(id));
+    const deletedAvaliability = await deleteAvailability(Number(id));
+    if (!deletedAvaliability) {
+      return res.status(404).json({ error: 'Availability not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting availability:', error);

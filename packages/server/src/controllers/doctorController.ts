@@ -51,6 +51,9 @@ export const updateDoctorController = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { user_id, specialty, accept_money, accept_plan } = req.body;
     const updatedDoctor = await updateDoctor(Number(id), { user_id, specialty, accept_money, accept_plan });
+    if (!updatedDoctor) {
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
     res.status(200).json(updatedDoctor);
 } catch (error) {
     console.error('Error updating doctor:', error);
@@ -61,7 +64,10 @@ export const updateDoctorController = async (req: Request, res: Response) => {
 export const deleteDoctorController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deleteDoctor(Number(id));
+    const deletedDoctor = await deleteDoctor(Number(id));
+    if (!deletedDoctor) {
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
     res.status(204).send();
 } catch (error) {
     console.error('Error deleting doctor:', error);

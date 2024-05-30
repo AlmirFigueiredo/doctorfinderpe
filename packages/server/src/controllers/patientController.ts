@@ -51,6 +51,9 @@ export const updatePatientController = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { user_id } = req.body;
     const updatedPatient = await updatePatient(Number(id), { user_id });
+    if (!updatedPatient) {
+      return res.status(404).json({ error: 'Patient not found' });
+    }
     res.status(200).json(updatedPatient);
   } catch (error) {
     console.error('Error updating patient:', error);
@@ -61,7 +64,10 @@ export const updatePatientController = async (req: Request, res: Response) => {
 export const deletePatientController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deletePatient(Number(id));
+    const deletedPatient = await deletePatient(Number(id));
+    if (!deletedPatient) {
+      return res.status(404).json({ error: 'Patient not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting patient:', error);

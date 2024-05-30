@@ -70,7 +70,7 @@ export const updateAdminController = async (req: Request, res: Response) => {
 export const deleteAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const admin = await deleteAdmin(id);
+    const admin = await deleteAdmin(Number(id));
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
