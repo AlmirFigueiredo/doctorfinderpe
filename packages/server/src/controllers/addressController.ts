@@ -53,6 +53,9 @@ export const updateAddressController = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { doctor_id, zip_code, local_number, street, neighborhood, complement } = req.body;
     const updatedAddress = await updateAddress(Number(id), { doctor_id, zip_code, local_number, street, neighborhood, complement});
+    if (!updatedAddress) {
+      return res.status(404).json({ error: 'Address not found' });
+    }
     res.status(200).json(updatedAddress);
   } catch (error) {
     console.error('Error updating Address:', error);
@@ -63,7 +66,10 @@ export const updateAddressController = async (req: Request, res: Response) => {
 export const deleteAddressController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deleteAddress(Number(id));
+    const deletedConteoller = await deleteAddress(Number(id));
+    if (!deletedConteoller) {
+      return res.status(404).json({ error: 'Address not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting Address:', error);

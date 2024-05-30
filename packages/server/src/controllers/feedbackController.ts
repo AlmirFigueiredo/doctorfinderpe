@@ -51,6 +51,9 @@ export const updateFeedbackController = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { doctor_id, patient_id, comment, data } = req.body;
     const updatedFeedback = await updateFeedback(Number(id), { doctor_id, patient_id, comment, data });
+    if (!updatedFeedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
     res.status(200).json(updatedFeedback);
   } catch (error) {
     console.error('Error updating feedback:', error);
@@ -61,7 +64,10 @@ export const updateFeedbackController = async (req: Request, res: Response) => {
 export const deleteFeedbackController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deleteFeedback(Number(id));
+    const deletedFeedback = await deleteFeedback(Number(id));
+    if (!deletedFeedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting feedback:', error);
