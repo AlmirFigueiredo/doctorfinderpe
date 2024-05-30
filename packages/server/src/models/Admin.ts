@@ -35,8 +35,8 @@ Admin.init(
         tableName: 'admins'
     }
 );
+
 Admin.hasOne(User, { foreignKey: 'user_id' });
 User.belongsTo(Admin, { foreignKey: 'user_id' });
-
 
 export default Admin;

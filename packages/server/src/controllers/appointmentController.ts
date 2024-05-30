@@ -51,6 +51,9 @@ export const updateAppointmentController = async (req: Request, res: Response) =
     const { id } = req.params;
     const { doctor_id, patient_id, data, hour, status } = req.body;
     const updatedAppointment = await updateAppointment(Number(id), { doctor_id, patient_id, data, hour, status });
+    if (!updatedAppointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
     res.status(200).json(updatedAppointment);
   } catch (error) {
     console.error('Error updating appointment:', error);
@@ -61,7 +64,11 @@ export const updateAppointmentController = async (req: Request, res: Response) =
 export const deleteAppointmentController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await deleteAppointment(Number(id));
+    const deletedAppointment = deleteAppointment(Number(id));
+    
+    if (!deletedAppointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting appointment:', error);

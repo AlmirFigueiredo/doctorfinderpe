@@ -18,7 +18,7 @@ Patient.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-
+            onDelete: 'CASCADE', 
             references: {
                 model: User,
                 key: 'user_id',
@@ -31,8 +31,14 @@ Patient.init(
     }
 );
 
-Patient.hasOne(User, { foreignKey: 'user_id' });
-User.belongsTo(Patient, { foreignKey: 'user_id' });
+Patient.hasOne(User, { foreignKey: 'user_id' , onDelete: 'cascade' });
+User.belongsTo(Patient, { foreignKey: 'user_id' , onDelete: 'cascade' });
 
+Patient.beforeCreate(async (patient, options) => {
+    const user = await User.findByPk(patient.user_id);
+    if (!user) {
+        throw new Error('user_id não encontrado na tabela users');
+    }
+});
 
 export default Patient;

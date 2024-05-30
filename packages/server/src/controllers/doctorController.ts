@@ -19,12 +19,12 @@ export const getAllDoctorsController = async (_req: Request, res: Response) => {
 
 export const createDoctorController = async (req: Request, res: Response) => {
   try {
-    const { user_id, address, specialty, accept_money, accept_plan } = req.body;
+    const { user_id, specialty, crm, accept_money, accept_plan } = req.body;
 
-    if (!user_id || !address || !specialty || accept_money === undefined || accept_plan === undefined ) {
+    if (!user_id || !specialty || accept_money === undefined || accept_plan === undefined ) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newDoctor = await createDoctor({ user_id, address, specialty, accept_money, accept_plan });
+    const newDoctor = await createDoctor({ user_id, specialty, crm ,accept_money, accept_plan });
     res.status(201).json(newDoctor);
   } catch (error) {
     console.error('Error creating doctor:', error);
@@ -49,8 +49,8 @@ export const getDoctorByIdController = async (req: Request, res: Response) => {
 export const updateDoctorController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { user_id, address, specialty, accept_money, accept_plan } = req.body;
-    const updatedDoctor = await updateDoctor(Number(id), { user_id, address, specialty, accept_money, accept_plan });
+    const { user_id, specialty, accept_money, accept_plan } = req.body;
+    const updatedDoctor = await updateDoctor(Number(id), { user_id, specialty, accept_money, accept_plan });
     res.status(200).json(updatedDoctor);
 } catch (error) {
     console.error('Error updating doctor:', error);

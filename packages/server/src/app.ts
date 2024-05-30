@@ -7,6 +7,12 @@ import patientRoutes from './routes/patientRoutes';
 import appointmentRoutes from './routes/appointmentRoutes';
 import availabilityRoutes from './routes/avaliabilityRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
+import addressRoutes from './routes/addressRoutes';
+
+
+import './models/User';
+import './models/Doctor';
+import './models/address';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,6 +32,7 @@ app.use('/Patients', patientRoutes); //http://localhost:3000/Patients
 app.use('/Appointments', appointmentRoutes); //http://localhost:3000/Appointments
 app.use('/Availabilities', availabilityRoutes); //http://localhost:3000/Availabilities
 app.use('/Feedbacks', feedbackRoutes); //http://localhost:3000/Feedbacks
+app.use('/Address', addressRoutes); //http://localhost:3000/Address
 
 if (process.env.NODE_ENV !== 'test') {
     // Testar conexão com o banco de dados
@@ -36,7 +43,7 @@ if (process.env.NODE_ENV !== 'test') {
         .catch((error: any) => {
             console.error('Unable to connect to the database:', error);
         });
-
+        
     sequelize.sync({ alter: true })
         .then(() => {
             console.log('All models were synchronized successfully.');

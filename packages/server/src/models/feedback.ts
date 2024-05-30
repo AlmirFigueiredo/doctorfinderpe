@@ -22,6 +22,7 @@ Feedback.init(
         doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            onDelete: 'CASCADE', 
             references: {
                 model: Doctor,
                 key: 'doctor_id',
@@ -30,6 +31,7 @@ Feedback.init(
         patient_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            onDelete: 'CASCADE', 
             references: {
                 model: Patient,
                 key: 'patient_id',
