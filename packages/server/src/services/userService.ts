@@ -9,7 +9,6 @@ export const getAllUsers = async () => {
     }
 };
 
-//<<<<<<< tests
 // export const createUser = async (userData: { name: string; email: string; password: string; role: string }) => {
 //     try {
 //         return await User.create(userData);
@@ -17,15 +16,13 @@ export const getAllUsers = async () => {
 //         console.error('Error creating user:', error);
 //         throw new Error('Error creating user');
 //     }
-//=======
-export const createUser = async (userData: { name: string; username: string; email: string; password: string; role: string }) => {
+export const createUser = async (userData: { name: string; username: string; picture: string; email: string; password: string; role: string }) => {
   try {
     return await User.create(userData);
   } catch (error) {
     console.error('Error creating user:', error);
     throw new Error('Error creating user');
   }
-//>>>>>>> main
 };
 
 export const getUserById = async (userId: number) => {
@@ -41,7 +38,7 @@ export const getUserById = async (userId: number) => {
     }
 };
 
-export const updateUser = async (userId: number, updatedData: { name?: string; email?: string; password?: string; role?: string }) => {
+export const updateUser = async (userId: number, updatedData: { name?: string; username?: string; picture?: string; email?: string; password?: string; role?: string }) => {
     try {
         const user = await User.findByPk(userId);
         if (!user) {
