@@ -31,7 +31,7 @@ export const getUserById = async (userId: number) => {
   }
 };
 
-export const updateUser = async (userId: number, updatedData: { name?: string; email?: string; password?: string; role?: string }) => {
+export const updateUser = async (userId: number, updatedData: { name?: string;username?: string; picture?: string; email?: string; password?: string; role?: string }) => {
   try {
     const user = await User.findByPk(userId);
     if (!user) {
