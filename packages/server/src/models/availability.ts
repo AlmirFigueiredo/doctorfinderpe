@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
+import Doctor from './Doctor';
 
 class Availability extends Model {
     public availability_id!: number;
@@ -19,6 +20,11 @@ Availability.init(
         doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            onDelete: 'CASCADE', 
+            references: {
+                model: Doctor,
+                key: 'doctor_id',
+            },
         },
         day: {
             type: DataTypes.STRING,
@@ -39,4 +45,6 @@ Availability.init(
     }
 );
 
+Doctor.hasMany(Availability, { foreignKey: 'doctor_id' });
+Availability.belongsTo(Doctor, { foreignKey: 'doctor_id' });
 export default Availability;
