@@ -42,11 +42,11 @@ Doctor.init(
         },
         accept_money: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
         },
         accept_plan: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
         },
     },
     {

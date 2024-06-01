@@ -4,6 +4,8 @@ import sequelize from '../config/database';
 class User extends Model {
     public user_id!: number;
     public name!: string;
+    public picture!: string;
+    public username!: string;
     public email!: string;
     public password!: string;
     public role!: string;
@@ -21,6 +23,14 @@ User.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        picture: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         email: {
             type: DataTypes.STRING,
