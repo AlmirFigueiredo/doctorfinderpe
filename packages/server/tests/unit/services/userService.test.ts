@@ -37,7 +37,7 @@ describe('User Service', () => {
 
     describe('createUser', () => {
         it('should create a new user', async () => {
-            const userData = { name: 'John Doe', email: 'john@example.com', password: 'password123', role: 'admin' };
+            const userData = { name: 'John Doe', username: 'John Dodd', picture: 'john@example.com' ,email: 'john@example.com', password: 'password123', role: 'admin' };
             const newUser = { id: 1, ...userData };
             (User.create as jest.Mock).mockResolvedValue(newUser);
 
@@ -48,7 +48,7 @@ describe('User Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const userData = { name: 'John Doe', email: 'john@example.com', password: 'password123', role: 'admin' };
+            const userData = { name: 'John Doe', username: 'John Dodd', picture: 'john@example.com' ,email: 'john@example.com', password: 'password123', role: 'admin' };
             (User.create as jest.Mock).mockRejectedValue(new Error('Failed to create user'));
 
             await expect(createUser(userData)).rejects.toThrow('Error creating user');

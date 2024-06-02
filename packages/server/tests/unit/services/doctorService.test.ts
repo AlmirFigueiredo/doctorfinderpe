@@ -63,7 +63,7 @@ describe('Doctor Service', () => {
 
     describe('getDoctorById', () => {
         it('should return a doctor by id', async () => {
-            const doctor = { id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctor = { doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
             const result = await getDoctorById(1);

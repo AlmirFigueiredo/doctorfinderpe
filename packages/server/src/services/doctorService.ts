@@ -21,7 +21,6 @@ export const createDoctor = async (doctorData: { user_id: number; specialty: str
 export const getDoctorById = async (doctorId: number) => {
     try {
         const doctor = await Doctor.findByPk(doctorId);
-        console.log(doctor);
         if (!doctor) {
             throw new Error('Doctor not found');
         }

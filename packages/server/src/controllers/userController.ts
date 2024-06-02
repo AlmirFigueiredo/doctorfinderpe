@@ -74,8 +74,8 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, username, picture, email, password, role } = req.body;
-    const updatedUser = await updateUser(Number(id), { name, username, picture, email, password, role });
+    const { name,username,picture, email, password, role } = req.body;
+    const updatedUser = await updateUser(Number(id), { name,username,picture, email, password, role });
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }

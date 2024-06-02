@@ -114,7 +114,7 @@ describe('Availability Service', () => {
 
     describe('deleteAvailability', () => {
         it('should delete an availability', async () => {
-            const availability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', destroy: jest.fn().mockResolvedValue(null) };
+            const availability = { id: 1, doctor_id: 1, address_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', destroy: jest.fn().mockResolvedValue(null) };
             (Availability.findByPk as jest.Mock).mockResolvedValue(availability);
 
             const result = await deleteAvailability(1);

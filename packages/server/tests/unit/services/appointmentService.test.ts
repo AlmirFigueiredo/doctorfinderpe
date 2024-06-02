@@ -37,7 +37,7 @@ describe('Appointment Service', () => {
 
     describe('createAppointment', () => {
         it('should create a new appointment', async () => {
-            const appointmentData = { doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' };
+            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
             const newAppointment = { id: 1, ...appointmentData };
             (Appointment.create as jest.Mock).mockResolvedValue(newAppointment);
 
@@ -48,7 +48,7 @@ describe('Appointment Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const appointmentData = { doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' };
+            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
             (Appointment.create as jest.Mock).mockRejectedValue(new Error('Failed to create appointment'));
 
             await expect(createAppointment(appointmentData)).rejects.toThrow('Error creating appointment');

@@ -38,11 +38,11 @@ export const getUserById = async (userId: number) => {
     }
 };
 
-export const updateUser = async (userId: number, updatedData: { name?: string; username?: string; picture?: string; email?: string; password?: string; role?: string }) => {
-    try {
-        const user = await User.findByPk(userId);
-        if (!user) {
-            throw new Error('User not found');
+export const updateUser = async (userId: number, updatedData: { name?: string;username?: string; picture?: string; email?: string; password?: string; role?: string }) => {
+  try {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new Error('User not found');
         }
         return await user.update(updatedData);
     } catch (error) {
