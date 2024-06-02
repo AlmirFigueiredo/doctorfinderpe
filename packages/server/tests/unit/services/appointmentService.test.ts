@@ -17,8 +17,8 @@ describe('Appointment Service', () => {
     describe('getAllAppointments', () => {
         it('should return all appointments', async () => {
             const appointments = [
-                { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' },
-                { id: 2, doctor_id: 2, patient_id: 2, data: '2024-06-02', hour: '11:00', status: 'completed' },
+                { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' },
+                { id: 2, doctor_id: 2, patient_id: 2, address_id: 2, data: '2024-06-02', hour: '11:00' },
             ];
             (Appointment.findAll as jest.Mock).mockResolvedValue(appointments);
 
@@ -57,7 +57,7 @@ describe('Appointment Service', () => {
 
     describe('getAppointmentById', () => {
         it('should return an appointment by id', async () => {
-            const appointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled' };
+            const appointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             const result = await getAppointmentById(1);
@@ -81,25 +81,25 @@ describe('Appointment Service', () => {
 
     describe('updateAppointment', () => {
         it('should update an appointment', async () => {
-            const appointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled', update: jest.fn().mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'completed' }) };
+            const appointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', update: jest.fn().mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00' }) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
-            const updatedData = { status: 'completed' };
+            const updatedData = { hour: '12:00' };
 
             const result = await updateAppointment(1, updatedData);
 
-            expect(result).toEqual({ id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'completed' });
+            expect(result).toEqual({ id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00' });
             expect(appointment.update).toHaveBeenCalledWith(updatedData);
         });
 
         it('should throw an error if appointment not found', async () => {
             (Appointment.findByPk as jest.Mock).mockResolvedValue(null);
 
-            await expect(updateAppointment(999, { status: 'completed' })).rejects.toThrow('Appointment not found');
+            await expect(updateAppointment(999, { hour: '14:00' })).rejects.toThrow('Appointment not found');
         });
 
         it('should throw an error if updating fails', async () => {
-            const appointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled', update: jest.fn().mockRejectedValue(new Error('Failed to update appointment')) };
+            const appointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', update: jest.fn().mockRejectedValue(new Error('Failed to update appointment')) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             await expect(updateAppointment(1, { status: 'completed' })).rejects.toThrow('Error updating appointment');
@@ -108,7 +108,7 @@ describe('Appointment Service', () => {
 
     describe('deleteAppointment', () => {
         it('should delete an appointment', async () => {
-            const appointment = { id: 1, doctor_id: 1, patient_id: 1, data: '2024-06-01', hour: '10:00', status: 'scheduled', destroy: jest.fn().mockResolvedValue(null) };
+            const appointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', destroy: jest.fn().mockResolvedValue(null) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             const result = await deleteAppointment(1);

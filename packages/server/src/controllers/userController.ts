@@ -24,7 +24,7 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 // Controlador para criar um novo usuário
 export const createUserController = async (req: Request, res: Response) => {
   try {
-    const { name, username, picture, email, password, role, crm, specialty, accept_money, accept_plan } = req.body;
+    const { name, username, picture, email, password, role, address ,crm, specialty, accept_money, accept_plan } = req.body;
     
     if (!name || !username || !picture || !email || !password || !role) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -39,6 +39,7 @@ export const createUserController = async (req: Request, res: Response) => {
     if(role === "Doctor"){
       await createDoctor({
         user_id: newUser.user_id,
+        address: address,
         crm: crm,
         specialty: specialty,
         accept_money: accept_money,
@@ -74,8 +75,8 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name,username,picture, email, password, role } = req.body;
-    const updatedUser = await updateUser(Number(id), { name,username,picture, email, password, role });
+    const { name, username, picture, email, password, role } = req.body;
+    const updatedUser = await updateUser(Number(id), { name, username, picture, email, password, role });
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
