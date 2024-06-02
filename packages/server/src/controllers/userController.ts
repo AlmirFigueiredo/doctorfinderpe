@@ -7,6 +7,7 @@ import {
   deleteUser,
 } from '../services/userService';
 import { createPatient } from '../services/patientService';
+
 interface UserCreateForm{name: string; email: string; password: string; role: String; crm?:string; }
 
 // Controlador para obter todos os usuários
