@@ -8,6 +8,8 @@ import appointmentRoutes from './routes/appointmentRoutes';
 import availabilityRoutes from './routes/avaliabilityRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import addressRoutes from './routes/addressRoutes';
+import authRouter from './routes/authRoutes'
+
 
 
 import './models/User';
@@ -25,6 +27,7 @@ app.get('/', (req, res) => {
     res.send('Connected :D');
 });
 
+app.use('/auth', authRouter)
 app.use('/Admins', adminRoutes); //http://localhost:3000/Admins
 app.use('/Doctors', doctorRoutes); //http://localhost:3000/Doctors
 app.use('/Users', userRoutes); //http://localhost:3000/Users
@@ -54,9 +57,8 @@ if (process.env.NODE_ENV !== 'test') {
 
     // Iniciar o servidor
     app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
+        console.log("Server is running on port ${port}");
     });
 }
 
 export { app, sequelize };
-
