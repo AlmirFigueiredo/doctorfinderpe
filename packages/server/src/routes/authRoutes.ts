@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import User from '../models/User';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 const router = Router();
 
 router.post('/login', async (req, res) => {

@@ -6,8 +6,10 @@ import Doctor from './Doctor';
 class address extends Model {
     public address_id !: number;
     public doctor_id !: number;
-    public zip_code!: string;
-    public local_number!: string;
+    public local_phone !: string;
+    public zip_code !: string;
+    public city !: string;
+    public street_number!: string;
     public street!: string;
     public neighborhood!: string;
     public complement!: string;
