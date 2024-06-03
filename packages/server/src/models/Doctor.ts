@@ -6,7 +6,7 @@ import User from './User';
 class Doctor extends Model {
     public doctor_id!: number;
     public user_id!: number;
-    public address!: string;
+    public address_id!: string;
     public crm!: string;
     public specialty!: string;
     public accept_money!: boolean;
@@ -28,6 +28,13 @@ Doctor.init(
                 model: User,
                 key: 'user_id',
             },
+        },
+        address_id: {
+            type: DataTypes.STRING,
+            autoIncrement: false,
+            primaryKey: false,
+            allowNull: false,
+
         },
         crm: {
             type: DataTypes.STRING,

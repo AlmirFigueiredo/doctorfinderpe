@@ -60,22 +60,22 @@ describe('Admin Service', () => {
             const admin = { admin_id: 1, user_id: 1, role: 'admin' };
             (Admin.findByPk as jest.Mock).mockResolvedValue(admin);
 
-            const result = await getAdminById('1');
+            const result = await getAdminById(1);
 
             expect(result).toEqual(admin);
-            expect(Admin.findByPk).toHaveBeenCalledWith('1');
+            expect(Admin.findByPk).toHaveBeenCalledWith(1);
         });
 
         it('should throw an error if admin not found', async () => {
             (Admin.findByPk as jest.Mock).mockResolvedValue(null);
 
-            await expect(getAdminById('999')).rejects.toThrow('Admin not found');
+            await expect(getAdminById(999)).rejects.toThrow('Admin not found');
         });
 
         it('should throw an error if fetching fails', async () => {
             (Admin.findByPk as jest.Mock).mockRejectedValue(new Error('Failed to fetch admin'));
 
-            await expect(getAdminById('1')).rejects.toThrow('Error retrieving admin');
+            await expect(getAdminById(1)).rejects.toThrow('Error retrieving admin');
         });
     });
 
@@ -86,7 +86,7 @@ describe('Admin Service', () => {
 
             const updatedData = { role: 'superadmin' };
 
-            const result = await updateAdmin('1', updatedData);
+            const result = await updateAdmin(1, updatedData);
 
             expect(result).toEqual({ admin_id: 1, user_id: 1, role: 'superadmin' });
             expect(admin.update).toHaveBeenCalledWith(updatedData);
@@ -95,13 +95,13 @@ describe('Admin Service', () => {
         it('should throw an error if admin not found', async () => {
             (Admin.findByPk as jest.Mock).mockResolvedValue(null);
 
-            await expect(updateAdmin('999', { role: 'superadmin' })).rejects.toThrow('Admin not found');
+            await expect(updateAdmin(999, { role: 'superadmin' })).rejects.toThrow('Admin not found');
         });
 
         it('should throw an error if updating fails', async () => {
             (Admin.findByPk as jest.Mock).mockRejectedValue(new Error('Failed to update admin'));
 
-            await expect(updateAdmin('1', { role: 'superadmin' })).rejects.toThrow('Error updating admin');
+            await expect(updateAdmin(1, { role: 'superadmin' })).rejects.toThrow('Error updating admin');
         });
     });
 

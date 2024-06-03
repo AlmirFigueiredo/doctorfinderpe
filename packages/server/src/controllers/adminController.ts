@@ -35,7 +35,7 @@ export const createAdminController = async (req: Request, res: Response) => {
 export const getAdminByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const admin = await getAdminById(id);
+    const admin = await getAdminById(Number(id));
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
@@ -50,7 +50,7 @@ export const updateAdminController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { admin_id, user_id, role } = req.body;
-    const admin = await updateAdmin(id, { admin_id, user_id, role });
+    const admin = await updateAdmin(Number(id), { admin_id, user_id, role });
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }

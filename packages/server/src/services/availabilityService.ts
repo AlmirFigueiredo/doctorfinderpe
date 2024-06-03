@@ -21,6 +21,7 @@ export const createAvailability = async (availabilityData: { doctor_id: number; 
 export const getAvailabilityById = async (availabilityId: number) => {
     try {
         const availability = await Availability.findByPk(availabilityId);
+        console.log(availability);
         if (!availability) {
             throw new Error('Availability not found');
         }

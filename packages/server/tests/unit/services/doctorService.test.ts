@@ -23,8 +23,8 @@ describe('Doctor Service', () => {
     describe('getAllDoctors', () => {
         it('should return all doctors', async () => {
             const doctors = [
-                {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false },
-                {doctor_id: 2, user_id: 2, specialty: 'Dermatology', crm: '654321', accept_money: false, accept_plan: true },
+                {doctor_id: 1, user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false },
+                {doctor_id: 2, user_id: 2, address_id: '1',specialty: 'Dermatology', crm: '654321', accept_money: false, accept_plan: true },
             ];
             (Doctor.findAll as jest.Mock).mockResolvedValue(doctors);
 
@@ -43,7 +43,7 @@ describe('Doctor Service', () => {
 
     describe('createDoctor', () => {
         it('should create a new doctor', async () => {
-            const doctorData = { user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctorData = { user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             const newDoctor = {doctor_id: 1, ...doctorData };
             (Doctor.create as jest.Mock).mockResolvedValue(newDoctor);
 
@@ -54,7 +54,7 @@ describe('Doctor Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const doctorData = { user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctorData = { user_id: 1, address_id: "1", specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.create as jest.Mock).mockRejectedValue(new Error('Failed to create doctor'));
 
             await expect(createDoctor(doctorData)).rejects.toThrow('Error creating doctor');
@@ -63,7 +63,7 @@ describe('Doctor Service', () => {
 
     describe('getDoctorById', () => {
         it('should return a doctor bydoctor_id', async () => {
-            const doctor = {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctor = { doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
             const result = await getDoctorById(1);
