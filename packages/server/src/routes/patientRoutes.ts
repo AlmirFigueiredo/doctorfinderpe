@@ -4,7 +4,8 @@ import {
     createPatientController, 
     getPatientByIdController, 
     updatePatientController, 
-    deletePatientController 
+    deletePatientController, 
+    getPatientAppointmentsController
 } from '../controllers/patientController';
 
 const router = Router();
@@ -14,5 +15,6 @@ router.post('/', createPatientController);
 router.get('/:id', getPatientByIdController);
 router.put('/:id', updatePatientController);
 router.delete('/:id', deletePatientController);
+router.get('/appointments/:id', getPatientAppointmentsController)
 
 export default router;

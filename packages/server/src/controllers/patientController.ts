@@ -4,7 +4,8 @@ import {
   getAllPatients, 
   getPatientById, 
   updatePatient, 
-  deletePatient 
+  deletePatient, 
+  getPatientAppointments
 } from '../services/patientService';
 
 export const getAllPatientsController = async (req: Request, res: Response) => {
@@ -72,5 +73,21 @@ export const deletePatientController = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error deleting patient:', error);
     res.status(500).json({ error: 'Failed to delete patient' });
+  }
+};
+
+export const getPatientAppointmentsController = async (req: Request, res: Response) => {
+  try {
+      const { id } = req.params;
+      const patientAppointments = await getPatientAppointments(Number(id));
+
+      if (!patientAppointments) {
+          return res.status(404).json({ message: 'Paciente não encontrado' });
+      }
+
+      return res.json(patientAppointments);
+  } catch (error) {
+      console.error('Erro ao obter consultas do paciente:', error);
+      return res.status(500).json({ message: 'Erro ao obter consultas do paciente' });
   }
 };
