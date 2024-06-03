@@ -9,7 +9,7 @@ export const getAllAddress = async () => {
     }
 };
 
-export const createAddress = async (addressData: { doctor_id: number; zip_code: string; local_number: string; street: string; neighborhood: string; complement: string }) => {
+export const createAddress = async (addressData: { doctor_id: number; local_phone: string ; zip_code: string; city: string; street_number: string; street: string; neighborhood: string; complement: string }) => {
     try {
         return await Address.create(addressData);
     } catch (error) {
@@ -31,7 +31,7 @@ export const getAddressById = async (addressId: number) => {
     }
 };
 
-export const updateAddress = async (addressId: number, updatedData: { doctor_id?: number; zip_code?: string; local_number?: string; street?: string; neighborhood?: string; complement?: string }) => {
+export const updateAddress = async (addressId: number, updatedData: { doctor_id?: number; local_phone: string ; zip_code?: string;  city?: string; street_number?: string; street?: string; neighborhood?: string; complement?: string }) => {
     try {
         const address = await Address.findByPk(addressId);
         if (!address) {

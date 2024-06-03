@@ -29,11 +29,19 @@ address.init(
                 key: 'doctor_id',
             },
         },
+        local_phone: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         zip_code: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        local_number: {
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        street_number: {
             type: DataTypes.STRING,
             allowNull: false,
         },

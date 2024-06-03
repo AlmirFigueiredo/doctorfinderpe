@@ -20,13 +20,13 @@ export const getAllAddressController = async (_req: Request, res: Response) => {
 
 export const createAddressController = async (req: Request, res: Response) => {
   try {
-    const { doctor_id, zip_code, local_number, street, neighborhood, complement } = req.body;
+    const { doctor_id, local_phone, zip_code, city, street_number, street, neighborhood, complement } = req.body;
 
-    if (!doctor_id || !zip_code || !local_number || !street || !neighborhood || !complement) {
+    if (!doctor_id || !local_phone || !zip_code || !city || !street_number || !street || !neighborhood || !complement) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    const newAddress = await createAddress({ doctor_id, zip_code, local_number, street, neighborhood, complement });
+    const newAddress = await createAddress({ doctor_id, local_phone, zip_code, city, street_number, street, neighborhood, complement });
     res.status(201).json(newAddress);
   } catch (error) {
     console.error('Error creating Address:', error);
@@ -51,8 +51,8 @@ export const getAddressByIdController = async (req: Request, res: Response) => {
 export const updateAddressController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { doctor_id, zip_code, local_number, street, neighborhood, complement } = req.body;
-    const updatedAddress = await updateAddress(Number(id), { doctor_id, zip_code, local_number, street, neighborhood, complement});
+    const { doctor_id, local_phone, zip_code, city , street_number, street, neighborhood, complement } = req.body;
+    const updatedAddress = await updateAddress(Number(id), { doctor_id, local_phone, zip_code, city, street_number, street, neighborhood, complement});
     if (!updatedAddress) {
       return res.status(404).json({ error: 'Address not found' });
     }
