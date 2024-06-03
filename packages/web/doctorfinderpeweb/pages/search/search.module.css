@@ -83,13 +83,14 @@
     align-items: flex-start;
     gap: 8px;
     margin-bottom: 16px;
+    padding-top: 12px;
 }
 
 .doctorContent {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 24px 0px 0px 24px;
+    padding: 24px 0px 12px 24px;
 }
 
 .doctorInfo {
@@ -150,9 +151,62 @@
     gap: 8px;
 }
 
-.maps {
+.appointmentForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+}
+
+.appointmentForm label {
+    font-size: 14px;
+} 
+
+.appointmentForm input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #E1E1E6;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.appointmentForm button{
+    background-color: #006A6A;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-align: center;
+    margin-right: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: .2s;
     border: 0;
-    border-radius: 0px 8px 8px 0px;
+    cursor: pointer;
+    max-width: fit-content;
+}
+
+.location {
+    margin-bottom: 12px;
+}
+
+.location label{
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    gap: 8px;
+}
+
+.location label input {
+    width: initial;
+    margin-bottom: 0;
+}
+
+.appointmentForm button:hover {
+    background-color: #025353;
+
 }
 
 @media (max-width: 900px) {
@@ -166,9 +220,8 @@
         margin-bottom: 24px;
     }
 
-    .maps {
-        max-width: 100%;   
-        border-radius: 0px 0px 8px 8px;
+    .appointmentForm  {
+        margin: 12px 0px 12px 12px;
     }
     .doctorInfo {
         flex-direction: column;

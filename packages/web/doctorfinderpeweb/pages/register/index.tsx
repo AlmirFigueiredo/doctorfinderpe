@@ -12,7 +12,7 @@ type InitialFormData = {
 };
 
 type DoctorFormData = {
-  license: string;
+  speciality: string;
   CRM: string;
 };
 
@@ -26,7 +26,7 @@ export default function Login() {
   });
 
   const [doctorFormData, setDoctorFormData] = useState<DoctorFormData>({
-    license: "",
+    speciality: "",
     CRM: ""
   });
 
@@ -140,12 +140,12 @@ export default function Login() {
               <>
                 <div className={styles.formGroup}>
                   <input
-                    name="license"
-                    value={doctorFormData.license}
+                    name="speciality"
+                    value={doctorFormData.speciality}
                     required
                     onChange={handleDoctorChange}
                     type="text"
-                    placeholder="License"
+                    placeholder="speciality"
                   />
                 </div>
                 <div className={styles.formGroup}>

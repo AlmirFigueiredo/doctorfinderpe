@@ -201,6 +201,18 @@
     transition: .2s;
 }
 
+
+.appointment {
+    width: 100%;
+}
+
+.appointment table {
+    width: 100%;
+    text-align: center;
+}
+
+
+
 @media (max-width: 768px) {
     .profile > header {
         margin-top: 40px;
@@ -242,3 +254,5 @@
         max-width: 100%;
     }
 }
+
+
