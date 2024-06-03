@@ -28,10 +28,6 @@
         {
           "id": 1,
           "endereco": "Av. Eng. Domingos Ferreira, 636 - Loja 26"
-        },
-        {
-          "id": 2,
-          "endereco": "Rua xavier de brito"
         }
       ],
       "especialidade": "nutricionista",
