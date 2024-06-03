@@ -17,7 +17,7 @@ export const createAdmin = async (adminData: { user_id: number; role: string }) 
     }
 };
 
-export const getAdminById = async (adminId: string) => {
+export const getAdminById = async (adminId: number) => {
     try {
         const admin = await Admin.findByPk(adminId);
         if (!admin) {
@@ -29,7 +29,7 @@ export const getAdminById = async (adminId: string) => {
     }
 };
 
-export const updateAdmin = async (adminId: string, updatedData: { admin_id?: number; user_id?: number; role?: string }) => {
+export const updateAdmin = async (adminId: number, updatedData: { admin_id?: number; user_id?: number; role?: string }) => {
     try {
         const admin = await Admin.findByPk(adminId);
         if (!admin) {
