@@ -43,8 +43,8 @@ describe('User Controllers', () => {
 
         it('should return all users', async () => {
             const users = [
-                { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', role: 'admin' },
-                { id: 2, name: 'Jane Smith', username: 'john_doe', email: 'jane@example.com', role: 'user' },
+                { id: 1, name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', role: 'admin' },
+                { id: 2, name: 'Jane Smith', username: 'john_doe', picture: 'somePictureURL', email: 'jane@example.com', role: 'user' },
             ];
             (getAllUsers as jest.Mock).mockResolvedValue(users);
 
@@ -76,12 +76,12 @@ describe('User Controllers', () => {
         });
 
         it('should create a new user', async () => {
-            const newUser = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password', role: 'admin' };
+            const newUser = { id: 1, name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'password', role: 'admin' };
             (createUser as jest.Mock).mockResolvedValue(newUser);
 
             const response = await request(app)
                 .post('/users')
-                .send({ name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password', role: 'admin' });
+                .send({ name: 'John Doe', username: 'john_doe', picture: 'somePictureURL',  email: 'john@example.com', password: 'password', role: 'admin' });
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual(newUser);
@@ -101,7 +101,7 @@ describe('User Controllers', () => {
 
             const response = await request(app)
                 .post('/users')
-                .send({ name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password', role: 'admin' });
+                .send({ name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'password', role: 'admin' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create user' });
@@ -120,7 +120,7 @@ describe('User Controllers', () => {
         });
 
         it('should return a user by id', async () => {
-            const user = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', role: 'admin' };
+            const user = { id: 1, name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', role: 'admin' };
             (getUserById as jest.Mock).mockResolvedValue(user);
 
             const response = await request(app).get('/users/1');
@@ -160,12 +160,12 @@ describe('User Controllers', () => {
         });
 
         it('should update a user', async () => {
-            const updatedUser = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'newpassword', role: 'admin' };
+            const updatedUser = { id: 1, name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'newpassword', role: 'admin' };
             (updateUser as jest.Mock).mockResolvedValue(updatedUser);
 
             const response = await request(app)
                 .put('/users/1')
-                .send({ name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'newpassword', role: 'admin' });
+                .send({ name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'newpassword', role: 'admin' });
 
             expect(response.status).toBe(200);
             expect(response.body).toEqual(updatedUser);
@@ -176,7 +176,7 @@ describe('User Controllers', () => {
 
             const response = await request(app)
                 .put('/users/999')
-                .send({ name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'newpassword', role: 'admin' });
+                .send({ name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'newpassword', role: 'admin' });
 
             expect(response.status).toBe(404);
             expect(response.body).toEqual({ error: 'User not found' });
@@ -187,7 +187,7 @@ describe('User Controllers', () => {
 
             const response = await request(app)
                 .put('/users/1')
-                .send({ name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'newpassword', role: 'admin' });
+                .send({ name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', password: 'newpassword', role: 'admin' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to update user' });
@@ -206,7 +206,7 @@ describe('User Controllers', () => {
         });
 
         it('should delete a user', async () => {
-            (deleteUser as jest.Mock).mockResolvedValue({ id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', role: 'admin' });
+            (deleteUser as jest.Mock).mockResolvedValue({ id: 1, name: 'John Doe', username: 'john_doe', picture: 'somePictureURL', email: 'john@example.com', role: 'admin' });
 
             const response = await request(app).delete('/users/1');
 

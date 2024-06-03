@@ -17,8 +17,8 @@ describe('Availability Service', () => {
     describe('getAllAvailabilities', () => {
         it('should return all availabilities', async () => {
             const availabilities = [
-                { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' },
-                { id: 2, doctor_id: 2, day: 'Tuesday', start_time: '10:00', end_time: '18:00' },
+                {availability_id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' },
+                {availability_id: 2, doctor_id: 2, day: 'Tuesday', start_time: '10:00', end_time: '18:00' },
             ];
             (Availability.findAll as jest.Mock).mockResolvedValue(availabilities);
 
@@ -38,7 +38,7 @@ describe('Availability Service', () => {
     describe('createAvailability', () => {
         it('should create a new availability', async () => {
             const availabilityData = { doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' };
-            const newAvailability = { id: 1, ...availabilityData };
+            const newAvailability = {availability_id: 1, ...availabilityData };
             (Availability.create as jest.Mock).mockResolvedValue(newAvailability);
 
             const result = await createAvailability(availabilityData);
@@ -56,8 +56,8 @@ describe('Availability Service', () => {
     });
 
     describe('getAvailabilityById', () => {
-        it('should return an availability by id', async () => {
-            const availability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' };
+        it('should return an availability byavailability_id', async () => {
+            const availability = {availability_id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00' };
             (Availability.findByPk as jest.Mock).mockResolvedValue(availability);
 
             const result = await getAvailabilityById(1);
@@ -81,14 +81,14 @@ describe('Availability Service', () => {
 
     describe('updateAvailability', () => {
         it('should update an availability', async () => {
-            const availability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', update: jest.fn().mockResolvedValue({ id: 1, doctor_id: 1, day: 'Tuesday', start_time: '09:00', end_time: '17:00' }) };
+            const availability = {availability_id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', update: jest.fn().mockResolvedValue({availability_id: 1, doctor_id: 1, day: 'Tuesday', start_time: '09:00', end_time: '17:00' }) };
             (Availability.findByPk as jest.Mock).mockResolvedValue(availability);
 
             const updatedData = { day: 'Tuesday' };
 
             const result = await updateAvailability(1, updatedData);
 
-            expect(result).toEqual({ id: 1, doctor_id: 1, day: 'Tuesday', start_time: '09:00', end_time: '17:00' });
+            expect(result).toEqual({availability_id: 1, doctor_id: 1, day: 'Tuesday', start_time: '09:00', end_time: '17:00' });
             expect(availability.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -105,7 +105,7 @@ describe('Availability Service', () => {
         });
 
         it('should throw an error if updating fails', async () => {
-            const availability = { id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', update: jest.fn().mockRejectedValue(new Error('Failed to update availability')) };
+            const availability = {availability_id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', update: jest.fn().mockRejectedValue(new Error('Failed to update availability')) };
             (Availability.findByPk as jest.Mock).mockResolvedValue(availability);
 
             await expect(updateAvailability(1, { day: 'Tuesday' })).rejects.toThrow('Error updating availability');
@@ -114,7 +114,7 @@ describe('Availability Service', () => {
 
     describe('deleteAvailability', () => {
         it('should delete an availability', async () => {
-            const availability = { id: 1, doctor_id: 1, address_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', destroy: jest.fn().mockResolvedValue(null) };
+            const availability = {availability_id: 1, doctor_id: 1, day: 'Monday', start_time: '09:00', end_time: '17:00', destroy: jest.fn().mockResolvedValue(null) };
             (Availability.findByPk as jest.Mock).mockResolvedValue(availability);
 
             const result = await deleteAvailability(1);

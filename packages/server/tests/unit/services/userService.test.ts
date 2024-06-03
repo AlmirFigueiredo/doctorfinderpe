@@ -17,8 +17,8 @@ describe('User Service', () => {
     describe('getAllUsers', () => {
         it('should return all users', async () => {
             const users = [
-                { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' },
-                { id: 2, name: 'Jane Doe', username: 'john_doe', email: 'jane@example.com', password: 'password123', role: 'user' },
+                { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin' },
+                { user_id: 2, name: 'Jane Doe', username: 'john_doe', picture: 'someWebAddress', email: 'jane@example.com', password: 'password123', role: 'user' },
             ];
             (User.findAll as jest.Mock).mockResolvedValue(users);
 
@@ -37,8 +37,8 @@ describe('User Service', () => {
 
     describe('createUser', () => {
         it('should create a new user', async () => {
-            const userData = { name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' };
-            const newUser = { id: 1, ...userData };
+            const userData = { name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin' };
+            const newUser = { user_id: 1, ...userData };
             (User.create as jest.Mock).mockResolvedValue(newUser);
 
             const result = await createUser(userData);
@@ -48,7 +48,7 @@ describe('User Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const userData = { name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' };
+            const userData = { name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin' };
             (User.create as jest.Mock).mockRejectedValue(new Error('Failed to create user'));
 
             await expect(createUser(userData)).rejects.toThrow('Error creating user');
@@ -57,7 +57,7 @@ describe('User Service', () => {
 
     describe('getUserById', () => {
         it('should return a user by id', async () => {
-            const user = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' };
+            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin' };
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             const result = await getUserById(1);
@@ -81,14 +81,14 @@ describe('User Service', () => {
 
     describe('updateUser', () => {
         it('should update a user', async () => {
-            const user = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockResolvedValue({ id: 1, name: 'John Updated', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' }) };
+            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockResolvedValue({ user_id: 1, name: 'John Updated', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' }) };
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             const updatedData = { name: 'John Updated' };
 
             const result = await updateUser(1, updatedData);
 
-            expect(result).toEqual({ id: 1, name: 'John Updated', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' });
+            expect(result).toEqual({ user_id: 1, name: 'John Updated', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin' });
             expect(user.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -99,7 +99,7 @@ describe('User Service', () => {
         });
 
         it('should throw an error if updating fails', async () => {
-            const user = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockRejectedValue(new Error('Failed to update user')) };
+            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockRejectedValue(new Error('Failed to update user')) };
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             await expect(updateUser(1, { name: 'John Updated' })).rejects.toThrow('Error updating user');
@@ -108,7 +108,7 @@ describe('User Service', () => {
 
     describe('deleteUser', () => {
         it('should delete a user', async () => {
-            const user = { id: 1, name: 'John Doe', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin', destroy: jest.fn().mockResolvedValue(null) };
+            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin', destroy: jest.fn().mockResolvedValue(null) };
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             const result = await deleteUser(1);

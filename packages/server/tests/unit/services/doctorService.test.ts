@@ -23,8 +23,8 @@ describe('Doctor Service', () => {
     describe('getAllDoctors', () => {
         it('should return all doctors', async () => {
             const doctors = [
-                { id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false },
-                { id: 2, user_id: 2, specialty: 'Dermatology', crm: '654321', accept_money: false, accept_plan: true },
+                {doctor_id: 1, user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false },
+                {doctor_id: 2, user_id: 2, address_id: '1',specialty: 'Dermatology', crm: '654321', accept_money: false, accept_plan: true },
             ];
             (Doctor.findAll as jest.Mock).mockResolvedValue(doctors);
 
@@ -43,8 +43,8 @@ describe('Doctor Service', () => {
 
     describe('createDoctor', () => {
         it('should create a new doctor', async () => {
-            const doctorData = { user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
-            const newDoctor = { id: 1, ...doctorData };
+            const doctorData = { user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const newDoctor = {doctor_id: 1, ...doctorData };
             (Doctor.create as jest.Mock).mockResolvedValue(newDoctor);
 
             const result = await createDoctor(doctorData);
@@ -54,7 +54,7 @@ describe('Doctor Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const doctorData = { user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctorData = { user_id: 1, address_id: "1", specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.create as jest.Mock).mockRejectedValue(new Error('Failed to create doctor'));
 
             await expect(createDoctor(doctorData)).rejects.toThrow('Error creating doctor');
@@ -62,7 +62,7 @@ describe('Doctor Service', () => {
     });
 
     describe('getDoctorById', () => {
-        it('should return a doctor by id', async () => {
+        it('should return a doctor bydoctor_id', async () => {
             const doctor = { doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
@@ -87,14 +87,14 @@ describe('Doctor Service', () => {
 
     describe('updateDoctor', () => {
         it('should update a doctor', async () => {
-            const doctor = { id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, update: jest.fn().mockResolvedValue({ id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false }) };
+            const doctor = {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, update: jest.fn().mockResolvedValue({doctor_id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false }) };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
             const updatedData = { specialty: 'Dermatology' };
 
             const result = await updateDoctor(1, updatedData);
 
-            expect(result).toEqual({ id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false });
+            expect(result).toEqual({doctor_id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false });
             expect(doctor.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -105,7 +105,7 @@ describe('Doctor Service', () => {
         });
 
         it('should throw an error if updating fails', async () => {
-            const doctor = { id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, update: jest.fn().mockRejectedValue(new Error('Failed to update doctor')) };
+            const doctor = {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, update: jest.fn().mockRejectedValue(new Error('Failed to update doctor')) };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
             await expect(updateDoctor(1, { specialty: 'Dermatology' })).rejects.toThrow('Error updating doctor');
@@ -114,7 +114,7 @@ describe('Doctor Service', () => {
 
     describe('deleteDoctor', () => {
         it('should delete a doctor', async () => {
-            const doctor = { id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, destroy: jest.fn().mockResolvedValue(null) };
+            const doctor = {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, destroy: jest.fn().mockResolvedValue(null) };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
 
             const result = await deleteDoctor(1);
