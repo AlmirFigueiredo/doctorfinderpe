@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';           
 
 dotenv.config(); 
-const databaseUrl = process.env.POSTGRES_URL || 'postgresql://postgres:postgres@localhost:5432/postgres' 
+const databaseUrl = 'postgresql://docker:docker@localhost:5432/doctorfinder' 
 const sequelize = new Sequelize(databaseUrl, {
   dialect: 'postgres',
 });

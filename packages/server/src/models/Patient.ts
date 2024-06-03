@@ -1,11 +1,17 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Association } from 'sequelize';
 import sequelize from '../config/database';
 
 import User from './User';
+import Appointment from './appointment';
 
 class Patient extends Model {
     public patient_id!: number;
     public user_id!: number;
+    public readonly appointments?: Appointment[];
+
+    public static associations: {
+        appointments: Association<Patient, Appointment>;
+    };
 }
 
 Patient.init(

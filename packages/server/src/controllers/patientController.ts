@@ -4,8 +4,10 @@ import {
   getAllPatients, 
   getPatientById, 
   updatePatient, 
-  deletePatient 
+  deletePatient, 
+  getPatientAppointments
 } from '../services/patientService';
+import Appointment from '../models/appointment';
 
 export const getAllPatientsController = async (req: Request, res: Response) => {
   try {
@@ -74,3 +76,22 @@ export const deletePatientController = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to delete patient' });
   }
 };
+
+
+export const getPatientAppointmentsController = async (req: Request, res: Response)  => {
+  try {
+      const { id } = req.params;
+
+      const patientAppointments = await getPatientAppointments(Number(id))
+
+      if (!patientAppointments) {
+          throw new Error('Paciente não encontrado');
+      }
+
+      // Retorna as consultas associadas ao paciente
+      res.status(201).send(patientAppointments)
+  } catch (error) {
+      console.error('Erro ao obter consultas do paciente:', error);
+      throw error;
+  }
+}

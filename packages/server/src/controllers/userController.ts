@@ -8,7 +8,7 @@ import {
 } from '../services/userService';
 import { createPatient } from '../services/patientService';
 import { createDoctor } from '../services/doctorService';
-interface UserCreateForm{name: string; email: string; password: string; role: String; crm?:string; }
+interface UserCreateForm { name: string; email: string; password: string; role: String; crm?: string; }
 
 // Controlador para obter todos os usuários
 export const getAllUsersController = async (_req: Request, res: Response) => {
@@ -24,8 +24,8 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 // Controlador para criar um novo usuário
 export const createUserController = async (req: Request, res: Response) => {
   try {
-    const { name,username, email, password, role, crm, specialty, accept_money, accept_plan } = req.body;
-    
+    const { name, username, email, password, role, crm, specialty, accept_money, accept_plan } = req.body;
+
     if (!name || !email || !password || !role || !username) {
       return res.status(400).json({ error: 'All fields are required' });
     }
@@ -35,8 +35,8 @@ export const createUserController = async (req: Request, res: Response) => {
     }
 
     const newUser = await createUser({ name, username, email, password, role });
-    
-    if(role === "Doctor"){
+
+    if (role === "Doctor") {
       await createDoctor({
         user_id: newUser.user_id,
         crm: crm,
@@ -45,9 +45,9 @@ export const createUserController = async (req: Request, res: Response) => {
         accept_plan: accept_plan
       });
     }
-    if(role === "Patient"){
+    if (role === "Patient") {
       await createPatient({ user_id: newUser.user_id })
-      }
+    }
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error creating user:', error);
@@ -74,8 +74,8 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name,username,picture, email, password, role } = req.body;
-    const updatedUser = await updateUser(Number(id), { name,username,picture, email, password, role });
+    const { name, username, picture, email, password, role } = req.body;
+    const updatedUser = await updateUser(Number(id), { name, username, picture, email, password, role });
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
