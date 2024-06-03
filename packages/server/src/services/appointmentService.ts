@@ -9,7 +9,7 @@ export const getAllAppointments = async () => {
     }
 };
 
-export const createAppointment = async (appointmentData: { doctor_id: number; patient_id: number;address_id: number; data: string; hour: string;}) => {
+export const createAppointment = async (appointmentData: { doctor_id: number; patient_id: number; status: string; address_id: number; data: string; hour: string;}) => {
   try {
     const existingAppointment = await Appointment.findOne({
       where: {

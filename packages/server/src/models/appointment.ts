@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 import Doctor from './Doctor';
 import Patient from './Patient';
-import address from './address';
+import Address from './address';
 
 class Appointment extends Model {
     public appointment_id!: number;
@@ -35,7 +35,7 @@ Appointment.init(
             allowNull: false,
             onDelete: 'CASCADE', 
             references: {
-                model: address,
+                model: Address,
                 key: 'address_id',
             },
         },
@@ -73,8 +73,8 @@ Appointment.belongsTo(Doctor, { foreignKey: 'doctor_id' });
 Patient.hasMany(Appointment, { foreignKey: 'patient_id' });
 Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
 
-address.hasMany(Appointment, { foreignKey: 'address_id' });
-Appointment.belongsTo(address, { foreignKey: 'address_id' });
+Address.hasMany(Appointment, { foreignKey: 'address_id' });
+Appointment.belongsTo(Address, { foreignKey: 'address_id' });
 
 
 export default Appointment;

@@ -27,6 +27,7 @@ User.init(
         username: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         picture: {
             type: DataTypes.STRING,

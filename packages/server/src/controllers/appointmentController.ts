@@ -19,12 +19,12 @@ export const getAllAppointmentsController = async (_req: Request, res: Response)
 
 export const createAppointmentController = async (req: Request, res: Response) => {
   try {
-    const { doctor_id, patient_id, address_id, data, hour } = req.body;
+    const { doctor_id, patient_id, status, address_id, data, hour } = req.body;
 
     if (!doctor_id || !patient_id || !data || !hour) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newAppointment = await createAppointment({ doctor_id, patient_id, address_id, data, hour });
+    const newAppointment = await createAppointment({ doctor_id, patient_id, status, address_id, data, hour });
     res.status(201).json(newAppointment);
   } catch (error) {
     console.error('Error creating appointment:', error);

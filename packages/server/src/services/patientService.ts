@@ -1,4 +1,5 @@
 import Patient from '../models/Patient';
+import Appointment from '../models/appointment';
 
 export const getAllPatients = async () => {
     try {
@@ -55,5 +56,24 @@ export const deletePatient = async (patientId: number) => {
     } catch (error) {
         console.error('Error deleting patient:', error);
         throw new Error('Error deleting patient');
+    }
+};
+
+export const getPatientAppointments = async (patientId: number) => {
+    try {
+        const appointments = await Appointment.findAll({
+            where: {
+                patient_id: patientId
+            }
+        });
+
+        if (!appointments || appointments.length === 0) {
+            throw new Error('Nenhum appointment encontrado para este paciente');
+        }
+
+        return appointments;
+    } catch (error) {
+        console.error('Erro ao obter appointments do paciente:', error);
+        throw error;
     }
 };

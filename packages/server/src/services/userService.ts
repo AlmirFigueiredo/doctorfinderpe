@@ -9,7 +9,7 @@ export const getAllUsers = async () => {
     }
 };
 
-export const createUser = async (userData: { name: string; username: string; picture: string; email: string; password: string; role: string }) => {
+export const createUser = async (userData: { name: string; username: string; email: string; password: string; role: string }) => {
   try {
     return await User.create(userData);
   } catch (error) {

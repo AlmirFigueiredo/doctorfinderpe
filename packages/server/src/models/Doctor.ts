@@ -29,13 +29,6 @@ Doctor.init(
                 key: 'user_id',
             },
         },
-        address_id: {
-            type: DataTypes.STRING,
-            autoIncrement: false,
-            primaryKey: false,
-            allowNull: false,
-
-        },
         crm: {
             type: DataTypes.STRING,
             autoIncrement: false,
