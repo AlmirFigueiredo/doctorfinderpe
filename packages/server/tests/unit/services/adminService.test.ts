@@ -17,8 +17,8 @@ describe('Admin Service', () => {
     describe('getAllAdmins', () => {
         it('should return all admins', async () => {
             const admins = [
-                { id: 1, user_id: 1, role: 'admin' },
-                { id: 2, user_id: 2, role: 'superadmin' },
+                { admin_id: 1, user_id: 1, role: 'admin' },
+                { admin_id: 2, user_id: 2, role: 'superadmin' },
             ];
             (Admin.findAll as jest.Mock).mockResolvedValue(admins);
 
@@ -38,7 +38,7 @@ describe('Admin Service', () => {
     describe('createAdmin', () => {
         it('should create a new admin', async () => {
             const adminData = { user_id: 1, role: 'admin' };
-            const newAdmin = { id: 1, ...adminData };
+            const newAdmin = { admin_id: 1, ...adminData };
             (Admin.create as jest.Mock).mockResolvedValue(newAdmin);
 
             const result = await createAdmin(adminData);
@@ -57,7 +57,7 @@ describe('Admin Service', () => {
 
     describe('getAdminById', () => {
         it('should return an admin by id', async () => {
-            const admin = { id: 1, user_id: 1, role: 'admin' };
+            const admin = { admin_id: 1, user_id: 1, role: 'admin' };
             (Admin.findByPk as jest.Mock).mockResolvedValue(admin);
 
             const result = await getAdminById('1');
@@ -81,14 +81,14 @@ describe('Admin Service', () => {
 
     describe('updateAdmin', () => {
         it('should update an admin', async () => {
-            const admin = { id: 1, user_id: 1, role: 'admin', update: jest.fn().mockResolvedValue({ id: 1, user_id: 1, role: 'superadmin' }) };
+            const admin = { admin_id: 1, user_id: 1, role: 'admin', update: jest.fn().mockResolvedValue({ admin_id: 1, user_id: 1, role: 'superadmin' }) };
             (Admin.findByPk as jest.Mock).mockResolvedValue(admin);
 
             const updatedData = { role: 'superadmin' };
 
             const result = await updateAdmin('1', updatedData);
 
-            expect(result).toEqual({ id: 1, user_id: 1, role: 'superadmin' });
+            expect(result).toEqual({ admin_id: 1, user_id: 1, role: 'superadmin' });
             expect(admin.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -107,7 +107,7 @@ describe('Admin Service', () => {
 
     describe('deleteAdmin', () => {
         it('should delete an admin', async () => {
-            const admin = { id: 1, user_id: 1, role: 'admin', destroy: jest.fn().mockResolvedValue(null) };
+            const admin = { admin_id: 1, user_id: 1, role: 'admin', destroy: jest.fn().mockResolvedValue(null) };
             (Admin.findByPk as jest.Mock).mockResolvedValue(admin);
 
             const result = await deleteAdmin(1);
