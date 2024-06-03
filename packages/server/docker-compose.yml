@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  doctorfinderdb:
+    container_name: doctorfinderdb
+    image: bitnami/postgresql:latest
+    hostname: localhost
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: doctorfinder
+    ports:
+      - '5432:5432'
