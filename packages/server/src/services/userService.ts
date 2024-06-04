@@ -26,7 +26,9 @@ export const getUserById = async (userId: number) => {
         }
         return user;
     } catch (error) {
-        console.error('Error retrieving user:', error);
+        if (error instanceof Error && error.message === 'User not found') {
+            throw error;
+        }
         throw new Error('Error retrieving user');
     }
 };
@@ -39,7 +41,9 @@ export const updateUser = async (userId: number, updatedData: { name?: string;us
         }
         return await user.update(updatedData);
     } catch (error) {
-        console.error('Error updating user:', error);
+        if (error instanceof Error && error.message === 'User not found') {
+            throw error;
+        }
         throw new Error('Error updating user');
     }
 };
@@ -53,7 +57,9 @@ export const deleteUser = async (userId: number) => {
         await user.destroy();
         return user;
     } catch (error) {
-        console.error('Error deleting user:', error);
+        if (error instanceof Error && error.message === 'User not found') {
+            throw error;
+        }
         throw new Error('Error deleting user');
     }
 };

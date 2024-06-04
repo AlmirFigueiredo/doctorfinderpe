@@ -43,12 +43,12 @@ describe('Appointment Controllers', () => {
         });
 
         it('should create a new appointment', async () => {
-            const newAppointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
+            const newAppointment = { appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed'};
             (createAppointment as jest.Mock).mockResolvedValue(newAppointment);
 
             const response = await request(app)
                 .post('/appointments')
-                .send({ doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' });
+                .send({ doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed'});
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual(newAppointment);
@@ -68,7 +68,7 @@ describe('Appointment Controllers', () => {
 
             const response = await request(app)
                 .post('/appointments')
-                .send({ doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' });
+                .send({ doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create appointment' });
@@ -87,8 +87,8 @@ describe('Appointment Controllers', () => {
 
         it('should return all appointments', async () => {
             const appointments = [
-                { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' },
-                { id: 2, doctor_id: 2, patient_id: 2, address_id: 2, data: '2024-06-02', hour: '11:00' },
+                { appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' },
+                { appointment_id: 2, doctor_id: 2, patient_id: 2, address_id: 2, data: '2024-06-02', hour: '11:00', status: 'Completed' },
             ];
             (getAllAppointments as jest.Mock).mockResolvedValue(appointments);
 
@@ -119,7 +119,7 @@ describe('Appointment Controllers', () => {
         });
 
         it('should return an appointment by id', async () => {
-            const appointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
+            const appointment = { appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' };
             (getAppointmentById as jest.Mock).mockResolvedValue(appointment);
 
             const response = await request(app).get('/appointments/1');
@@ -158,7 +158,7 @@ describe('Appointment Controllers', () => {
         });
 
         it('should update an appointment', async () => {
-            const updatedAppointment = { id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '11:00' };
+            const updatedAppointment = { appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '11:00', status: 'Completed' };
             (updateAppointment as jest.Mock).mockResolvedValue(updatedAppointment);
 
             const response = await request(app)
@@ -203,7 +203,7 @@ describe('Appointment Controllers', () => {
         });
 
         it('should delete an appointment', async () => {
-            (deleteAppointment as jest.Mock).mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' });
+            (deleteAppointment as jest.Mock).mockResolvedValue({ appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Canceled' });
 
             const response = await request(app).delete('/appointments/1');
 

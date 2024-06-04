@@ -37,7 +37,7 @@ describe('Appointment Service', () => {
 
     describe('createAppointment', () => {
         it('should create a new appointment', async () => {
-            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
+            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' };
             const newAppointment = {appointment_id: 1, ...appointmentData };
             (Appointment.create as jest.Mock).mockResolvedValue(newAppointment);
 
@@ -48,7 +48,7 @@ describe('Appointment Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
+            const appointmentData = { doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' };
             (Appointment.create as jest.Mock).mockRejectedValue(new Error('Failed to create appointment'));
 
             await expect(createAppointment(appointmentData)).rejects.toThrow('Error creating appointment');
@@ -57,7 +57,7 @@ describe('Appointment Service', () => {
 
     describe('getAppointmentById', () => {
         it('should return an appointment byappointment_id', async () => {
-            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00' };
+            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed' };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             const result = await getAppointmentById(1);
@@ -81,14 +81,14 @@ describe('Appointment Service', () => {
 
     describe('updateAppointment', () => {
         it('should update an appointment', async () => {
-            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', update: jest.fn().mockResolvedValue({appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00' }) };
+            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed', update: jest.fn().mockResolvedValue({appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00', status: 'Completed' }) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             const updatedData = { hour: '12:00' };
 
             const result = await updateAppointment(1, updatedData);
 
-            expect(result).toEqual({appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00' });
+            expect(result).toEqual({appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '12:00', status: 'Completed' });
             expect(appointment.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -99,7 +99,7 @@ describe('Appointment Service', () => {
         });
 
         it('should throw an error if updating fails', async () => {
-            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', update: jest.fn().mockRejectedValue(new Error('Failed to update appointment')) };
+            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed', update: jest.fn().mockRejectedValue(new Error('Failed to update appointment')) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             await expect(updateAppointment(1, { status: 'completed' })).rejects.toThrow('Error updating appointment');
@@ -108,7 +108,7 @@ describe('Appointment Service', () => {
 
     describe('deleteAppointment', () => {
         it('should delete an appointment', async () => {
-            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', destroy: jest.fn().mockResolvedValue(null) };
+            const appointment = {appointment_id: 1, doctor_id: 1, patient_id: 1, address_id: 1, data: '2024-06-01', hour: '10:00', status: 'Completed', destroy: jest.fn().mockResolvedValue(null) };
             (Appointment.findByPk as jest.Mock).mockResolvedValue(appointment);
 
             const result = await deleteAppointment(1);

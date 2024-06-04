@@ -27,7 +27,9 @@ export const getPatientById = async (patientId: number) => {
         }
         return patient;
     } catch (error) {
-        console.error('Error retrieving patient:', error);
+        if (error instanceof Error && error.message === 'Patient not found') {
+            throw error;
+        }
         throw new Error('Error retrieving patient');
     }
 };
@@ -40,7 +42,9 @@ export const updatePatient = async (patientId: number, updatedData: { user_id?: 
         }
         return await patient.update(updatedData);
     } catch (error) {
-        console.error('Error updating patient:', error);
+        if (error instanceof Error && error.message === 'Patient not found') {
+            throw error;
+        }
         throw new Error('Error updating patient');
     }
 };
@@ -54,7 +58,9 @@ export const deletePatient = async (patientId: number) => {
         await patient.destroy();
         return patient;
     } catch (error) {
-        console.error('Error deleting patient:', error);
+        if (error instanceof Error && error.message === 'Patient not found') {
+            throw error;
+        }
         throw new Error('Error deleting patient');
     }
 };

@@ -65,8 +65,9 @@ address.init(
         tableName: 'address'
     }
 );
-
-address.belongsTo(Doctor, { foreignKey: 'doctor_id' });
-Doctor.hasMany(address, { foreignKey: 'doctor_id' });
+if (process.env.NODE_ENV !== 'test') {
+    address.belongsTo(Doctor, { foreignKey: 'doctor_id' });
+    Doctor.hasMany(address, { foreignKey: 'doctor_id' });
+}
 
 export default address;

@@ -26,7 +26,9 @@ export const getFeedbackById = async (feedbackId: number) => {
         }
         return feedback;
     } catch (error) {
-        console.error('Error retrieving feedback:', error);
+        if (error instanceof Error && error.message === 'Feedback not found') {
+            throw error;
+        }
         throw new Error('Error retrieving feedback');
     }
 };
@@ -39,7 +41,9 @@ export const updateFeedback = async (feedbackId: number, updatedData: { doctor_i
         }
         return await feedback.update(updatedData);
     } catch (error) {
-        console.error('Error updating feedback:', error);
+        if (error instanceof Error && error.message === 'Feedback not found') {
+            throw error;
+        }
         throw new Error('Error updating feedback');
     }
 };
@@ -53,7 +57,9 @@ export const deleteFeedback = async (feedbackId: number) => {
         await feedback.destroy();
         return feedback;
     } catch (error) {
-        console.error('Error deleting feedback:', error);
+        if (error instanceof Error && error.message === 'Feedback not found') {
+            throw error;
+        }
         throw new Error('Error deleting feedback');
     }
 };
