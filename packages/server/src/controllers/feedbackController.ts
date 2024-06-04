@@ -4,7 +4,8 @@ import {
   getAllFeedbacks, 
   getFeedbackById, 
   updateFeedback, 
-  deleteFeedback 
+  deleteFeedback, 
+  getAllDoctorsFeedbacks
 } from '../services/feedbackService';
 
 export const getAllFeedbacksController = async (_req: Request, res: Response) => {
@@ -19,12 +20,12 @@ export const getAllFeedbacksController = async (_req: Request, res: Response) =>
 
 export const createFeedbackController = async (req: Request, res: Response) => {
   try {
-    const { doctor_id, patient_id, comment, data } = req.body;
+    const { doctor_id, patient_id, score, comment, data } = req.body;
 
-    if (!doctor_id || !patient_id || !comment || !data) {
+    if (!doctor_id || !patient_id || !score || !comment || !data) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newFeedback = await createFeedback({ doctor_id, patient_id, comment, data });
+    const newFeedback = await createFeedback({ doctor_id, patient_id, score, comment, data });
     res.status(201).json(newFeedback);
   } catch (error) {
     console.error('Error creating feedback:', error);
@@ -74,3 +75,16 @@ export const deleteFeedbackController = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to delete feedback' });
   }
 };
+
+export const getAllDoctorsFeedbacksController = async(req: Request, res: Response) => {
+  try {
+    const {doctor_id} = req.params
+    const doctorsFeedback = await getAllDoctorsFeedbacks(Number(doctor_id));
+    if (!doctorsFeedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
+    res.status(200).json(doctorsFeedback);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get feedbacks' });
+  }
+}

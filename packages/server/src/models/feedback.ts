@@ -59,6 +59,6 @@ Patient.hasMany(Feedback, { foreignKey: 'patient_id' });
 Feedback.belongsTo(Patient, { foreignKey: 'patient_id' });
 
 Doctor.hasMany(Feedback, { foreignKey: 'doctor_id' });
-Feedback.belongsTo(Patient, { foreignKey: 'doctor_id' });
+Feedback.belongsTo(Doctor, { foreignKey: 'doctor_id' });
 
 export default Feedback;

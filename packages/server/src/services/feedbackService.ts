@@ -9,7 +9,7 @@ export const getAllFeedbacks = async () => {
     }
 };
 
-export const createFeedback = async (feedbackData: { doctor_id: number; patient_id: number; comment: string; data: string }) => {
+export const createFeedback = async (feedbackData: { doctor_id: number; score: number; patient_id: number; comment: string; data: string }) => {
     try {
         return await Feedback.create(feedbackData);
     } catch (error) {
@@ -56,6 +56,22 @@ export const deleteFeedback = async (feedbackId: number) => {
         }
         await feedback.destroy();
         return feedback;
+    } catch (error) {
+        if (error instanceof Error && error.message === 'Feedback not found') {
+            throw error;
+        }
+        throw new Error('Error deleting feedback');
+    }
+};
+
+export const getAllDoctorsFeedbacks = async (doctor_id: number) => {
+    try {
+        const feedbacks = await Feedback.findAll({where: {doctor_id}});
+        if (!feedbacks) {
+            throw new Error('Feedbacks not found');
+        }
+
+        return feedbacks;
     } catch (error) {
         if (error instanceof Error && error.message === 'Feedback not found') {
             throw error;
