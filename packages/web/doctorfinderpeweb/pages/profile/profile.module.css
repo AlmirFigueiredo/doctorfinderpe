@@ -159,6 +159,16 @@
     font-weight: bold;
 }
 
+.uploadPicture {
+    max-width: 400px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #E1E1E6;
+    color: #000;
+    font-weight: bold;
+}
+
 .userInfo div textarea {
     resize: none;
     max-width: 400px;

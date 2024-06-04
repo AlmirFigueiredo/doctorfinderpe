@@ -8,6 +8,7 @@ import { Appointment } from './appointment';
 
 
 
+
 export default function Profile() {
     const router = useRouter();
     const perfilName = router.query.name;
@@ -42,10 +43,10 @@ export default function Profile() {
                             <div className={styles.profileImage}>
                                 <span>Profile Image</span>
                                 <div className={styles.imageContent}>
-                                    <img src="https://github.com/marcelocoelho1.png" alt="" />
+                                    <img src="/svg/notPicture.svg" alt="" />
                                     <div>
-                                        <button>Upload new</button>
-                                        <button>Remove</button>
+                                        <input className={styles.uploadPicture} type="text" placeholder='Link to your picture'/>
+                                        <button>Upload</button>
                                     </div>
                                 </div>
                             </div>
