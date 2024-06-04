@@ -43,8 +43,8 @@ describe('Feedback Controllers', () => {
 
         it('should return all feedbacks', async () => {
             const feedbacks = [
-                { id: 1, doctor_id: 1, patient_id: 1, comment: 'Great doctor', data: '2024-06-01' },
-                { id: 2, doctor_id: 2, patient_id: 2, comment: 'Not satisfied', data: '2024-06-02' },
+                { id: 1, doctor_id: 1, patient_id: 1, score: 5, comment: 'Great doctor', data: '2024-06-01' },
+                { id: 2, doctor_id: 2, patient_id: 2, score: 4, comment: 'Not satisfied', data: '2024-06-02' },
             ];
             (getAllFeedbacks as jest.Mock).mockResolvedValue(feedbacks);
 
@@ -81,7 +81,7 @@ describe('Feedback Controllers', () => {
 
             const response = await request(app)
                 .post('/feedbacks')
-                .send({ doctor_id: 1, patient_id: 1, comment: 'Great doctor', data: '2024-06-01' });
+                .send({ doctor_id: 1, patient_id: 1, score: 5,comment: 'Great doctor', data: '2024-06-01' });
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual(newFeedback);
@@ -101,7 +101,7 @@ describe('Feedback Controllers', () => {
 
             const response = await request(app)
                 .post('/feedbacks')
-                .send({ doctor_id: 1, patient_id: 1, comment: 'Great doctor', data: '2024-06-01' });
+                .send({ doctor_id: 1, patient_id: 1, score: 5, comment: 'Great doctor', data: '2024-06-01' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create feedback' });
@@ -119,7 +119,7 @@ describe('Feedback Controllers', () => {
         });
 
         it('should return a feedback by id', async () => {
-            const feedback = { id: 1, doctor_id: 1, patient_id: 1, comment: 'Great doctor', data: '2024-06-01' };
+            const feedback = { id: 1, doctor_id: 1, patient_id: 1, score: 5, comment: 'Great doctor', data: '2024-06-01' };
             (getFeedbackById as jest.Mock).mockResolvedValue(feedback);
 
             const response = await request(app).get('/feedbacks/1');
@@ -158,12 +158,12 @@ describe('Feedback Controllers', () => {
         });
 
         it('should update a feedback', async () => {
-            const updatedFeedback = { id: 1, doctor_id: 1, patient_id: 1, comment: 'Good doctor', data: '2024-06-01' };
+            const updatedFeedback = { id: 1, doctor_id: 1, patient_id: 1, score: 4, comment: 'Good doctor', data: '2024-06-01' };
             (updateFeedback as jest.Mock).mockResolvedValue(updatedFeedback);
 
             const response = await request(app)
                 .put('/feedbacks/1')
-                .send({ doctor_id: 1, patient_id: 1, comment: 'Good doctor', data: '2024-06-01' });
+                .send({ doctor_id: 1, patient_id: 1, score: 4, comment: 'Good doctor', data: '2024-06-01' });
 
             expect(response.status).toBe(200);
             expect(response.body).toEqual(updatedFeedback);
@@ -174,7 +174,7 @@ describe('Feedback Controllers', () => {
 
             const response = await request(app)
                 .put('/feedbacks/999')
-                .send({ doctor_id: 1, patient_id: 1, comment: 'Good doctor', data: '2024-06-01' });
+                .send({ doctor_id: 1, patient_id: 1, score: 4, comment: 'Good doctor', data: '2024-06-01' });
 
             expect(response.status).toBe(404);
             expect(response.body).toEqual({ error: 'Feedback not found' });
@@ -185,7 +185,7 @@ describe('Feedback Controllers', () => {
 
             const response = await request(app)
                 .put('/feedbacks/1')
-                .send({ doctor_id: 1, patient_id: 1, comment: 'Good doctor', data: '2024-06-01' });
+                .send({ doctor_id: 1, patient_id: 1, score: 4, comment: 'Good doctor', data: '2024-06-01' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to update feedback' });
@@ -204,7 +204,7 @@ describe('Feedback Controllers', () => {
         });
 
         it('should delete a feedback', async () => {
-            (deleteFeedback as jest.Mock).mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, comment: 'Great doctor', data: '2024-06-01' });
+            (deleteFeedback as jest.Mock).mockResolvedValue({ id: 1, doctor_id: 1, patient_id: 1, score: 4, comment: 'Great doctor', data: '2024-06-01' });
 
             const response = await request(app).delete('/feedbacks/1');
 
