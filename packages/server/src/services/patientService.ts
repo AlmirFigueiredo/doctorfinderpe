@@ -10,7 +10,7 @@ export const getAllPatients = async () => {
     }
 };
 
-export const createPatient = async (patientData: { user_id: number }) => {
+export const createPatient = async (patientData: { user_id: number; plan: null | string }) => {
     try {
         return await Patient.create(patientData);
     } catch (error) {
@@ -34,7 +34,7 @@ export const getPatientById = async (patientId: number) => {
     }
 };
 
-export const updatePatient = async (patientId: number, updatedData: { user_id?: number }) => {
+export const updatePatient = async (patientId: number, updatedData: { user_id?: number; plan?: string; }) => {
     try {
         const patient = await Patient.findByPk(patientId);
         if (!patient) {

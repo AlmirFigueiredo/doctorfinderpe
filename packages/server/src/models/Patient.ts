@@ -6,6 +6,7 @@ import User from './User';
 class Patient extends Model {
     public patient_id!: number;
     public user_id!: number;
+    public plain!: string;
 }
 
 Patient.init(
@@ -24,6 +25,10 @@ Patient.init(
                 key: 'user_id',
             },
         },
+        plan: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     },
     {
         sequelize,
