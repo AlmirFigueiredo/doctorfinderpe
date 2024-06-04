@@ -90,7 +90,7 @@ export default function Search() {
                                         <div>
                                             <strong>{doctor.name}</strong>
                                             <p>{doctor.description}</p>
-                                            <span>feedbacks count: {doctor.feedbacksCount}</span>
+                                            <span>Quantidade de Feedbacks: {doctor.feedbacksCount}</span>
                                         </div>
                                     </div>
                                     <div className={styles.doctorAddress}>
@@ -100,7 +100,7 @@ export default function Search() {
                                                 className={`${styles.addressButton} ${addressIndex === activeAddressIndexes[doctorIndex] ? styles.active : ''}`}
                                                 onClick={() => handleAddressClick(doctorIndex, addressIndex)} // adiciona um manipulador de clique para alternar entre os endereços
                                             >
-                                                Address {address.id}
+                                                Endereço {address.id}
                                             </button>
                                         ))}
                                     </div>
