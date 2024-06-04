@@ -70,3 +70,27 @@ export const deleteDoctor = async (doctorId: number) => {
         throw new Error('Error deleting doctor');
     }
 };
+
+
+
+export const getDoctorsByCity = async (city: string) => {
+
+    try {
+      const doctors = await Doctor.findAll({
+        include: [{
+            model: Address,
+            as: 'addresses',
+            where: { city },
+            attributes: ['address_id', 'local_phone', 'zip_code', 'city', 'street_number', 'street', 'neighborhood', 'complement']
+          }]
+      })
+
+      if(!doctors) {
+        throw new Error('Doctors not found!')
+      }
+
+      return doctors
+    } catch (error) {
+        throw new Error('Error when search doctors by city')
+    }
+  }

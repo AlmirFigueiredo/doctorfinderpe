@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import { 
-  createDoctor, 
-  getAllDoctors, 
-  getDoctorById, 
-  updateDoctor, 
-  deleteDoctor 
+import {
+  createDoctor,
+  getAllDoctors,
+  getDoctorById,
+  updateDoctor,
+  deleteDoctor,
+  getDoctorsByCity
 } from '../services/doctorService';
 
 export const getAllDoctorsController = async (_req: Request, res: Response) => {
@@ -21,10 +22,10 @@ export const createDoctorController = async (req: Request, res: Response) => {
   try {
     const { user_id, crm, specialty, accept_money, accept_plan } = req.body;
 
-    if (!user_id || !crm || !specialty || accept_money === undefined || accept_plan === undefined ) {
+    if (!user_id || !crm || !specialty || accept_money === undefined || accept_plan === undefined) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    const newDoctor = await createDoctor({ user_id, crm, specialty ,accept_money, accept_plan });
+    const newDoctor = await createDoctor({ user_id, crm, specialty, accept_money, accept_plan });
     res.status(201).json(newDoctor);
   } catch (error) {
     console.error('Error creating doctor:', error);
@@ -55,10 +56,10 @@ export const updateDoctorController = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Doctor not found' });
     }
     res.status(200).json(updatedDoctor);
-} catch (error) {
+  } catch (error) {
     console.error('Error updating doctor:', error);
     res.status(500).json({ error: 'Failed to update doctor' });
-}
+  }
 };
 
 export const deleteDoctorController = async (req: Request, res: Response) => {
@@ -69,8 +70,24 @@ export const deleteDoctorController = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Doctor not found' });
     }
     res.status(204).send();
-} catch (error) {
+  } catch (error) {
     console.error('Error deleting doctor:', error);
     res.status(500).json({ error: 'Failed to delete doctor' });
-}
+  }
 };
+
+
+export const getDoctorsByCityController = async (req: Request, res: Response) => {
+
+  try {
+    const { city } = req.params;
+    const doctors = await getDoctorsByCity(city)
+
+    if(!doctors) {
+      return res.status(404).json({ error: 'Doctors not found' });
+    }
+    return res.status(201).send(doctors)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to search doctors by city' });
+  }
+}

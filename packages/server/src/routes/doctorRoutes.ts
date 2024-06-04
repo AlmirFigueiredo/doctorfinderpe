@@ -4,7 +4,8 @@ import {
   getAllDoctorsController,
   getDoctorByIdController,
   updateDoctorController,
-  deleteDoctorController
+  deleteDoctorController,
+  getDoctorsByCityController
 } from '../controllers/doctorController';
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get('/', getAllDoctorsController);
 router.get('/:id', getDoctorByIdController);
 router.put('/:id', updateDoctorController);
 router.delete('/:id', deleteDoctorController);
+router.get('/city/:city', getDoctorsByCityController)
 
 export default router;
