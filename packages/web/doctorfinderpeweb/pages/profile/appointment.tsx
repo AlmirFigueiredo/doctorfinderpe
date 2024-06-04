@@ -21,10 +21,10 @@ export function Appointment({ name }: AppointmentProps) {
                     <thead>
                         <tr>
                             <th>Status</th>
-                            <th>Patient</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Hour</th>
+                            <th>Paciente</th>
+                            <th>Localização</th>
+                            <th>Data</th>
+                            <th>Hora</th>
                         </tr>
                     </thead>
                     <tbody>

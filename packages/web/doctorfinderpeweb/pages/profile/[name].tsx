@@ -31,8 +31,8 @@ export default function Profile() {
             </header>
             <div className={styles.profileContainer}>
                 <aside className={styles.sidebar}>
-                    <button onClick={() => setTab(0)} className={tab === 0 ? styles.active : ''}>Profile</button>
-                    <button onClick={() => setTab(1)} className={tab === 1 ? styles.active : ''} >Appointments</button>
+                    <button onClick={() => setTab(0)} className={tab === 0 ? styles.active : ''}>Informações</button>
+                    <button onClick={() => setTab(1)} className={tab === 1 ? styles.active : ''} >Agendamentos</button>
                 </aside>
                 <main className={styles.main}>
                     {tab === 0 && (
@@ -41,11 +41,11 @@ export default function Profile() {
                                 <strong>{perfilName}</strong>
                             </header>
                             <div className={styles.profileImage}>
-                                <span>Profile Image</span>
+                                <span>Imagem de Perfil</span>
                                 <div className={styles.imageContent}>
                                     <img src="/svg/notPicture.svg" alt="" />
                                     <div>
-                                        <input className={styles.uploadPicture} type="text" placeholder='Link to your picture'/>
+                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto'/>
                                         <button>Upload</button>
                                     </div>
                                 </div>

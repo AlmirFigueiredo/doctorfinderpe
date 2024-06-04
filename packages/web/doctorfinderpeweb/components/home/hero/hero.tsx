@@ -7,11 +7,11 @@ export default function Hero() {
         <main className={styles.main}>
           <div className={styles.centralized}>
             <div>
-              <h1>Get Access to Qualified Doctors Around the World</h1>
-              <p>Let's connect you to over 5,000 qualified and trained doctors for your inquiries and diagnosis</p>
+              <h1>Encontre Seu Médico Ideal e Marque Consultas com Facilidade</h1>
+              <p>Vamos conectá-lo a mais de 5.000 médicos qualificados e treinados para suas consultas e diagnósticos.</p>
               <div className={styles.btns}>
-                <a className={styles.bookBtn} href="#">Search a Doctor</a>
-                <a className={styles.learnBtn} href="#">Learn More</a>
+                <a className={styles.bookBtn} href="#">Procurar um Médico</a>
+                <a className={styles.learnBtn} href="#">Saiba Mais</a>
               </div>
             </div>
             <div>

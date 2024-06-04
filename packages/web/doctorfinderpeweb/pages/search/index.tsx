@@ -69,18 +69,18 @@ export default function Search() {
                 <form onSubmit={handleSearch}>
                     <div className={styles.inputWrapper}>
                         <MagnifyingGlass size={20} className={styles.icon} />
-                        <input name="search" list="search-suggestions" type="text" placeholder="specialty, disease or name" />
+                        <input name="search" list="search-suggestions" type="text" placeholder="especialidade ou name" />
                         <datalist id="search-suggestions">
                             <option value="projeto 1"></option>
                             <option value="projeto 2"></option>
                             <option value="projeto 3"></option>
                             <option value="projeto 4"></option>
                         </datalist>
-                        <button type="submit">search</button>
+                        <button type="submit">buscar</button>
                     </div>
                 </form>
                 <div className={styles.resultsList}>
-                    <h1>Search Results</h1>
+                    <h1>Resultados da Pesquisa</h1>
                     {doctors.length > 0 ? (
                         doctors.map((doctor, doctorIndex) => (
                             <article key={doctor.id} className={styles.doctorBox}>
@@ -113,7 +113,7 @@ export default function Search() {
                             </article>
                         ))
                     ) : (
-                        <p>No doctors found.</p>
+                        <p>Nenhum médico encontrado.</p>
                     )}
                 </div>
             </div>

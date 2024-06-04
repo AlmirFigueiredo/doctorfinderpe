@@ -6,7 +6,7 @@ export default function Solution() {
     return (
         <section className={styles.solution}>
             <header className={styles.header}>
-                <h1>Quick solution for scheduling with doctor</h1>
+                <h1>Solução prática para marcar consultas médicas</h1>
             </header>
             <div className={styles.centralized}>
                 <div className={styles.cards}>
@@ -15,24 +15,24 @@ export default function Solution() {
                         <div className={styles.imageDiv}>
                             <Image src='/svg/Doctor.svg' width={50} height={50} />
                         </div>
-                        <h2>Find a Doctor</h2>
-                        <p>Health core systems are meet the health needs of targeted populations to organizations</p>
+                        <h2>Buscar e Filtrar Médicos</h2>
+                        <p>Encontre médicos por especialidade, localização e tipo de pagamento aceito.</p>
                     </div>
                     <div className={styles.card}>
                         <div className={styles.cardNumber}>2</div>
                         <div className={styles.imageDiv}>
                             <Image src='/svg/MedicalReport.svg' width={50} height={50} />
                         </div>
-                        <h2>Get your solution</h2>
-                        <p>Health core systems are meet the health needs of targeted populations to organizations</p>
+                        <h2>Agendar Consultas</h2>
+                        <p>Selecione um médico e agende a consulta.</p>
                     </div>
                     <div className={styles.card}>
                         <div className={styles.cardNumber}>3</div>
                         <div className={styles.imageDiv}>
                             <Image src='/svg/MobileApps.svg' width={50} height={50} />
                         </div>
-                        <h2>Schedule appointment</h2>
-                        <p>Health core systems are meet the health needs of targeted populations to organizations</p>
+                        <h2>Gerenciar Consultas e Perfil</h2>
+                        <p> Acesse e gerencie suas consultas e perfil facilmente</p>
                     </div>
                 </div>
             </div>

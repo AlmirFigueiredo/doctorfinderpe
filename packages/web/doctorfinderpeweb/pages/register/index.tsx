@@ -69,7 +69,7 @@ export default function Login() {
       </header>
       <div className={styles.container}>
         <div className={styles.registerBox}>
-          <h1>Create Your Account here</h1>
+          <h1>Crie sua conta agora</h1>
           <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <input
@@ -78,7 +78,7 @@ export default function Login() {
                 value={initialFormData.username}
                 onChange={handleChange}
                 type="text"
-                placeholder="Username"
+                placeholder="Nome de Usuário"
               />
             </div>
             <div className={styles.formGroup}>
@@ -88,7 +88,7 @@ export default function Login() {
                 value={initialFormData.name}
                 onChange={handleChange}
                 type="text"
-                placeholder="Name"
+                placeholder="Nome"
               />
             </div>
             <div className={styles.formGroup}>
@@ -108,13 +108,13 @@ export default function Login() {
                 value={initialFormData.password}
                 onChange={handleChange}
                 type="password"
-                placeholder="Password"
+                placeholder="Senha"
               />
             </div>
             <div className={styles.formGroup}>
-              <span>Select Your Role</span>
+              <span>Você é paciente ou médico?</span>
               <div>
-                <label htmlFor="client">Client</label>
+                <label htmlFor="client">Paciente</label>
                 <input
                   value="client"
                   onChange={handleChange}
@@ -125,7 +125,7 @@ export default function Login() {
                 />
               </div>
               <div>
-                <label htmlFor="doctor">Doctor</label>
+                <label htmlFor="doctor">Médico</label>
                 <input
                   value="doctor"
                   onChange={handleChange}
@@ -160,7 +160,7 @@ export default function Login() {
                 </div>
               </>
             )}
-            <button type="submit">Register</button>
+            <button type="submit">Cria conta</button>
           </form>
           <div className={styles.createAccountLogin}>
             <span>Já tem uma conta?</span>

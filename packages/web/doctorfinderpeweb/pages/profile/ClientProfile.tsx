@@ -41,7 +41,7 @@ export function ClientProfile() {
     return (
         <form onSubmit={handleUpdateProfile}>
             <div className={styles.username}>
-                <span>Username</span>
+                <span>Nome de Usuário</span>
                 <div>
                     <input
                         type="text"
@@ -54,7 +54,7 @@ export function ClientProfile() {
             </div>
             <div className={styles.userInfo}>
                 <div>
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Nome</label>
                     <input
                         type="text"
                         name="name"
@@ -87,7 +87,7 @@ export function ClientProfile() {
                 </div>
                 
                 <div>
-                    <label htmlFor="plan">Plan</label>
+                    <label htmlFor="plan">Plano</label>
                     <input
                         type="text"
                         name="plan"
@@ -98,8 +98,8 @@ export function ClientProfile() {
                 </div>
 
                 <div>
-                    <span>Update profile</span>
-                    <button type='submit'>Update</button>
+                    <span>Atualizar Perfil</span>
+                    <button type='submit'>Atualizar</button>
                 </div>
             </div>
         </form>
