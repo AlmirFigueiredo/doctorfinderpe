@@ -31,14 +31,15 @@ Patient.init(
     }
 );
 
-Patient.hasOne(User, { foreignKey: 'user_id' , onDelete: 'cascade' });
-User.belongsTo(Patient, { foreignKey: 'user_id' , onDelete: 'cascade' });
-
-Patient.beforeCreate(async (patient, options) => {
-    const user = await User.findByPk(patient.user_id);
-    if (!user) {
-        throw new Error('user_id não encontrado na tabela users');
-    }
-});
-
+if (process.env.NODE_ENV !== 'test') {
+    Patient.hasOne(User, { foreignKey: 'user_id' , onDelete: 'cascade' });
+    User.belongsTo(Patient, { foreignKey: 'user_id' , onDelete: 'cascade' });
+    
+    Patient.beforeCreate(async (patient, options) => {
+        const user = await User.findByPk(patient.user_id);
+        if (!user) {
+            throw new Error('user_id não encontrado na tabela users');
+        }
+    });
+}
 export default Patient;

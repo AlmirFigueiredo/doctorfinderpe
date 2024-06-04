@@ -13,7 +13,9 @@ export const createAvailability = async (availabilityData: { doctor_id: number; 
     try {
         return await Availability.create(availabilityData);
     } catch (error) {
-        console.error('Error creating availability:', error);
+        if (error instanceof Error && error.message === 'Admin not found') {
+            throw error;
+        }
         throw new Error('Error creating availability');
     }
 };
@@ -27,7 +29,9 @@ export const getAvailabilityById = async (availabilityId: number) => {
         }
         return availability;
     } catch (error) {
-        console.error('Error retrieving availability:', error);
+        if (error instanceof Error && error.message === 'Availability not found') {
+            throw error;
+        }
         throw new Error('Error retrieving availability');
     }
 };
@@ -40,7 +44,9 @@ export const updateAvailability = async (availabilityId: number, updatedData: { 
         }
         return await availability.update(updatedData);
     } catch (error) {
-        console.error('Error updating availability:', error);
+        if (error instanceof Error && error.message === 'Availability not found') {
+            throw error;
+        }
         throw new Error('Error updating availability');
     }
 };
@@ -54,7 +60,9 @@ export const deleteAvailability = async (availabilityId: number) => {
         await availability.destroy();
         return availability;
     } catch (error) {
-        console.error('Error deleting availability:', error);
+        if (error instanceof Error && error.message === 'Availability not found') {
+            throw error;
+        }
         throw new Error('Error deleting availability');
     }
 };

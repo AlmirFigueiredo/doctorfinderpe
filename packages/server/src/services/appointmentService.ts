@@ -9,22 +9,21 @@ export const getAllAppointments = async () => {
     }
 };
 
-export const createAppointment = async (appointmentData: { doctor_id: number; patient_id: number; status: string; address_id: number; data: string; hour: string;}) => {
-  try {
-    const existingAppointment = await Appointment.findOne({
-      where: {
-        data: appointmentData.data,
-        hour: appointmentData.hour
-      }
-    });
-    if (existingAppointment) {
-      throw new Error('Appointment already exists at this date and hour');
+export const createAppointment = async (appointmentData: { doctor_id: number; patient_id: number; status: string; address_id: number; data: string; hour: string; }) => {
+    try {
+        const existingAppointment = await Appointment.findOne({
+            where: {
+                data: appointmentData.data,
+                hour: appointmentData.hour
+            }
+        });
+        if (existingAppointment) {
+            throw new Error('Appointment already exists at this date and hour');
+        }
+        return await Appointment.create(appointmentData);
+    } catch (error) {
+        throw new Error('Error creating appointment');
     }
-    return await Appointment.create(appointmentData);
-  } catch (error) {
-    console.error('Error creating appointment:', error);
-    throw new Error('Error creating appointment');
-  }
 
 };
 
@@ -36,21 +35,24 @@ export const getAppointmentById = async (appointmentId: number) => {
         }
         return appointment;
     } catch (error) {
-        console.error('Error retrieving appointment:', error);
+        if (error instanceof Error && error.message === 'Appointment not found') {
+            throw error;
+        }
         throw new Error('Error retrieving appointment');
     }
 };
 
 export const updateAppointment = async (appointmentId: number, updatedData: { doctor_id?: number; address_id?: number; patient_id?: number; data?: string; hour?: string; status?: string }) => {
-  try {
-    const appointment = await Appointment.findByPk(appointmentId);
-    if (!appointment) {
-      throw new Error('Appointment not found');
-
+    try {
+        const appointment = await Appointment.findByPk(appointmentId);
+        if (!appointment) {
+            throw new Error('Appointment not found');
         }
         return await appointment.update(updatedData);
     } catch (error) {
-        console.error('Error updating appointment:', error);
+        if (error instanceof Error && error.message === 'Appointment not found') {
+            throw error;
+        }
         throw new Error('Error updating appointment');
     }
 };
@@ -64,7 +66,9 @@ export const deleteAppointment = async (appointmentId: number) => {
         await appointment.destroy();
         return appointment;
     } catch (error) {
-        console.error('Error deleting appointment:', error);
+        if (error instanceof Error && error.message === 'Appointment not found') {
+            throw error;
+        }
         throw new Error('Error deleting appointment');
     }
 };

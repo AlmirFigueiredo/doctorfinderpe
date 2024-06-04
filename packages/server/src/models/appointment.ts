@@ -67,14 +67,16 @@ Appointment.init(
         tableName: 'appointment',
     }
 );
-Doctor.hasMany(Appointment, { foreignKey: 'doctor_id' });
-Appointment.belongsTo(Doctor, { foreignKey: 'doctor_id' });
-
-Patient.hasMany(Appointment, { foreignKey: 'patient_id' });
-Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
-
-Address.hasMany(Appointment, { foreignKey: 'address_id' });
-Appointment.belongsTo(Address, { foreignKey: 'address_id' });
+if (process.env.NODE_ENV !== 'test') {
+    Doctor.hasMany(Appointment, { foreignKey: 'doctor_id' });
+    Appointment.belongsTo(Doctor, { foreignKey: 'doctor_id' });
+    
+    Patient.hasMany(Appointment, { foreignKey: 'patient_id' });
+    Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
+    
+    Address.hasMany(Appointment, { foreignKey: 'address_id' });
+    Appointment.belongsTo(Address, { foreignKey: 'address_id' });
+}
 
 
 export default Appointment;

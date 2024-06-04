@@ -33,7 +33,9 @@ export const getDoctorById = async (doctorId: number) => {
       }
       return doctor;
     } catch (error) {
-      console.error('Error retrieving doctor:', error);
+        if (error instanceof Error && error.message === 'Doctor not found') {
+            throw error;
+        }
       throw new Error('Error retrieving doctor');
     }
   };
@@ -46,7 +48,9 @@ export const updateDoctor = async (doctorId: number, updatedData: { user_id?: nu
         }
         return await doctor.update(updatedData);
     } catch (error) {
-        console.error('Error updating doctor:', error);
+        if (error instanceof Error && error.message === 'Doctor not found') {
+            throw error;
+        }
         throw new Error('Error updating doctor');
     }
 };
@@ -60,7 +64,9 @@ export const deleteDoctor = async (doctorId: number) => {
         await doctor.destroy();
         return doctor;
     } catch (error) {
-        console.error('Error deleting doctor:', error);
+        if (error instanceof Error && error.message === 'Doctor not found') {
+            throw error;
+        }
         throw new Error('Error deleting doctor');
     }
 };

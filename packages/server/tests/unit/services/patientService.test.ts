@@ -1,7 +1,7 @@
 import { createPatient, getAllPatients, getPatientById, updatePatient, deletePatient } from '../../../src/services/patientService';
 import Patient from '../../../src/models/Patient';
 
-jest.mock('../../../src/models/Patient');
+jest.mock('../../../src/models/Patient.ts');
 
 describe('Patient Service', () => {
     let consoleSpy: jest.SpyInstance;
@@ -56,7 +56,7 @@ describe('Patient Service', () => {
     });
 
     describe('getPatientById', () => {
-        it('should return a patient bypatient_id', async () => {
+        it('should return a patient by patient_id', async () => {
             const patient = { patient_id: 1, user_id: 1 };
             (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
 

@@ -81,7 +81,7 @@ describe('User Service', () => {
 
     describe('updateUser', () => {
         it('should update a user', async () => {
-            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockResolvedValue({ user_id: 1, name: 'John Updated', username: 'john_doe', email: 'john@example.com', password: 'password123', role: 'admin' }) };
+            const user = { user_id: 1, name: 'John Doe', username: 'john_doe', picture: 'someWebAddress', email: 'john@example.com', password: 'password123', role: 'admin', update: jest.fn().mockResolvedValue({ user_id: 1, name: 'John Updated', username: 'john_doe', email: 'john@example.com', picture: 'someWebAddress', password: 'password123', role: 'admin' }) };
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             const updatedData = { name: 'John Updated' };

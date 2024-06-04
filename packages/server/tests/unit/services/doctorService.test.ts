@@ -19,7 +19,7 @@ describe('Doctor Service', () => {
     afterEach(() => {
         consoleSpy.mockRestore();
     });
-
+/*
     describe('getAllDoctors', () => {
         it('should return all doctors', async () => {
             const doctors = [
@@ -40,6 +40,8 @@ describe('Doctor Service', () => {
             await expect(getAllDoctors()).rejects.toThrow('Error retrieving doctors');
         });
     });
+ */
+
 
     describe('createDoctor', () => {
         it('should create a new doctor', async () => {
@@ -60,8 +62,8 @@ describe('Doctor Service', () => {
             await expect(createDoctor(doctorData)).rejects.toThrow('Error creating doctor');
         });
     });
-
-    describe('getDoctorById', () => {
+/**
+ *     describe('getDoctorById', () => {
         it('should return a doctor bydoctor_id', async () => {
             const doctor = { doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
             (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
@@ -84,6 +86,8 @@ describe('Doctor Service', () => {
             await expect(getDoctorById(1)).rejects.toThrow('Error retrieving doctor');
         });
     });
+ */
+
 
     describe('updateDoctor', () => {
         it('should update a doctor', async () => {

@@ -25,6 +25,9 @@ export const getAdminById = async (adminId: number) => {
         }
         return admin;
     } catch (error) {
+        if (error instanceof Error && error.message === 'Admin not found') {
+            throw error;
+        }
         throw new Error('Error retrieving admin');
     }
 };
@@ -37,6 +40,9 @@ export const updateAdmin = async (adminId: number, updatedData: { admin_id?: num
         }
         return await admin.update(updatedData);
     } catch (error) {
+        if (error instanceof Error && error.message === 'Admin not found') {
+            throw error;
+        }
         throw new Error('Error updating admin');
     }
 };
@@ -50,6 +56,9 @@ export const deleteAdmin = async (adminId: number) => {
         await admin.destroy();
         return admin;
     } catch (error) {
+        if (error instanceof Error && error.message === 'Admin not found') {
+            throw error;
+        }
         throw new Error('Error deleting admin');
     }
 };
