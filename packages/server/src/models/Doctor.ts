@@ -11,6 +11,7 @@ class Doctor extends Model {
     public specialty!: string;
     public accept_money!: boolean;
     public accept_plan!: boolean;
+    public description!: string;
 }
 
 Doctor.init(
@@ -48,6 +49,10 @@ Doctor.init(
             type: DataTypes.BOOLEAN,
             allowNull: true,
         },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     },
     {
         sequelize,

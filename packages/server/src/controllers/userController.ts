@@ -24,7 +24,7 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 // Controlador para criar um novo usuário
 export const createUserController = async (req: Request, res: Response) => {
     try {
-        const { name, username, email, password, role, address_id, crm, specialty, accept_money, accept_plan, rg, cpf, plan } = req.body;
+        const { name, username, email, password, role, address_id, crm, specialty, accept_money, accept_plan, rg, cpf, plan, description } = req.body;
 
         if (!name || !username || !email || !password || !role || !rg || !cpf) {
             return res.status(400).json({ error: 'All fields are required' });
@@ -42,7 +42,8 @@ export const createUserController = async (req: Request, res: Response) => {
                 crm: crm,
                 specialty: specialty,
                 accept_money: accept_money,
-                accept_plan: accept_plan
+                accept_plan: accept_plan,
+                description: description
             });
         }
         if (role === "Patient") {

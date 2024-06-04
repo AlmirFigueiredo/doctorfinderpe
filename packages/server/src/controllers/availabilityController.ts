@@ -41,7 +41,6 @@ export const getAvailabilityByIdController = async (req: Request, res: Response)
     }
     res.status(200).json(availability);
   } catch (error) {
-    console.error('Error fetching availability:', error);
     res.status(500).json({ error: 'Failed to fetch availability' });
   }
 };

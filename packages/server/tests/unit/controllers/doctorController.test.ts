@@ -43,8 +43,8 @@ describe('Doctor Controllers', () => {
 
         it('should return all doctors', async () => {
             const doctors = [
-                { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false },
-                { doctor_id: 2, user_id: 2, address_id: '456 Avenue', specialty: 'Dermatology', accept_money: false, accept_plan: true },
+                { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fsdjl;fjds' },
+                { doctor_id: 2, user_id: 2, address_id: '456 Avenue', specialty: 'Dermatology', accept_money: false, accept_plan: true, description: 'fksj;fdsj;fds' },
             ];
             (getAllDoctors as jest.Mock).mockResolvedValue(doctors);
 
@@ -76,12 +76,12 @@ describe('Doctor Controllers', () => {
         });
 
         it('should create a new doctor', async () => {
-            const newDoctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false };
+            const newDoctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fksj;fdsj;fds' };
             (createDoctor as jest.Mock).mockResolvedValue(newDoctor);
 
             const response = await request(app)
                 .post('/doctors')
-                .send({ user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false });
+                .send({ user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fksj;fdsj;fds'});
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual(newDoctor);
@@ -101,7 +101,7 @@ describe('Doctor Controllers', () => {
 
             const response = await request(app)
                 .post('/doctors')
-                .send({ user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false });
+                .send({ user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fksj;fdsj;fds' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to create doctor' });
@@ -119,7 +119,7 @@ describe('Doctor Controllers', () => {
         });
 
         it('should return a doctor by doctor_id', async () => {
-            const doctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false };
+            const doctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fksj;fdsj;fds' };
             (getDoctorById as jest.Mock).mockResolvedValue(doctor);
 
             const response = await request(app).get('/doctors/1');
@@ -158,12 +158,12 @@ describe('Doctor Controllers', () => {
         });
 
         it('should update a doctor', async () => {
-            const updatedDoctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true };
+            const updatedDoctor = { doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true, description: 'fksj;fdsj;fds' };
             (updateDoctor as jest.Mock).mockResolvedValue(updatedDoctor);
 
             const response = await request(app)
                 .put('/doctors/1')
-                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true, description: 'fksj;fdsj;fds' });
 
             expect(response.status).toBe(200);
             expect(response.body).toEqual(updatedDoctor);
@@ -174,7 +174,7 @@ describe('Doctor Controllers', () => {
 
             const response = await request(app)
                 .put('/doctors/999')
-                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true, description: 'fksj;fdsj;fds' });
 
             expect(response.status).toBe(404);
             expect(response.body).toEqual({ error: 'Doctor not found' });
@@ -185,7 +185,7 @@ describe('Doctor Controllers', () => {
 
             const response = await request(app)
                 .put('/doctors/1')
-                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true });
+                .send({ address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: true, description: 'fksj;fdsj;fds' });
 
             expect(response.status).toBe(500);
             expect(response.body).toEqual({ error: 'Failed to update doctor' });
@@ -203,7 +203,7 @@ describe('Doctor Controllers', () => {
         });
 
         it('should delete a doctor', async () => {
-            (deleteDoctor as jest.Mock).mockResolvedValue({ doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false });
+            (deleteDoctor as jest.Mock).mockResolvedValue({ doctor_id: 1, user_id: 1, address_id: '123 Street', crm: '12345', specialty: 'Cardiology', accept_money: true, accept_plan: false, description: 'fksj;fdsj;fds' });
 
             const response = await request(app).delete('/doctors/1');
 

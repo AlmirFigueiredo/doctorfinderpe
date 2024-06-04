@@ -45,7 +45,7 @@ describe('Doctor Service', () => {
 
     describe('createDoctor', () => {
         it('should create a new doctor', async () => {
-            const doctorData = { user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctorData = { user_id: 1, address_id: '1', specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, description: 'fjslfjdskf' };
             const newDoctor = {doctor_id: 1, ...doctorData };
             (Doctor.create as jest.Mock).mockResolvedValue(newDoctor);
 
@@ -56,7 +56,7 @@ describe('Doctor Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const doctorData = { user_id: 1, address_id: "1", specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false };
+            const doctorData = { user_id: 1, address_id: "1", specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, description: 'fdasjfkjdskflsdj' };
             (Doctor.create as jest.Mock).mockRejectedValue(new Error('Failed to create doctor'));
 
             await expect(createDoctor(doctorData)).rejects.toThrow('Error creating doctor');

@@ -47,10 +47,12 @@ User.init(
         cpf: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         rg: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         role: {
             type: DataTypes.STRING,

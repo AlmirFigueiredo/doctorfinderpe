@@ -12,7 +12,7 @@ export const getAllDoctors = async () => {
     });
 }
 
-export const createDoctor = async (doctorData: { user_id: number; crm: string; specialty: string; accept_money: boolean; accept_plan: boolean }) => {
+export const createDoctor = async (doctorData: { user_id: number; crm: string; specialty: string; accept_money: boolean; accept_plan: boolean, description: string }) => {
     try {
         return await Doctor.create(doctorData);
     } catch (error) {
@@ -41,7 +41,7 @@ export const getDoctorById = async (doctorId: number) => {
     }
 };
 
-export const updateDoctor = async (doctorId: number, updatedData: { user_id?: number; crm?: string; specialty?: string; accept_money?: boolean; accept_plan?: boolean }) => {
+export const updateDoctor = async (doctorId: number, updatedData: { user_id?: number; crm?: string; specialty?: string; accept_money?: boolean; accept_plan?: boolean; description?: string }) => {
     try {
         const doctor = await Doctor.findByPk(doctorId);
         if (!doctor) {
