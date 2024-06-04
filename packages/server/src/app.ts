@@ -9,7 +9,7 @@ import availabilityRoutes from './routes/avaliabilityRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import addressRoutes from './routes/addressRoutes';
 import authRouter from './routes/authRoutes'
-
+import cors from 'cors';
 
 
 import './models/User';
@@ -19,6 +19,7 @@ import './models/address';
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
 // Middleware para processar JSON
 app.use(express.json());
 
