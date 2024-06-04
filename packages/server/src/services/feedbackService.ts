@@ -3,7 +3,7 @@ import Feedback from '../models/feedback';
 
 export const getAllFeedbacks = async () => {
     try {
-        return await Feedback.findOne();
+        return await Feedback.findAll();
     } catch (error) {
         console.error('Error retrieving feedbacks:', error);
         throw new Error('Error retrieving feedbacks');
