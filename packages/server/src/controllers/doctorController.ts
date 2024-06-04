@@ -5,7 +5,8 @@ import {
   getDoctorById,
   updateDoctor,
   deleteDoctor,
-  getDoctorsByCity
+  getDoctorsByCity,
+  getDoctorAppointments
 } from '../services/doctorService';
 
 export const getAllDoctorsController = async (_req: Request, res: Response) => {
@@ -91,3 +92,19 @@ export const getDoctorsByCityController = async (req: Request, res: Response) =>
     res.status(500).json({ error: 'Failed to search doctors by city' });
   }
 }
+
+export const getDoctorAppointmentsController = async (req: Request, res: Response) => {
+  try {
+      const { id } = req.params;
+      const patientAppointments = await getDoctorAppointments(Number(id));
+
+      if (!patientAppointments) {
+          return res.status(404).json({ message: 'Doctor não encontrado' });
+      }
+
+      return res.json(patientAppointments);
+  } catch (error) {
+      console.error('Erro ao obter consultas do doutor:', error);
+      return res.status(500).json({ message: 'Erro ao obter consultas do doutor' });
+  }
+};
