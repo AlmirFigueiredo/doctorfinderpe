@@ -37,11 +37,11 @@ export function AppointmentForm({ doctor }: AppointmentFormProps) {
     return (
         <form className={styles.appointmentForm} onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="date">Date</label>
+                <label htmlFor="date">Data</label>
                 <input type="date" id="date" value={formValues.date} onChange={handleChange} />
             </div>
             <div>
-                <label htmlFor="hour">Hour</label>
+                <label htmlFor="hour">Hora</label>
                 <input type="text" id="hour" value={formValues.hour} onChange={handleChange} placeholder="12:00" />
             </div>
             <div className={styles.location}>
@@ -59,7 +59,7 @@ export function AppointmentForm({ doctor }: AppointmentFormProps) {
                 ))}
             </div>
             <input type="hidden" name="doctor_id" value={formValues.doctor_id} />
-            <button type="submit">Lets appointment</button>
+            <button type="submit">Agendar Consulta</button>
         </form>
     );
 };
