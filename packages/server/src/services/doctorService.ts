@@ -1,4 +1,5 @@
 import Doctor from '../models/Doctor';
+import User from '../models/User';
 import Address from '../models/address';
 import Appointment from '../models/appointment';
 
@@ -8,6 +9,9 @@ export const getAllDoctors = async () => {
             model: Address,
             as: 'addresses',
             attributes: ['address_id', 'local_phone', 'zip_code', 'city', 'street_number', 'street', 'neighborhood', 'complement']
+        }, {
+            model: User,
+            attributes: ['name'],
         }]
     });
 }
