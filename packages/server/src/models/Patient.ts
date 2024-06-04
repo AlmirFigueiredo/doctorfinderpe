@@ -6,7 +6,7 @@ import User from './User';
 class Patient extends Model {
     public patient_id!: number;
     public user_id!: number;
-    public plain!: string;
+    public plan!: string;
 }
 
 Patient.init(
