@@ -1,8 +1,9 @@
+import Appointment from '../models/appointment';
 import Feedback from '../models/feedback';
 
 export const getAllFeedbacks = async () => {
     try {
-        return await Feedback.findAll();
+        return await Feedback.findOne();
     } catch (error) {
         console.error('Error retrieving feedbacks:', error);
         throw new Error('Error retrieving feedbacks');
@@ -11,6 +12,30 @@ export const getAllFeedbacks = async () => {
 
 export const createFeedback = async (feedbackData: { doctor_id: number; score: number; patient_id: number; comment: string; data: string }) => {
     try {
+        const appointment = await Appointment.findOne({
+            where: {
+              doctor_id : feedbackData.doctor_id,
+              patient_id: feedbackData.patient_id,
+              status: 'Concluded'
+            }
+        });
+
+        if (!appointment) {
+            throw new Error('No concluded appointment found for this patient and doctor');
+        }
+
+        const existingFeedback = await Feedback.findOne({
+            where: {
+                doctor_id: feedbackData.doctor_id,
+                patient_id: feedbackData.patient_id,
+                data: feedbackData.data
+            }
+        });
+
+        if (existingFeedback) {
+            throw new Error('Feedback already exists for this doctor, patient, and date');
+        }
+    
         return await Feedback.create(feedbackData);
     } catch (error) {
         console.error('Error creating feedback:', error);
