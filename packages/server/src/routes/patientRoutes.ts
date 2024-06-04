@@ -5,7 +5,7 @@ import {
     getPatientByIdController, 
     updatePatientController, 
     deletePatientController, 
-    getPatientAppointmentsController
+    getPatientAppointmentsController,
 } from '../controllers/patientController';
 
 const router = Router();

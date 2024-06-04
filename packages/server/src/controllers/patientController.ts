@@ -5,7 +5,7 @@ import {
   getPatientById, 
   updatePatient, 
   deletePatient, 
-  getPatientAppointments
+  getPatientAppointments,
 } from '../services/patientService';
 
 export const getAllPatientsController = async (req: Request, res: Response) => {

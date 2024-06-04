@@ -1,4 +1,5 @@
 import Patient from '../models/Patient';
+import User from '../models/User';
 import Appointment from '../models/appointment';
 
 export const getAllPatients = async () => {
