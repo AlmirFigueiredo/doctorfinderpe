@@ -10,17 +10,18 @@ export function HealthArea() {
                     <Image src="/analysis.svg" width={460} height={258} />
                     <div className={styles.body}>
                         <header>
-                            <h1>Do you work in healthcare? Start attracting new patients! </h1>
+                            <h1>Você é profissional de saúde? Comece a atrair novos pacientes!</h1>
                         </header>
                         <ul>
-                            <li>Connect with patients looking for your service in your region. </li>
-                            <li>Let patients book 24 hours a day. No more waiting for office hours! </li>
-                            <li>Strengthen your online reputation by collecting verified reviews. </li>
+                            <li>Conecte-se com pacientes que procuram seus serviços na sua região. </li>
+                            <li>Permita que os pacientes agendem consultas 24 horas por dia. Chega de esperar pelo horário de atendimento! </li>
+                            <li>Fortaleça sua reputação online coletando avaliações verificadas. </li>
                         </ul>
-                        <a href="#">Create an account</a>
+                        <a href="#">Crie uma conta</a>
                     </div>
                 </div>
             </div>
         </section>
     )
 }
+

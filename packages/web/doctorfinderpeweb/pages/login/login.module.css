@@ -8,6 +8,7 @@
 
 .header h1 {
     font-weight: 600;
+    color: #006A6A;
 }
 
 .container {
@@ -24,7 +25,7 @@
 
 .loginBox h1 {
     font-weight: 600;
-    color: #1b2734;
+    color: #006A6A;;
     font-size: 24px;
     margin-bottom: 16px;
 }
@@ -46,8 +47,8 @@
 
 .loginBox form button {
     cursor: pointer;
-    background-color: #2f7add;
-    border-color: #3d83df;
+    background-color: #006A6A;
+    border-color: #006A6A;
     color: #fff;
     text-decoration: none;
     display: block;
@@ -64,7 +65,7 @@
     margin-bottom: 16px;
     padding-bottom: 16px;
     font-weight: 400;
-    color: #1662c6;
+    color: #006A6A;
     text-align: center;
     font-size: 14px;
     border-bottom: 1px solid #edeff2;
@@ -80,7 +81,7 @@
 }
 
 .loginBox .createAccountLogin a {
-    color: #1662c6;
+    color: #006A6A;
     font-size: 14px;
     
 }
