@@ -20,18 +20,19 @@ export const getAllPatientsController = async (req: Request, res: Response) => {
 
 export const createPatientController = async (req: Request, res: Response) => {
   try {
-    const { user_id } = req.body;
+    const { user_id, plan } = req.body;
 
     if (!user_id) {
       return res.status(400).json({ error: 'User ID is required' });
     }
-    const newPatient = await createPatient({ user_id });
+    const newPatient = await createPatient({ user_id, plan });
     res.status(201).json(newPatient);
   } catch (error) {
     console.error('Error creating patient:', error);
     res.status(500).json({ error: 'Failed to create patient' });
   }
 };
+
 
 export const getPatientByIdController = async (req: Request, res: Response) => {
   try {

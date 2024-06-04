@@ -17,8 +17,8 @@ describe('Patient Service', () => {
     describe('getAllPatients', () => {
         it('should return all patients', async () => {
             const patients = [
-                { patient_id: 1, user_id: 1 },
-                { patient_id: 2, user_id: 2 },
+                { patient_id: 1, user_id: 1, plan: 'Amil' },
+                { patient_id: 2, user_id: 2, plan: null },
             ];
             (Patient.findAll as jest.Mock).mockResolvedValue(patients);
 
@@ -37,7 +37,7 @@ describe('Patient Service', () => {
 
     describe('createPatient', () => {
         it('should create a new patient', async () => {
-            const patientData = { user_id: 1 };
+            const patientData = { user_id: 1, plan: null };
             const newPatient = { patient_id: 1, ...patientData };
             (Patient.create as jest.Mock).mockResolvedValue(newPatient);
 
@@ -48,7 +48,7 @@ describe('Patient Service', () => {
         });
 
         it('should throw an error if creation fails', async () => {
-            const patientData = { user_id: 1 };
+            const patientData = { user_id: 1, plan: 'Amil' };
             (Patient.create as jest.Mock).mockRejectedValue(new Error('Failed to create patient'));
 
             await expect(createPatient(patientData)).rejects.toThrow('Error creating patient');
@@ -57,7 +57,7 @@ describe('Patient Service', () => {
 
     describe('getPatientById', () => {
         it('should return a patient by patient_id', async () => {
-            const patient = { patient_id: 1, user_id: 1 };
+            const patient = { patient_id: 1, user_id: 1, plan: 'Amil' };
             (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
 
             const result = await getPatientById(1);
@@ -81,14 +81,14 @@ describe('Patient Service', () => {
 
     describe('updatePatient', () => {
         it('should update a patient', async () => {
-            const patient = {patient_id: 1, user_id: 1, update: jest.fn().mockResolvedValue({patient_id: 1, user_id: 2 }) };
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', update: jest.fn().mockResolvedValue({patient_id: 1, user_id: 2, plan: 'Amil' }) };
             (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
 
             const updatedData = { user_id: 2 };
 
             const result = await updatePatient(1, updatedData);
 
-            expect(result).toEqual({patient_id: 1, user_id: 2 });
+            expect(result).toEqual({patient_id: 1, user_id: 2, plan: 'Amil' });
             expect(patient.update).toHaveBeenCalledWith(updatedData);
         });
 
@@ -99,7 +99,7 @@ describe('Patient Service', () => {
         });
 
         it('should throw an error if updating fails', async () => {
-            const patient = {patient_id: 1, user_id: 1, update: jest.fn().mockRejectedValue(new Error('Failed to update patient')) };
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', update: jest.fn().mockRejectedValue(new Error('Failed to update patient')) };
             (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
 
             await expect(updatePatient(1, { user_id: 2 })).rejects.toThrow('Error updating patient');
@@ -108,7 +108,135 @@ describe('Patient Service', () => {
 
     describe('deletePatient', () => {
         it('should delete a patient', async () => {
-            const patient = {patient_id: 1, user_id: 1, destroy: jest.fn().mockResolvedValue(null) };
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', destroy: jest.fn().mockResolvedValue(null) };
+            (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
+
+            const result = await deletePatient(1);
+
+            expect(result).toEqual(patient);
+            expect(patient.destroy).toHaveBeenCalled();
+        });
+
+        it('should throw an error if patient not found', async () => {
+            (Patient.findByPk as jest.Mock).mockResolvedValue(null);
+
+            await expect(deletePatient(999)).rejects.toThrow('Patient not found');
+        });
+
+        it('should throw an error if deleting fails', async () => {
+            (Patient.findByPk as jest.Mock).mockRejectedValue(new Error('Failed to delete patient'));
+
+            await expect(deletePatient(1)).rejects.toThrow('Error deleting patient');
+        });
+    });
+});
+
+describe('Patient Without Plan Service', () => {
+    let consoleSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+        consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    });
+
+    afterEach(() => {
+        consoleSpy.mockRestore();
+    });
+
+    describe('getAllPatients', () => {
+        it('should return all patients', async () => {
+            const patients = [
+                { patient_id: 1, user_id: 1, plan: null},
+                { patient_id: 2, user_id: 2, plan: null },
+            ];
+            (Patient.findAll as jest.Mock).mockResolvedValue(patients);
+
+            const result = await getAllPatients();
+
+            expect(result).toEqual(patients);
+            expect(Patient.findAll).toHaveBeenCalled();
+        });
+
+        it('should throw an error if fetching fails', async () => {
+            (Patient.findAll as jest.Mock).mockRejectedValue(new Error('Failed to fetch patients'));
+
+            await expect(getAllPatients()).rejects.toThrow('Error retrieving patients');
+        });
+    });
+
+    describe('createPatient', () => {
+        it('should create a new patient', async () => {
+            const patientData = { user_id: 1, plan: 'Amil'};
+            const newPatient = { patient_id: 1, ...patientData };
+            (Patient.create as jest.Mock).mockResolvedValue(newPatient);
+
+            const result = await createPatient(patientData);
+
+            expect(result).toEqual(newPatient);
+            expect(Patient.create).toHaveBeenCalledWith(patientData);
+        });
+
+        it('should throw an error if creation fails', async () => {
+            const patientData = { user_id: 1, plan: 'Amil' };
+            (Patient.create as jest.Mock).mockRejectedValue(new Error('Failed to create patient'));
+
+            await expect(createPatient(patientData)).rejects.toThrow('Error creating patient');
+        });
+    });
+
+    describe('getPatientById', () => {
+        it('should return a patient by patient_id', async () => {
+            const patient = { patient_id: 1, user_id: 1, plan: 'Amil' };
+            (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
+
+            const result = await getPatientById(1);
+
+            expect(result).toEqual(patient);
+            expect(Patient.findByPk).toHaveBeenCalledWith(1);
+        });
+
+        it('should throw an error if patient not found', async () => {
+            (Patient.findByPk as jest.Mock).mockResolvedValue(null);
+
+            await expect(getPatientById(999)).rejects.toThrow('Patient not found');
+        });
+
+        it('should throw an error if fetching fails', async () => {
+            (Patient.findByPk as jest.Mock).mockRejectedValue(new Error('Failed to fetch patient'));
+
+            await expect(getPatientById(1)).rejects.toThrow('Error retrieving patient');
+        });
+    });
+
+    describe('updatePatient', () => {
+        it('should update a patient', async () => {
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', update: jest.fn().mockResolvedValue({patient_id: 1, user_id: 2, plan: 'Amil' }) };
+            (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
+
+            const updatedData = { user_id: 2 };
+
+            const result = await updatePatient(1, updatedData);
+
+            expect(result).toEqual({patient_id: 1, user_id: 2, plan: 'Amil' });
+            expect(patient.update).toHaveBeenCalledWith(updatedData);
+        });
+
+        it('should throw an error if patient not found', async () => {
+            (Patient.findByPk as jest.Mock).mockResolvedValue(null);
+
+            await expect(updatePatient(999, { user_id: 2 })).rejects.toThrow('Patient not found');
+        });
+
+        it('should throw an error if updating fails', async () => {
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', update: jest.fn().mockRejectedValue(new Error('Failed to update patient')) };
+            (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
+
+            await expect(updatePatient(1, { user_id: 2 })).rejects.toThrow('Error updating patient');
+        });
+    });
+
+    describe('deletePatient', () => {
+        it('should delete a patient', async () => {
+            const patient = {patient_id: 1, user_id: 1, plan: 'Amil', destroy: jest.fn().mockResolvedValue(null) };
             (Patient.findByPk as jest.Mock).mockResolvedValue(patient);
 
             const result = await deletePatient(1);

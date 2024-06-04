@@ -5,6 +5,8 @@ class User extends Model {
     public user_id!: number;
     public name!: string;
     public picture!: string;
+    public cpf!: string;
+    public rg!: string;
     public username!: string;
     public email!: string;
     public password!: string;
@@ -39,6 +41,14 @@ User.init(
             unique: true,
         },
         password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        cpf: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        rg: {
             type: DataTypes.STRING,
             allowNull: false,
         },

@@ -9,7 +9,7 @@ export const getAllUsers = async () => {
     }
 };
 
-export const createUser = async (userData: { name: string; username: string; email: string; password: string; role: string }) => {
+export const createUser = async (userData: { name: string; username: string; email: string; password: string; role: string; cpf: string; rg: string; }) => {
   try {
     return await User.create(userData);
   } catch (error) {
@@ -33,7 +33,7 @@ export const getUserById = async (userId: number) => {
     }
 };
 
-export const updateUser = async (userId: number, updatedData: { name?: string;username?: string; picture?: string; email?: string; password?: string; role?: string }) => {
+export const updateUser = async (userId: number, updatedData: { name?: string;username?: string; picture?: string; email?: string; password?: string; role?: string; rg?: string; cpf?: string; }) => {
   try {
     const user = await User.findByPk(userId);
     if (!user) {
