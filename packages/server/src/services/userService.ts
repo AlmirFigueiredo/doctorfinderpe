@@ -2,7 +2,7 @@ import User from '../models/User';
 
 export const getAllUsers = async () => {
     try {
-        return await User.findAll();
+        return await User.findAll({attributes: {exclude: ['password']} });
     } catch (error) {
         console.error('Error on retrieving users:', error);
         throw new Error('Error retrieving users');
