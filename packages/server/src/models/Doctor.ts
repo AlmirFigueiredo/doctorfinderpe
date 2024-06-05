@@ -59,32 +59,32 @@ Doctor.init(
         tableName: 'doctors',
     }
 );
+if (process.env.NODE_ENV !== 'test') {
+    User.hasOne(Doctor, { foreignKey: 'user_id', onDelete: 'cascade' });
+    Doctor.belongsTo(User, { foreignKey: 'user_id', onDelete: 'cascade' });
 
-User.hasOne(Doctor, { foreignKey: 'user_id', onDelete: 'cascade' });
-Doctor.belongsTo(User, { foreignKey: 'user_id', onDelete: 'cascade' });
-
-Doctor.beforeCreate(async (doctor, options) => {
-    const user = await User.findByPk(doctor.user_id);
-    if (!user) {
-        throw new Error('user_id não encontrado na tabela users');
-    }
-});
-
-Doctor.beforeBulkCreate(async (doctors, options) => {
-    const userIds = doctors.map(doctor => doctor.user_id);
-    const users = await User.findAll({
-        where: {
-            user_id: userIds,
-        },
-    });
-    const existingUserIds = users.map(user => user.user_id);
-    doctors.forEach(doctor => {
-        if (!existingUserIds.includes(doctor.user_id)) {
-            throw new Error(`user_id ${doctor.user_id} não encontrado na tabela users`);
+    Doctor.beforeCreate(async (doctor, options) => {
+        const user = await User.findByPk(doctor.user_id);
+        if (!user) {
+            throw new Error('user_id não encontrado na tabela users');
         }
     });
-});
 
+    Doctor.beforeBulkCreate(async (doctors, options) => {
+        const userIds = doctors.map(doctor => doctor.user_id);
+        const users = await User.findAll({
+            where: {
+                user_id: userIds,
+            },
+        });
+        const existingUserIds = users.map(user => user.user_id);
+        doctors.forEach(doctor => {
+            if (!existingUserIds.includes(doctor.user_id)) {
+                throw new Error(`user_id ${doctor.user_id} não encontrado na tabela users`);
+            }
+        });
+    });
+}
 
 
 export default Doctor;

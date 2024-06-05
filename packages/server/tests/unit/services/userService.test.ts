@@ -61,9 +61,8 @@ describe('User Service', () => {
             (User.findByPk as jest.Mock).mockResolvedValue(user);
 
             const result = await getUserById(1);
-
             expect(result).toEqual(user);
-            expect(User.findByPk).toHaveBeenCalledWith(1);
+            expect(User.findByPk).toHaveBeenCalledWith(1, { attributes: { exclude: ['password'] } });
         });
 
         it('should throw an error if user not found', async () => {

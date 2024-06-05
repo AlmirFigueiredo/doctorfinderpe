@@ -2,6 +2,43 @@ import Doctor from '../models/Doctor';
 import Patient from '../models/Patient';
 import User from '../models/User';
 import address from '../models/address';
+import jwt from 'jsonwebtoken';
+
+const secretKey = 'muitosecreto'; 
+
+export const login = async (email: string, password: string) => {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+        throw new Error('Usuário não encontrado');
+    }
+
+    if (password !== user.password) {
+        throw new Error('Senha inválida');
+    }
+
+    let role = user.role;
+    let roleId = null;
+
+    if (role === "Doctor") {
+        const doctor = await Doctor.findOne({ where: { user_id: user.user_id } });
+        if (!doctor) {
+            throw new Error('Doctor not found');
+        }
+        roleId = doctor.doctor_id;
+    } else if (role === "Patient") {
+        const patient = await Patient.findOne({ where: { user_id: user.user_id } });
+        if (!patient) {
+            throw new Error('Patient not found');
+        }
+        roleId = patient.patient_id;
+    }
+
+    const token = jwt.sign({ userId: user.user_id, email: user.email, role, roleId }, secretKey, {
+        expiresIn: '1h',
+    });
+
+    return { token, user: { ...user.toJSON(), password: undefined } };
+};
 
 export const getAllUsers = async () => {
     try {

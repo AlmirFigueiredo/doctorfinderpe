@@ -8,7 +8,7 @@ import appointmentRoutes from './routes/appointmentRoutes';
 import availabilityRoutes from './routes/avaliabilityRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import addressRoutes from './routes/addressRoutes';
-import authRouter from './routes/authRoutes'
+import authRouter from './routes/authRouter'
 import cors from 'cors';
 
 

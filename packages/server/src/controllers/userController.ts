@@ -10,9 +10,22 @@ import {
 } from '../services/userService';
 import { createPatient} from '../services/patientService';
 import { createDoctor } from '../services/doctorService';
-//interface UserCreateForm{name: string; email: string; password: string; role: String; crm?:string; }
+import { login } from '../services/userService'
 
-// Controlador para obter todos os usuários
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
+        const result = await login(email, password);
+        res.json(result);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'Unknown error occurred' });
+        }
+    }
+};
+
 export const getAllUsersController = async (_req: Request, res: Response) => {
     try {
         const users = await getAllUsers();
