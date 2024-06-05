@@ -227,8 +227,8 @@
 
 .appointment-container {
     width: 100%;
-    overflow-x: auto; /* Permite a rolagem horizontal */
-    margin-bottom: 20px; /* Mantém o espaçamento inferior */
+    overflow-x: auto; 
+    margin-bottom: 20px; 
 }
 
 .appointment {
@@ -247,7 +247,6 @@
 
 .appointment table {
     width: 90%;
-    
     margin: 0 auto;
     border-collapse: collapse;
     text-align: center;
@@ -288,6 +287,36 @@
     color: #333;
 }
 
+.noAppointments {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.rowContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rowContainer table {
+    flex-grow: 1;
+}
+
+.rowContainer button {
+    height: 107px;
+    width: 75px;
+    background-color: #006A6A;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.rowContainer button:hover {
+    background-color: #005050;
+}
 
 @media (max-width: 768px) {
     .profile > header {
@@ -330,5 +359,4 @@
         max-width: 100%;
     }
 }
-
 
