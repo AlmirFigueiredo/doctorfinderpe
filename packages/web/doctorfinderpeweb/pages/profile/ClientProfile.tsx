@@ -1,32 +1,53 @@
 import { api } from "@/lib/axios";
 import styles from './profile.module.css';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { UserPatientResponse } from "./[name]";
+import { useAuth } from "@/context/authContext";
+import { Appointment } from "./appointment";
 
 
 interface FormDataTypes {
     username?: string;
     name?: string;
     cpf?: string;
-    rg?: string
+    rg?: string;
     plan?: string;
 }
 
-export function ClientProfile() {
+interface UserProfileProps {
+    userProfileInfo: UserPatientResponse
+}
+
+export function ClientProfile({ userProfileInfo }: UserProfileProps) {
+    const { user } = useAuth()
+    const [ownProfile, setOwnProfile] = useState(false)
+    const [tab, setTab] = useState(0)
+
+
     const [formData, setFormData] = useState<FormDataTypes>({
-        username: 'marcelocoelho1',
-        name: 'Marcelo Henrique',
-        cpf: '',
-        rg: '',
-        plan: 'amil',
+        username: userProfileInfo.username,
+        name: userProfileInfo.name,
+        cpf: userProfileInfo.cpf,
+        rg: userProfileInfo.rg,
+        plan: userProfileInfo.plan ?? '',
     });
+
+
+    useEffect(() => {
+        if (userProfileInfo.user_id === user.id) {
+            setOwnProfile(true)
+
+        }
+    }, [userProfileInfo, user])
 
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await api.patch('/doctors/1', formData);
-            console.log(response.data);
-            // Sucesso na atualização do perfil
+            const response = await api.put(`/users/${userProfileInfo.user_id}`, formData);
+            if (response.status) {
+                alert('Usuario atualizado com sucesso!')
+            }
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -34,74 +55,117 @@ export function ClientProfile() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({...prevData, [name]: value}))
-
+        setFormData((prevData) => ({ ...prevData, [name]: value }))
     };
 
     return (
-        <form onSubmit={handleUpdateProfile}>
-            <div className={styles.username}>
-                <span>Nome de Usuário</span>
-                <div>
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username || ''}
-                        onChange={handleChange}
-                        placeholder='marcelocoelho1'
-                    />
-                </div>
-            </div>
-            <div className={styles.userInfo}>
-                <div>
-                    <label htmlFor="name">Nome</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name || ''}
-                        onChange={handleChange}
-                        placeholder='Marcelo Henrique'
-                    />
-                </div>
+        <>
 
-                <div>
-                    <label htmlFor="cpf">CPF</label>
-                    <input
-                        type="text"
-                        name="cpf"
-                        value={formData.cpf || ''}
-                        onChange={handleChange}
-                        placeholder='999.999.999-99'
-                    />
-                </div>
+            <aside className={styles.sidebar}>
+                <button onClick={() => setTab(0)} className={tab === 0 ? styles.active : ''}>Informações</button>
+                {
+                    ownProfile && (
+                        <button onClick={() => setTab(1)} className={tab === 1 ? styles.active : ''} >Agendamentos</button>
+                    )
+                }
+            </aside>
+            <main className={styles.main}>
+                <header>
+                    <strong>{userProfileInfo.username}</strong>
+                </header>
+                {tab === 0 && (
+                    <>
+                        <div className={styles.profileImage}>
+                            <span>Imagem de Perfil</span>
+                            <div className={styles.imageContent}>
+                                <img src={userProfileInfo?.picture || "/svg/notPicture.svg"} alt="" />
+                                {ownProfile && (
+                                    <div>
+                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto' />
+                                        <button>Upload</button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <form onSubmit={handleUpdateProfile}>
+                            <div className={styles.username}>
+                                <span>Nome de Usuário</span>
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={formData.username || ''}
+                                        onChange={handleChange}
+                                        placeholder='marcelocoelho1'
+                                        disabled={!ownProfile} // Desativa a edição se não for o próprio perfil
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.userInfo}>
+                                <div>
+                                    <label htmlFor="name">Nome</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name || ''}
+                                        onChange={handleChange}
+                                        placeholder='Marcelo Henrique'
+                                        disabled={!ownProfile} // Desativa a edição se não for o próprio perfil
+                                    />
+                                </div>
 
-                <div>
-                    <label htmlFor="rg">RG</label>
-                    <input
-                        type="text"
-                        name="rg"
-                        value={formData.rg || ''}
-                        onChange={handleChange}
-                        placeholder='999999-99'
-                    />
-                </div>
-                
-                <div>
-                    <label htmlFor="plan">Plano</label>
-                    <input
-                        type="text"
-                        name="plan"
-                        value={formData.plan || ''}
-                        onChange={handleChange}
-                        placeholder='Seu Plano'
-                    />
-                </div>
+                                <div>
+                                    <label htmlFor="cpf">CPF</label>
+                                    <input
+                                        type="text"
+                                        name="cpf"
+                                        value={formData.cpf || ''}
+                                        onChange={handleChange}
+                                        placeholder='999.999.999-99'
+                                        disabled={!ownProfile} // Desativa a edição se não for o próprio perfil
+                                    />
+                                </div>
 
-                <div>
-                    <span>Atualizar Perfil</span>
-                    <button type='submit'>Atualizar</button>
-                </div>
-            </div>
-        </form>
+                                <div>
+                                    <label htmlFor="rg">RG</label>
+                                    <input
+                                        type="text"
+                                        name="rg"
+                                        value={formData.rg || ''}
+                                        onChange={handleChange}
+                                        placeholder='999999-99'
+                                        disabled={!ownProfile} // Desativa a edição se não for o próprio perfil
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="plan">Plano</label>
+                                    <input
+                                        type="text"
+                                        name="plan"
+                                        value={formData.plan || ''}
+                                        onChange={handleChange}
+                                        placeholder='Seu Plano'
+                                        disabled={!ownProfile} // Desativa a edição se não for o próprio perfil
+                                    />
+                                </div>
+
+                                {ownProfile && ( // Mostra apenas se for o próprio perfil
+                                    <div>
+                                        <span>Atualizar Perfil</span>
+                                        <button type='submit'>Atualizar</button>
+                                    </div>
+                                )}
+                            </div>
+                        </form>
+                    </>
+                )}
+                {ownProfile && tab === 1 &&  (
+                    <Appointment name={userProfileInfo.username} />
+                )}
+
+            </main>
+        </>
+
     )
 }

@@ -1,7 +1,9 @@
 "use client"
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./register.module.css";
 import { api } from "@/lib/axios";
+import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/router";
 
 type InitialFormData = {
   username: string;
@@ -9,6 +11,8 @@ type InitialFormData = {
   email: string;
   password: string;
   role: string;
+  cpf: string;
+  rg: string
 };
 
 type DoctorFormData = {
@@ -17,13 +21,23 @@ type DoctorFormData = {
 };
 
 export default function Login() {
+  const { isLoggedIn, login } = useAuth();
+  const router = useRouter()
   const [initialFormData, setInitialFormData] = useState<InitialFormData>({
     username: "",
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
+    cpf: "",
+    rg: ""
   });
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      router.push('/')
+    }
+}, [isLoggedIn])
 
   const [doctorFormData, setDoctorFormData] = useState<DoctorFormData>({
     speciality: "",
@@ -44,16 +58,16 @@ export default function Login() {
     e.preventDefault();
     
     let formData = { ...initialFormData };
-    if (initialFormData.role === 'doctor') {
+    if (initialFormData.role === 'Doctor') {
       formData = { ...formData, ...doctorFormData };
     }
     
-    
     try {
       const response = await api.post('/users', formData);
+    
       if (response.status) {
-        console.log(response.data)
         console.log('Success');
+        router.push('/login')
       } else {
         console.log('Account already created, I suppose');
       }
@@ -112,31 +126,51 @@ export default function Login() {
               />
             </div>
             <div className={styles.formGroup}>
+              <input
+                name="cpf"
+                required
+                value={initialFormData.cpf}
+                onChange={handleChange}
+                type="text"
+                placeholder="cpf"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <input
+                name="rg"
+                required
+                value={initialFormData.rg}
+                onChange={handleChange}
+                type="text"
+                placeholder="rg"
+              />
+            </div>
+            <div className={styles.formGroup}>
               <span>Você é paciente ou médico?</span>
               <div>
-                <label htmlFor="client">Paciente</label>
+                <label htmlFor="Patient">Paciente</label>
                 <input
-                  value="client"
+                  value="Patient"
                   onChange={handleChange}
-                  checked={initialFormData.role === "client"}
+                  checked={initialFormData.role === "Patient"}
                   type="radio"
                   name="role"
-                  id="client"
+                  id="Patient"
                 />
               </div>
               <div>
-                <label htmlFor="doctor">Médico</label>
+                <label htmlFor="Doctor">Médico</label>
                 <input
-                  value="doctor"
+                  value="Doctor"
                   onChange={handleChange}
-                  checked={initialFormData.role === "doctor"}
+                  checked={initialFormData.role === "Doctor"}
                   type="radio"
                   name="role"
-                  id="doctor"
+                  id="Doctor"
                 />
               </div>
             </div>
-            {initialFormData.role === "doctor" && (
+            {initialFormData.role === "Doctor" && (
               <>
                 <div className={styles.formGroup}>
                   <input

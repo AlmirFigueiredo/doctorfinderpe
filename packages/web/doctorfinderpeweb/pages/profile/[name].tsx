@@ -7,22 +7,69 @@ import { ClientProfile } from './ClientProfile';
 import { Appointment } from './appointment';
 
 
+export interface UserPatientResponse {
+    user_id: number;
+    name: string;
+    username: string;
+    picture: string | null;
+    email: string;
+    cpf: string;
+    rg: string;
+    role: "Patient";
+    patient_id: number;
+    plan: string | null;
+}
 
+export interface UserDoctorResponse {
+    user_id: number;
+    name: string;
+    username: string;
+    picture: string | null;
+    email: string;
+    cpf: string;
+    rg: string;
+    role: "Doctor";
+    doctor_id: number;
+    crm: string;
+    specialty: string;
+    accept_money: boolean;
+    accept_plan: boolean;
+    description: string;
+    addresses: Address[];
+}
+
+export interface Address {
+    address_id: number,
+    local_phone: string,
+    zip_code: string,
+    city: string,
+    street_number: string,
+    street: string,
+    neighborhood: string,
+    complement: string,
+}
 
 export default function Profile() {
     const router = useRouter();
     const perfilName = router.query.name;
-    const [tab, setTab] = useState(0)
+    const [userProfileInfo, setUserProfileInfo] = useState<UserPatientResponse | UserDoctorResponse>()
+
+    async function fetchUserData() {
+
+        const response = await api.get(`/users/profile/${perfilName}`)
+        console.log(response.data)
+        if (response.status) {
+            setUserProfileInfo(response.data)
+        }
+    }
 
     useEffect(() => {
-        // Fetch and populate formData with real data from API or state
-        const data = localStorage.getItem('data')
+        if (perfilName) {
+            fetchUserData()
 
-        async function getProfileData() {
-            const response = await api.get(`/${perfilName}`)
         }
-    }, []);
 
+    }, [perfilName]);
 
     return (
         <div className={styles.profile}>
@@ -30,34 +77,13 @@ export default function Profile() {
                 <h1>Profile</h1>
             </header>
             <div className={styles.profileContainer}>
-                <aside className={styles.sidebar}>
-                    <button onClick={() => setTab(0)} className={tab === 0 ? styles.active : ''}>Informações</button>
-                    <button onClick={() => setTab(1)} className={tab === 1 ? styles.active : ''} >Agendamentos</button>
-                </aside>
-                <main className={styles.main}>
-                    {tab === 0 && (
-                        <>
-                            <header>
-                                <strong>{perfilName}</strong>
-                            </header>
-                            <div className={styles.profileImage}>
-                                <span>Imagem de Perfil</span>
-                                <div className={styles.imageContent}>
-                                    <img src="/svg/notPicture.svg" alt="" />
-                                    <div>
-                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto'/>
-                                        <button>Upload</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* <DoctorProfile /> */}
-                            <ClientProfile />
-                        </>
-                    )}
-                    {tab === 1 && (
-                        <Appointment name={perfilName}/>
-                    )}
-                </main>
+                
+                {
+                    userProfileInfo && userProfileInfo.role === "Doctor" && (<DoctorProfile userProfileInfo={userProfileInfo} />)
+                }
+                {
+                    userProfileInfo && userProfileInfo.role === "Patient" && (<ClientProfile userProfileInfo={userProfileInfo} />)
+                }
             </div>
         </div>
     );

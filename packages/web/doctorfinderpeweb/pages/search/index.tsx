@@ -3,30 +3,42 @@ import styles from './search.module.css';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/axios';
 import { AppointmentForm } from './appointmentForm';
+import { useAuth } from '@/context/authContext';
 
-interface Address {
-    id: number;
-    endereco: string;
+export interface Address {
+    address_id: number;
+    local_phone: string;
+    zip_code: string;
+    city: string;
+    street_number: string;
+    street: string;
+    neighborhood: string;
+    complement: string;
 }
 
 export interface Doctor {
-    id: number;
+    doctor_id: number;
     user_id: number;
-    enderecos: Address[];
-    especialidade: string;
-    aceita_plano: boolean;
-    name: string;
+    crm: string;
+    specialty: string;
+    accept_money: boolean | null;
+    accept_plan: boolean | null;
     description: string;
-    enderecos_amout: number;
-    feedbacksCount: number;
-    imageSrc: string;
+    createdAt: string;
+    updatedAt: string;
+    addresses: Address[];
+    User: {
+        name: string;
+        picture: string;
+    };
 }
 
 export default function Search() {
+    const { user } = useAuth()
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [query, setQuery] = useState("");
+    const [patientId, setPatientId] = useState(0)
     const [activeAddressIndexes, setActiveAddressIndexes] = useState<number[]>([]);
-
 
     useEffect(() => {
         async function loadDoctors(query?: string) {
@@ -38,21 +50,32 @@ export default function Search() {
                 });
                 setDoctors(response.data);
 
-                // Definir o primeiro endereço como ativo para cada médico
                 const initialActiveIndexes = response.data.map(() => 0);
                 setActiveAddressIndexes(initialActiveIndexes);
             } catch (error) {
-                console.error("Error fetching doctors:", error);
+                console.error("Erro ao buscar médicos:", error);
             }
         }
         loadDoctors(query);
     }, [query]);
 
+    useEffect(() => {
+
+        async function getPatientByUserId() {
+            if (user) {
+                const response = await api.get(`users/byUserId/${user.id}`)
+                if (response.status) {
+                    setPatientId(response.data.patient_id)
+                }
+            }
+
+        }
+        getPatientByUserId()
+    }, [user])
     const handleAddressClick = (doctorIndex: number, addressIndex: number) => {
         const newActiveIndexes = [...activeAddressIndexes];
-        newActiveIndexes[doctorIndex] = addressIndex; // atualiza o endereço ativo para o médico específico
+        newActiveIndexes[doctorIndex] = addressIndex; // Atualiza o endereço ativo para o médico específico
         setActiveAddressIndexes(newActiveIndexes);
-
     };
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,55 +84,53 @@ export default function Search() {
         setQuery(searchQuery);
     };
 
-
-
     return (
         <main className={styles.formContainer}>
             <div className={styles.centralized}>
                 <form onSubmit={handleSearch}>
                     <div className={styles.inputWrapper}>
                         <MagnifyingGlass size={20} className={styles.icon} />
-                        <input name="search" list="search-suggestions" type="text" placeholder="especialidade ou name" />
+                        <input name="search" list="search-suggestions" type="text" placeholder="Especialidade ou nome" />
                         <datalist id="search-suggestions">
-                            <option value="projeto 1"></option>
-                            <option value="projeto 2"></option>
-                            <option value="projeto 3"></option>
-                            <option value="projeto 4"></option>
+                            {/* Sugestões de pesquisa */}
                         </datalist>
-                        <button type="submit">buscar</button>
+                        <button type="submit">Buscar</button>
                     </div>
                 </form>
                 <div className={styles.resultsList}>
                     <h1>Resultados da Pesquisa</h1>
                     {doctors.length > 0 ? (
                         doctors.map((doctor, doctorIndex) => (
-                            <article key={doctor.id} className={styles.doctorBox}>
+                            <article key={doctor.doctor_id} className={styles.doctorBox}>
                                 <div className={styles.doctorContent}>
                                     <div className={styles.doctorInfo}>
-                                        <img src={doctor.imageSrc} alt="" />
+                                        <img src={doctor.User.picture || "/svg/notPicture.svg"} alt="Foto do Médico" />
                                         <div>
-                                            <strong>{doctor.name}</strong>
+                                            <strong>{doctor.User.name}</strong>
                                             <p>{doctor.description}</p>
-                                            <span>Quantidade de Feedbacks: {doctor.feedbacksCount}</span>
+                                            {/* Outras informações do médico */}
                                         </div>
                                     </div>
                                     <div className={styles.doctorAddress}>
-                                        {doctor.enderecos.map((address, addressIndex) => (
+                                        {doctor.addresses.map((address, addressIndex) => (
                                             <button
-                                                key={address.id}
+                                                key={address.address_id}
                                                 className={`${styles.addressButton} ${addressIndex === activeAddressIndexes[doctorIndex] ? styles.active : ''}`}
-                                                onClick={() => handleAddressClick(doctorIndex, addressIndex)} // adiciona um manipulador de clique para alternar entre os endereços
+                                                onClick={() => handleAddressClick(doctorIndex, addressIndex)}
                                             >
-                                                Endereço {address.id}
+                                                Endereço {addressIndex + 1}
                                             </button>
                                         ))}
                                     </div>
                                     <div className={styles.addressText}>
                                         <MapPinLine size={20} />
-                                        <span>{activeAddressIndexes[doctorIndex] !== undefined && doctor.enderecos[activeAddressIndexes[doctorIndex]] ? doctor.enderecos[activeAddressIndexes[doctorIndex]].endereco : ''}</span>
+                                        <span>
+                                            {activeAddressIndexes[doctorIndex] !== undefined && doctor.addresses[activeAddressIndexes[doctorIndex]] ?
+                                                `${doctor.addresses[activeAddressIndexes[doctorIndex]].street}, ${doctor.addresses[activeAddressIndexes[doctorIndex]].street_number}, ${doctor.addresses[activeAddressIndexes[doctorIndex]].city}` : ''}
+                                        </span>
                                     </div>
                                 </div>
-                                <AppointmentForm doctor={doctor}/>
+                                <AppointmentForm patientId={patientId} doctor={doctor} />
                             </article>
                         ))
                     ) : (
@@ -120,4 +141,3 @@ export default function Search() {
         </main>
     );
 }
-

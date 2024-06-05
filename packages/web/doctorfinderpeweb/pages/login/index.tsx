@@ -1,7 +1,9 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./login.module.css";
 import { api } from "@/lib/axios";
+import { useRouter } from 'next/router'
+import { useAuth } from "@/context/authContext";
 
 type FormData = {
     email: string;
@@ -9,10 +11,19 @@ type FormData = {
 }
 
 export default function Login() {
+    const { isLoggedIn, login } = useAuth();
+
+    const router = useRouter()
     const [formData, setFormData] = React.useState<FormData>({
         email: "",
         password: ""
     });
+
+    useEffect(() => {
+        if(isLoggedIn) {
+            router.push('/')
+        }
+    }, [isLoggedIn])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -22,13 +33,15 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-       
-
         try {
-            const response = await api.post('/users', formData);
+            const response = await api.post('/auth/login', formData);
 
             if (response.status) {
                 console.log('logged');
+                localStorage.setItem('auth-token-doctorfinderpe', JSON.stringify(response.data.token))
+                login()
+                router.push('/')
+
             } else {
                 console.log('account already created I suppose');
             }
