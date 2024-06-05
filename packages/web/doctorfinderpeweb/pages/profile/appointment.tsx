@@ -41,8 +41,8 @@ export function Appointment({ userId, role }: AppointmentProps) {
     useEffect(() => {
         async function getAppointments() {
             if (userId && role) {
-                const response = await api.get(`/Appointments/${userId}/${role}`)
-                if (response.status) {
+                const response = await api.get(`/appointments/${userId}/${role}`)
+                if (response.status === 200) {
                     console.log(response.data)
                     categorizeAppointments(response.data);
                 }
@@ -67,6 +67,26 @@ export function Appointment({ userId, role }: AppointmentProps) {
         setCompletedAppointments(completed);
     }
 
+    const updateAppointmentStatus = async (appointmentId: number) => {
+        try {
+            const url = `/appointments/${appointmentId}`;
+            console.log(`Updating appointment status: ${url}`);
+            const response = await api.put(url, { status: 'Concluida' });
+            if (response.status === 200) {
+                setScheduledAppointments(prev => prev.filter(app => app.appointment_id !== appointmentId));
+                const updatedAppointment = scheduledAppointments.find(app => app.appointment_id === appointmentId);
+                if (updatedAppointment) {
+                    setCompletedAppointments(prev => [
+                        ...prev,
+                        { ...updatedAppointment, status: 'Concluida' }
+                    ]);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating appointment status', error);
+        }
+    }
+
     const renderTable = (appointments: AppointmentResponse[], title: string) => (
         <div className={styles.appointment}>
             <h3>{title}</h3>
@@ -79,6 +99,7 @@ export function Appointment({ userId, role }: AppointmentProps) {
                         <th>Localização</th>
                         <th>Data</th>
                         <th>Hora</th>
+                        {role === "Doctor" && title === 'Consultas Marcadas' && <th>Ação</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -94,6 +115,13 @@ export function Appointment({ userId, role }: AppointmentProps) {
                             </td>
                             <td>{appointment.data}</td>
                             <td>{appointment.hour}</td>
+                            {role === "Doctor" && title === 'Consultas Marcadas' && (
+                                <td>
+                                    <button onClick={() => updateAppointmentStatus(appointment.appointment_id)}>
+                                        Concluir
+                                    </button>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>
