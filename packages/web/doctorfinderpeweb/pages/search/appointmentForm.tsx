@@ -42,7 +42,7 @@ export function AppointmentForm({ doctor, patientId }: AppointmentFormProps) {
         }
         const formData = {
             ...formValues,
-            status: "Scheduled",
+            status: "Marcada",
             patient_id: patientId,
         }
 
