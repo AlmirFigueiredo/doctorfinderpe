@@ -16,8 +16,8 @@ type InitialFormData = {
 };
 
 type DoctorFormData = {
-  speciality: string;
-  CRM: string;
+  specialty: string;
+  crm: string;
 };
 
 export default function Login() {
@@ -40,8 +40,8 @@ export default function Login() {
 }, [isLoggedIn])
 
   const [doctorFormData, setDoctorFormData] = useState<DoctorFormData>({
-    speciality: "",
-    CRM: ""
+    specialty: "",
+    crm: ""
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,9 +61,9 @@ export default function Login() {
     if (initialFormData.role === 'Doctor') {
       formData = { ...formData, ...doctorFormData };
     }
-    
+    console.log(formData)
     try {
-      const response = await api.post('/users', formData);
+      const response = await api.post('/Users', formData);
     
       if (response.status) {
         console.log('Success');
@@ -174,22 +174,22 @@ export default function Login() {
               <>
                 <div className={styles.formGroup}>
                   <input
-                    name="speciality"
-                    value={doctorFormData.speciality}
+                    name="specialty"
+                    value={doctorFormData.specialty}
                     required
                     onChange={handleDoctorChange}
                     type="text"
-                    placeholder="speciality"
+                    placeholder="specialty"
                   />
                 </div>
                 <div className={styles.formGroup}>
                   <input
-                    name="CRM"
-                    value={doctorFormData.CRM}
+                    name="crm"
+                    value={doctorFormData.crm}
                     required
                     onChange={handleDoctorChange}
                     type="text"
-                    placeholder="CRM"
+                    placeholder="crm"
                   />
                 </div>
               </>
