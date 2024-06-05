@@ -32,10 +32,8 @@ export default function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         try {
             const response = await api.post('/auth/login', formData);
-
             if (response.status) {
                 console.log('logged');
                 localStorage.setItem('auth-token-doctorfinderpe', JSON.stringify(response.data.token))
@@ -65,7 +63,7 @@ export default function Login() {
                         <div className={styles.formGroup}>
                             <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Senha" />
                         </div>
-                        <button>Entrar</button>
+                        <button onClick={handleSubmit}>Entrar</button>
                     </form>
                     <div className={styles.forgetPassword}>
                         <a href="#">Esqueceu sua senha?</a>
