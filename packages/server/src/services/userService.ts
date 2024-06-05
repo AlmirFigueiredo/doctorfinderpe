@@ -154,3 +154,23 @@ export const getUserByUsername = async (username: string) => {
         throw new Error(`Error retrieving user}`);
     }
 };
+
+export const getPatientWithUserId = async (id: number) => {
+    try {
+        const patient = await Patient.findOne({
+            where: { user_id: id }, 
+        });
+
+        if (!patient) {
+            throw new Error('Patient not found');
+        }
+
+      
+        return patient;
+    } catch (error) {
+        if (error instanceof Error && error.message === 'Patient not found') {
+            throw error;
+        }
+        throw new Error('Error retrieving patient');
+    }
+}

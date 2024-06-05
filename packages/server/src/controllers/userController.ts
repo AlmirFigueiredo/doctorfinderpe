@@ -6,6 +6,7 @@ import {
     updateUser,
     deleteUser,
     getUserByUsername,
+    getPatientWithUserId,
 } from '../services/userService';
 import { createPatient} from '../services/patientService';
 import { createDoctor } from '../services/doctorService';
@@ -109,6 +110,22 @@ export const getUserByUsernameController = async (req: Request, res: Response) =
         const { username } = req.params;
 
         const user = await getUserByUsername(username)
+        
+        if(!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).send(user)
+    } catch (error) {
+        console.error('Error when fetch user:', error);
+        res.status(500).json({ error: 'Failed to fetch user' });
+    }
+};
+
+export const getPatientWithUserIdController = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const user = await getPatientWithUserId(Number(id))
         
         if(!user) {
             return res.status(404).json({ message: 'User not found' });
