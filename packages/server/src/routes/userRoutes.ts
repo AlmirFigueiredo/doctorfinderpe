@@ -6,6 +6,7 @@ import {
   updateUserController,
   deleteUserController,
   getUserByUsernameController,
+  getPatientWithUserIdController,
 } from '../controllers/userController';
 
 const router = Router();
@@ -16,5 +17,7 @@ router.get('/:id', getUserByIdController);
 router.put('/:id', updateUserController);
 router.delete('/:id', deleteUserController);
 router.get('/profile/:username', getUserByUsernameController);
+router.get('/byUserId/:id', getPatientWithUserIdController);
+
 
 export default router;
