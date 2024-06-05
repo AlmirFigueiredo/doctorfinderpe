@@ -39,7 +39,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
         // Se userProfileInfo for definido, define os endereços
         if (userProfileInfo) {
             const addresses = userProfileInfo.addresses?.map((addr, index) => ({
-                id: addr.address_id,
+                id: addr.id,
                 endereco: `${addr.street}, ${addr.street_number}, ${addr.city}`
             })) || [];
             setFormData(prevData => ({ ...prevData, enderecos: addresses }));
@@ -173,12 +173,12 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                                                 value={addr.endereco}
                                                 onChange={(e) => handleChange(e, index)}
                                                 placeholder={`Address ${index + 1}`}
-                                                disabled={!ownProfile}
+                                                disabled={true}
 
 
                                             />
                                         ))}
-                                        {[...Array(Math.max(2 - (formData.enderecos?.length || 0), 0))].map((_, index) => (
+                                        {[...Array(Math.max(1 - (formData.enderecos?.length || 0), 0))].map((_, index) => (
                                             <input
                                                 key={index}
                                                 type="text"
@@ -186,7 +186,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                                                 value=""
                                                 onChange={(e) => handleChange(e)}
                                                 placeholder={`Address ${formData.enderecos ? formData.enderecos.length + index + 1 : index + 1}`}
-                                                disabled={!ownProfile}
+                                                disabled={true}
 
 
                                             />
