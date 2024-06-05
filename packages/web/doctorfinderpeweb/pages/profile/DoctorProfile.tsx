@@ -1,7 +1,10 @@
 import { api } from "@/lib/axios";
 import styles from './profile.module.css';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { UserDoctorResponse } from "./[name]";
+import { Appointment } from "./appointment";
+import { useAuth } from "@/context/authContext";
 
 interface Address {
     id: number;
@@ -16,14 +19,39 @@ interface FormDataTypes {
     enderecos?: Address[];
 }
 
-export function DoctorProfile() {
+interface UserProfileProps {
+    userProfileInfo: UserDoctorResponse
+}
+
+export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
+    const { user } = useAuth()
+    const [ownProfile, setOwnProfile] = useState(false)
     const [formData, setFormData] = useState<FormDataTypes>({
-        username: 'marcelocoelho1',
-        name: 'Marcelo Henrique',
-        description: '',
-        especialidade: 'nutritionist',
-        enderecos: [{ id: 1, endereco: '' }, { id: 2, endereco: '' }]
+        username: userProfileInfo?.username,
+        name: userProfileInfo?.name,
+        description: userProfileInfo?.description ?? "",
+        especialidade: userProfileInfo?.specialty,
+        enderecos: []
     });
+    const [tab, setTab] = useState(0)
+
+    useEffect(() => {
+        // Se userProfileInfo for definido, define os endereços
+        if (userProfileInfo) {
+            const addresses = userProfileInfo.addresses?.map((addr, index) => ({
+                id: addr.address_id,
+                endereco: `${addr.street}, ${addr.street_number}, ${addr.city}`
+            })) || [];
+            setFormData(prevData => ({ ...prevData, enderecos: addresses }));
+        }
+    }, [userProfileInfo]);
+
+    useEffect(() => {
+        if (userProfileInfo.user_id === user.id) {
+            setOwnProfile(true)
+
+        }
+    }, [userProfileInfo, user])
 
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -42,79 +70,145 @@ export function DoctorProfile() {
         if (name === 'endereco' && typeof index !== 'undefined') {
             const newAddresses = [...(formData.enderecos || [])];
             newAddresses[index] = { ...newAddresses[index], endereco: value }; // Ensure id is kept
-            setFormData((prevData) => ({ ...prevData, enderecos: newAddresses }));
+            setFormData(prevData => ({ ...prevData, enderecos: newAddresses }));
         } else {
-            setFormData((prevData) => ({ ...prevData, [name]: value }));
+            setFormData(prevData => ({ ...prevData, [name]: value }));
         }
     };
 
     return (
-        <form onSubmit={handleUpdateProfile}>
-            <div className={styles.username}>
-                <span>Username</span>
-                <div>
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username || ''}
-                        onChange={handleChange}
-                        placeholder='marcelocoelho1'
-                    />
-                </div>
-            </div>
-            <div className={styles.userInfo}>
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name || ''}
-                        onChange={handleChange}
-                        placeholder='Marcelo Henrique'
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                        name="description"
-                        rows={6}
-                        value={formData.description || ''}
-                        onChange={handleChange}
-                        placeholder='description'
-                    ></textarea>
-                </div>
-                <div>
-                    <label htmlFor="especialidade">Specialty</label>
-                    <input
-                        type="text"
-                        name="especialidade"
-                        value={formData.especialidade || ''}
-                        onChange={handleChange}
-                        placeholder='nutritionist'
-                    />
-                </div>
-                <div>
-                    <div>
-                        <label htmlFor="endereco">Address</label>
-                    </div>
-                    <section>
-                        {formData.enderecos?.map((addr, index) => (
-                            <input
-                                key={addr.id}
-                                type="text"
-                                name="endereco"
-                                value={addr.endereco}
-                                onChange={(e) => handleChange(e, index)}
-                                placeholder={`Address ${index + 1}`}
-                            />
-                        ))}
-                    </section>
-                </div>
-                <div>
-                    <span>Update profile</span>
-                    <button type='submit'>Update</button>
-                </div>
-            </div>
-        </form>
+        <>
+            <aside className={styles.sidebar}>
+                <button onClick={() => setTab(0)} className={tab === 0 ? styles.active : ''}>Informações</button>
+                {ownProfile && (
+                        <button onClick={() => setTab(1)} className={tab === 1 ? styles.active : ''} >Agendamentos</button>
+                    )}
+            </aside>
+
+            <main className={styles.main}>
+                <header>
+                    <strong>{userProfileInfo.username}</strong>
+                </header>
+                {tab === 0 && (
+                    <>
+                        <div className={styles.profileImage}>
+                            <span>Imagem de Perfil</span>
+                            <div className={styles.imageContent}>
+                                <img src="/svg/notPicture.svg" alt="" />
+                                {ownProfile && (
+                                    <div>
+                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto' />
+                                        <button>Upload</button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <form onSubmit={handleUpdateProfile}>
+                            <div className={styles.username}>
+                                <span>Username</span>
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={formData.username || ''}
+                                        onChange={handleChange}
+                                        placeholder='marcelocoelho1'
+                                        disabled={!ownProfile}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.userInfo}>
+                                <div>
+                                    <label htmlFor="name">Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name || ''}
+                                        onChange={handleChange}
+                                        placeholder='Marcelo Henrique'
+                                        disabled={!ownProfile}
+
+
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="description">Description</label>
+                                    <textarea
+                                        name="description"
+                                        rows={6}
+                                        value={formData.description || ''}
+                                        onChange={handleChange}
+                                        placeholder='description'
+                                        disabled={!ownProfile}
+
+
+                                    ></textarea>
+                                </div>
+                                <div>
+                                    <label htmlFor="especialidade">Specialty</label>
+                                    <input
+                                        type="text"
+                                        name="especialidade"
+                                        value={formData.especialidade || ''}
+                                        onChange={handleChange}
+                                        placeholder='nutritionist'
+                                        disabled={!ownProfile}
+
+
+                                    />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label htmlFor="endereco">Address</label>
+                                    </div>
+                                    <section>
+                                        {formData.enderecos?.map((addr, index) => (
+                                            <input
+                                                key={addr.id}
+                                                type="text"
+                                                name="endereco"
+                                                value={addr.endereco}
+                                                onChange={(e) => handleChange(e, index)}
+                                                placeholder={`Address ${index + 1}`}
+                                                disabled={!ownProfile}
+
+
+                                            />
+                                        ))}
+                                        {[...Array(Math.max(2 - (formData.enderecos?.length || 0), 0))].map((_, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                name="endereco"
+                                                value=""
+                                                onChange={(e) => handleChange(e)}
+                                                placeholder={`Address ${formData.enderecos ? formData.enderecos.length + index + 1 : index + 1}`}
+                                                disabled={!ownProfile}
+
+
+                                            />
+                                        ))}
+                                    </section>
+                                </div>
+                                {ownProfile && (
+                                    <div>
+                                        <span>Update profile</span>
+                                        <button type='submit'>Update</button>
+                                    </div>
+                                )}
+
+                            </div>
+                        </form>
+                    </>
+                )}
+
+                {ownProfile && tab === 1 &&  (
+                    <Appointment name={userProfileInfo.username} />
+
+                )}
+
+            </main>
+        </>
+
     )
 }
