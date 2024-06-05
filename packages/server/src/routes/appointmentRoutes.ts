@@ -4,7 +4,8 @@ import {
     createAppointmentController,
     getAppointmentByIdController,
     updateAppointmentController,
-    deleteAppointmentController 
+    deleteAppointmentController, 
+    getAppointmentsByUserIdController
 } from '../controllers/appointmentController';
 
 const router = Router();
@@ -14,5 +15,6 @@ router.post('/', createAppointmentController);
 router.get('/:id', getAppointmentByIdController);
 router.put('/:id', updateAppointmentController);
 router.delete('/:id', deleteAppointmentController);
+router.get('/:id/:role', getAppointmentsByUserIdController)
 
 export default router;

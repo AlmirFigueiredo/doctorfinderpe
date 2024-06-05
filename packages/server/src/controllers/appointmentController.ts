@@ -4,7 +4,8 @@ import {
   getAllAppointments, 
   getAppointmentById, 
   updateAppointment, 
-  deleteAppointment 
+  deleteAppointment, 
+  getAppointmentsByUserId
 } from '../services/appointmentService';
 
 export const getAllAppointmentsController = async (_req: Request, res: Response) => {
@@ -75,3 +76,23 @@ export const deleteAppointmentController = async (req: Request, res: Response) =
     res.status(500).json({ error: 'Failed to delete appointment' });
   }
 };
+
+export const getAppointmentsByUserIdController = async (req: Request, res: Response) => {
+  try {
+    const { id, role } = req.params;
+    const appointments = await getAppointmentsByUserId(Number(id), role);
+
+    if(!appointments) {
+      throw new Error("Incorrect Role")
+    }
+
+    res.status(200).json(appointments)
+
+  } catch (error) {
+    console.error('Error fetching appointment:', error);
+    res.status(500).json({ error: 'Failed to fetch appointment' });
+  }
+
+
+}
+

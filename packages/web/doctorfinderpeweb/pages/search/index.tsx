@@ -62,7 +62,7 @@ export default function Search() {
     useEffect(() => {
 
         async function getPatientByUserId() {
-            if (user) {
+            if (user && user.role === 'Patient') {
                 const response = await api.get(`users/byUserId/${user.id}`)
                 if (response.status) {
                     setPatientId(response.data.patient_id)
