@@ -56,9 +56,12 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await api.patch('/doctors/1', formData);
-            console.log(response.data);
-            // Sucesso na atualização do perfil
+            const response = await api.put(`/doctors/${userProfileInfo.doctor_id}`, formData);
+            
+            if(response.status) {
+                alert("Dados Atualizados!")
+                console.log(response.data)
+            }
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -203,7 +206,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                 )}
 
                 {ownProfile && tab === 1 &&  (
-                    <Appointment name={userProfileInfo.username} />
+                    <Appointment role={userProfileInfo.role} userId={userProfileInfo.user_id} />
 
                 )}
 

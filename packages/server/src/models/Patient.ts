@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
-
 import User from './User';
 
 class Patient extends Model {
@@ -19,7 +18,6 @@ Patient.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', 
             references: {
                 model: User,
                 key: 'user_id',
@@ -33,18 +31,20 @@ Patient.init(
     {
         sequelize,
         tableName: 'patients',
+        hooks: {
+            beforeCreate: async (patient, options) => {
+                const user = await User.findByPk(patient.user_id);
+                if (!user) {
+                    throw new Error('user_id not found');
+                }
+            },
+        },
     }
 );
 
 if (process.env.NODE_ENV !== 'test') {
-    Patient.hasOne(User, { foreignKey: 'user_id' , onDelete: 'cascade' });
-    User.belongsTo(Patient, { foreignKey: 'user_id' , onDelete: 'cascade' });
-    
-    Patient.beforeCreate(async (patient, options) => {
-        const user = await User.findByPk(patient.user_id);
-        if (!user) {
-            throw new Error('user_id não encontrado na tabela users');
-        }
-    });
+    Patient.hasOne(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+    User.belongsTo(Patient, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 }
+
 export default Patient;

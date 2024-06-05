@@ -161,7 +161,7 @@ export function ClientProfile({ userProfileInfo }: UserProfileProps) {
                     </>
                 )}
                 {ownProfile && tab === 1 &&  (
-                    <Appointment name={userProfileInfo.username} />
+                    <Appointment role={userProfileInfo.role} userId={userProfileInfo.user_id} />
                 )}
 
             </main>

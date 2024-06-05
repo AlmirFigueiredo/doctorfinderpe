@@ -24,7 +24,6 @@ Appointment.init(
         doctor_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', 
             references: {
                 model: Doctor,
                 key: 'doctor_id',
@@ -33,7 +32,6 @@ Appointment.init(
         address_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', 
             references: {
                 model: Address,
                 key: 'address_id',
@@ -42,7 +40,6 @@ Appointment.init(
         patient_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', 
             references: {
                 model: Patient,
                 key: 'patient_id',
@@ -61,22 +58,21 @@ Appointment.init(
             allowNull: true,
         },
     },
-    
     {
         sequelize,
         tableName: 'appointment',
     }
 );
+
 if (process.env.NODE_ENV !== 'test') {
     Doctor.hasMany(Appointment, { foreignKey: 'doctor_id' });
     Appointment.belongsTo(Doctor, { foreignKey: 'doctor_id' });
-    
+
     Patient.hasMany(Appointment, { foreignKey: 'patient_id' });
     Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
-    
+
     Address.hasMany(Appointment, { foreignKey: 'address_id' });
     Appointment.belongsTo(Address, { foreignKey: 'address_id' });
 }
-
 
 export default Appointment;
