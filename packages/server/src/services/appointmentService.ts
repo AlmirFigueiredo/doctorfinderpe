@@ -149,26 +149,3 @@ export const getAppointmentsByUserId = async (id: number, role: string) => {
 
 
 
-[
-    {
-      "appointment_id": 1,
-      "doctor_id": 1,
-      "address_id": 2,
-      "patient_id": 1,
-      "data": "2024-06-06",
-      "hour": "13:00",
-      "status": "Scheduled",
-      "createdAt": "2024-06-05T12:05:02.797Z",
-      "updatedAt": "2024-06-05T12:05:02.797Z",
-      "Doctor": {
-        "doctor_id": 1,
-        "User": {
-          "name": "Marcelo Henrique Salve"
-        }
-      },
-      "address": {
-        "street": "rua do beijo russo",
-        "city": "Olinda beer"
-      }
-    }
-  ]

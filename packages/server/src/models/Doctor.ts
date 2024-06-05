@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
-
 import User from './User';
 
 class Doctor extends Model {
@@ -24,7 +23,6 @@ Doctor.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', 
             references: {
                 model: User,
                 key: 'user_id',
@@ -32,10 +30,7 @@ Doctor.init(
         },
         crm: {
             type: DataTypes.STRING,
-            autoIncrement: false,
-            primaryKey: false,
             allowNull: false,
-
         },
         specialty: {
             type: DataTypes.STRING,
@@ -52,39 +47,39 @@ Doctor.init(
         description: {
             type: DataTypes.STRING,
             allowNull: true,
-        }
+        },
     },
     {
         sequelize,
         tableName: 'doctors',
+        hooks: {
+            beforeCreate: async (doctor, options) => {
+                const user = await User.findByPk(doctor.user_id);
+                if (!user) {
+                    throw new Error('user_id not found');
+                }
+            },
+            beforeBulkCreate: async (doctors, options) => {
+                const userIds = doctors.map(doctor => doctor.user_id);
+                const users = await User.findAll({
+                    where: {
+                        user_id: userIds,
+                    },
+                });
+                const existingUserIds = users.map(user => user.user_id);
+                doctors.forEach(doctor => {
+                    if (!existingUserIds.includes(doctor.user_id)) {
+                        throw new Error(`user_id ${doctor.user_id} not found`);
+                    }
+                });
+            },
+        },
     }
 );
+
 if (process.env.NODE_ENV !== 'test') {
-    User.hasOne(Doctor, { foreignKey: 'user_id', onDelete: 'cascade' });
-    Doctor.belongsTo(User, { foreignKey: 'user_id', onDelete: 'cascade' });
-
-    Doctor.beforeCreate(async (doctor, options) => {
-        const user = await User.findByPk(doctor.user_id);
-        if (!user) {
-            throw new Error('user_id não encontrado na tabela users');
-        }
-    });
-
-    Doctor.beforeBulkCreate(async (doctors, options) => {
-        const userIds = doctors.map(doctor => doctor.user_id);
-        const users = await User.findAll({
-            where: {
-                user_id: userIds,
-            },
-        });
-        const existingUserIds = users.map(user => user.user_id);
-        doctors.forEach(doctor => {
-            if (!existingUserIds.includes(doctor.user_id)) {
-                throw new Error(`user_id ${doctor.user_id} não encontrado na tabela users`);
-            }
-        });
-    });
+    User.hasOne(Doctor, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+    Doctor.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 }
-
 
 export default Doctor;
