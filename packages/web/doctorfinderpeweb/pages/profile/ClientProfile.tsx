@@ -1,3 +1,4 @@
+'use client'
 import { api } from "@/lib/axios";
 import styles from './profile.module.css';
 
@@ -5,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UserPatientResponse } from "./[name]";
 import { useAuth } from "@/context/authContext";
 import { Appointment } from "./appointment";
+import { useRouter } from 'next/navigation'
 
 
 interface FormDataTypes {
@@ -22,7 +24,9 @@ interface UserProfileProps {
 export function ClientProfile({ userProfileInfo }: UserProfileProps) {
     const { user } = useAuth()
     const [ownProfile, setOwnProfile] = useState(false)
+    const [pictureURL, setPictureURL] = useState("")
     const [tab, setTab] = useState(0)
+    const router = useRouter()
 
 
     const [formData, setFormData] = useState<FormDataTypes>({
@@ -40,6 +44,27 @@ export function ClientProfile({ userProfileInfo }: UserProfileProps) {
 
         }
     }, [userProfileInfo, user])
+
+    async function handleUpdatePicture(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        if (pictureURL) {
+            console.log(pictureURL)
+
+            try {
+                const response = await api.put(`/users/${userProfileInfo.user_id}`, { picture: pictureURL })
+                
+                if (response.status) {
+                    console.log("atualizado")
+                    router.refresh()
+                }
+            } catch (error) {
+                throw new Error("Erro ao atualizar a foto de perfil")
+            }
+        }
+
+
+    }
 
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -80,10 +105,10 @@ export function ClientProfile({ userProfileInfo }: UserProfileProps) {
                             <div className={styles.imageContent}>
                                 <img src={userProfileInfo?.picture || "/svg/notPicture.svg"} alt="" />
                                 {ownProfile && (
-                                    <div>
-                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto' />
-                                        <button>Upload</button>
-                                    </div>
+                                    <form className={styles.updatePictureForm} onSubmit={handleUpdatePicture}>
+                                        <input onChange={(e) => { setPictureURL(e.target.value) }} className={styles.uploadPicture} value={pictureURL} type="text" placeholder='Link da sua foto' />
+                                        <button type="submit">Upload</button>
+                                    </form>
                                 )}
                             </div>
                         </div>
@@ -160,7 +185,7 @@ export function ClientProfile({ userProfileInfo }: UserProfileProps) {
                         </form>
                     </>
                 )}
-                {ownProfile && tab === 1 &&  (
+                {ownProfile && tab === 1 && (
                     <Appointment role={userProfileInfo.role} userId={userProfileInfo.user_id} />
                 )}
 

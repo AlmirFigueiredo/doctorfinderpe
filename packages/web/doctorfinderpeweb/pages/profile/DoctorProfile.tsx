@@ -1,3 +1,5 @@
+'use client'
+
 import { api } from "@/lib/axios";
 import styles from './profile.module.css';
 
@@ -5,6 +7,8 @@ import { useState, useEffect } from "react";
 import { UserDoctorResponse } from "./[name]";
 import { Appointment } from "./appointment";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from 'next/navigation'
+
 
 interface Address {
     id: number;
@@ -24,8 +28,10 @@ interface UserProfileProps {
 }
 
 export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
+    const router = useRouter()
     const { user } = useAuth()
     const [ownProfile, setOwnProfile] = useState(false)
+    const [pictureURL, setPictureURL] = useState("")
     const [formData, setFormData] = useState<FormDataTypes>({
         username: userProfileInfo?.username,
         name: userProfileInfo?.name,
@@ -43,6 +49,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                 endereco: `${addr.street}, ${addr.street_number}, ${addr.city}`
             })) || [];
             setFormData(prevData => ({ ...prevData, enderecos: addresses }));
+            setPictureURL(userProfileInfo.picture ?? "")
         }
     }, [userProfileInfo]);
 
@@ -67,12 +74,33 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
         }
     };
 
+    async function handleUpdatePicture(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        if(pictureURL) {
+            console.log(pictureURL)
+
+            try {
+                const response = await api.put(`/users/${userProfileInfo.user_id}`, {picture: pictureURL})
+
+                if(response.status) {
+                    console.log("atualizado")
+                    router.refresh()
+                }
+            } catch (error) {
+                throw new Error("Erro ao atualizar a foto de perfil")
+            }
+        }
+        
+
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
         const { name, value } = e.target;
 
         if (name === 'endereco' && typeof index !== 'undefined') {
             const newAddresses = [...(formData.enderecos || [])];
-            newAddresses[index] = { ...newAddresses[index], endereco: value }; // Ensure id is kept
+            newAddresses[index] = { ...newAddresses[index], endereco: value }; 
             setFormData(prevData => ({ ...prevData, enderecos: newAddresses }));
         } else {
             setFormData(prevData => ({ ...prevData, [name]: value }));
@@ -97,12 +125,12 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                         <div className={styles.profileImage}>
                             <span>Imagem de Perfil</span>
                             <div className={styles.imageContent}>
-                                <img src="/svg/notPicture.svg" alt="" />
+                                <img src={userProfileInfo.picture || "/svg/notPicture.svg"} alt="" />
                                 {ownProfile && (
-                                    <div>
-                                        <input className={styles.uploadPicture} type="text" placeholder='Link da sua foto' />
-                                        <button>Upload</button>
-                                    </div>
+                                    <form className={styles.updatePictureForm} onSubmit={handleUpdatePicture}>
+                                        <input onChange={(e) => {setPictureURL(e.target.value)} } className={styles.uploadPicture} value={pictureURL} type="text" placeholder='Link da sua foto' />
+                                        <button type="submit">Upload</button>
+                                    </form>
                                 )}
                             </div>
                         </div>
@@ -178,7 +206,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
 
                                             />
                                         ))}
-                                        {[...Array(Math.max(1 - (formData.enderecos?.length || 0), 0))].map((_, index) => (
+                                        {/* {[...Array(Math.max(1 - (formData.enderecos?.length || 0), 0))].map((_, index) => (
                                             <input
                                                 key={index}
                                                 type="text"
@@ -190,7 +218,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
 
 
                                             />
-                                        ))}
+                                        ))} */}
                                     </section>
                                 </div>
                                 {ownProfile && (

@@ -207,11 +207,29 @@
     color: #fff;
 }
 
+.updatePictureForm button {
+    max-width: max-content;
+    border: 0;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #121214;
+    color: #fff;
+    margin-left: 12px;
+}
+
 .userInfo div button:hover {
     background-color: #29292E;
     transition: .2s;
 }
 
+
+.appointment-container {
+    width: 100%;
+    overflow-x: auto; /* Permite a rolagem horizontal */
+    margin-bottom: 20px; /* Mantém o espaçamento inferior */
+}
 
 .appointment {
     width: 100%;
@@ -229,6 +247,7 @@
 
 .appointment table {
     width: 90%;
+    
     margin: 0 auto;
     border-collapse: collapse;
     text-align: center;
@@ -251,9 +270,11 @@
 .appointment tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+
 .appointment tr:nth-child(odd) {
     background-color: #f0eeee;
 }
+
 .appointment tr:hover {
     background-color: #f1f1f1;
 }
@@ -266,7 +287,6 @@
     font-weight: bold;
     color: #333;
 }
-
 
 
 @media (max-width: 768px) {
