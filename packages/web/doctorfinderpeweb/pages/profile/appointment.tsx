@@ -70,34 +70,37 @@ export function Appointment({ userId, role }: AppointmentProps) {
     const renderTable = (appointments: AppointmentResponse[], title: string) => (
         <div className={styles.appointment}>
             <h3>{title}</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        {role === "Patient" && <th>Médico</th>}
-                        {role === "Doctor" && <th>Paciente</th>}
-                        <th>Localização</th>
-                        <th>Data</th>
-                        <th>Hora</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {appointments.map(appointment => (
-                        <tr key={appointment.appointment_id}>
-                            <td>{appointment.status}</td>
-                            {role === 'Patient' && <td>{appointment.Doctor.User.name}</td>}
-                            {role === "Doctor" && <td>{appointment.Patient.User.name}</td>}
-                            <td>
-                                {appointment.address.street}
-                                <br />
-                                {appointment.address.city}
-                            </td>
-                            <td>{appointment.data}</td>
-                            <td>{appointment.hour}</td>
+            <div className={styles.appointmentContainer}>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            {role === "Patient" && <th>Médico</th>}
+                            {role === "Doctor" && <th>Paciente</th>}
+                            <th>Localização</th>
+                            <th>Data</th>
+                            <th>Hora</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {appointments.map(appointment => (
+                            <tr key={appointment.appointment_id}>
+                                <td>{appointment.status}</td>
+                                {role === 'Patient' && <td>{appointment.Doctor.User.name}</td>}
+                                {role === "Doctor" && <td>{appointment.Patient.User.name}</td>}
+                                <td>
+                                    {appointment.address.street}
+                                    <br />
+                                    {appointment.address.city}
+                                </td>
+                                <td>{appointment.data}</td>
+                                <td>{appointment.hour}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 
