@@ -1,7 +1,5 @@
 import { api } from '@/lib/axios'
 import styles from './profile.module.css'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR, tr } from 'date-fns/locale'
 import { useEffect, useState } from 'react'
 
 interface AppointmentProps {
@@ -14,7 +12,7 @@ interface AppointmentResponse {
     doctor_id: number;
     patient_id: number;
     address_id: number;
-    data: Date;
+    data: string;
     hour: string;
     status: string;
     Doctor: UserDetails;
@@ -37,83 +35,76 @@ interface User {
 }
 
 export function Appointment({ userId, role }: AppointmentProps) {
-    const [appointmentList, setAppointmentList] = useState<AppointmentResponse[] | []>([])
+    const [scheduledAppointments, setScheduledAppointments] = useState<AppointmentResponse[]>([]);
+    const [completedAppointments, setCompletedAppointments] = useState<AppointmentResponse[]>([]);
 
     useEffect(() => {
-
-
         async function getAppointments() {
-
             if (userId && role) {
                 const response = await api.get(`/Appointments/${userId}/${role}`)
-
                 if (response.status) {
                     console.log(response.data)
-                    setAppointmentList(response.data)
+                    categorizeAppointments(response.data);
                 }
             }
-
         }
         getAppointments()
     }, [userId, role])
 
-    let dateExample = new Date();
-    dateExample.setDate(dateExample.getDate() + 10);
+    const categorizeAppointments = (appointments: AppointmentResponse[]) => {
+        const scheduled: AppointmentResponse[] = [];
+        const completed: AppointmentResponse[] = [];
 
+        appointments.forEach(appointment => {
+            if (appointment.status === 'Concluida') {
+                completed.push(appointment);
+            } else {
+                scheduled.push(appointment);
+            }
+        });
 
+        setScheduledAppointments(scheduled);
+        setCompletedAppointments(completed);
+    }
+
+    const renderTable = (appointments: AppointmentResponse[], title: string) => (
+        <div className={styles.appointment}>
+            <h3>{title}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        {role === "Patient" && <th>Médico</th>}
+                        {role === "Doctor" && <th>Paciente</th>}
+                        <th>Localização</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {appointments.map(appointment => (
+                        <tr key={appointment.appointment_id}>
+                            <td>{appointment.status}</td>
+                            {role === 'Patient' && <td>{appointment.Doctor.User.name}</td>}
+                            {role === "Doctor" && <td>{appointment.Patient.User.name}</td>}
+                            <td>
+                                {appointment.address.street}
+                                <br />
+                                {appointment.address.city}
+                            </td>
+                            <td>{appointment.data}</td>
+                            <td>{appointment.hour}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 
     return (
         <>
-            <div className={styles.appointment}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            {role === "Patient" && (
-                                <th>Médico</th>
-                            )}
-                            {role === "Doctor" && (
-                                <th>Paciente</th>
-
-                            )}
-                            <th>Localização</th>
-                            <th>Data</th>
-                            <th>Hora</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {appointmentList && appointmentList.map((appointment) => {
-                            return (
-                                <tr key={appointment.appointment_id}>
-                                    <td>{appointment.status}</td>
-
-                                    {role === 'Patient' && (
-                                        <td>{appointment.Doctor.User.name}</td>
-                                    )}
-                                    {role === "Doctor" && (
-                                        <td>{appointment.Patient.User.name}</td>
-
-                                    )}
-                                    
-                                    <td>
-                                        {appointment.address.street}
-                                        <br />
-                                        {appointment.address.city}
-                                    </td>
-                                    <td>
-                                        {formatDistanceToNow(new Date(appointment.data), {
-                                            locale: ptBR,
-                                            addSuffix: true,
-                                        })}
-                                    </td>
-                                    <td>{appointment.hour}</td>
-                                </tr>
-                            );
-                        })}
-                        
-                    </tbody>
-                </table>
-            </div>
+            {renderTable(scheduledAppointments, 'Consultas Marcadas')}
+            {renderTable(completedAppointments, 'Consultas Concluídas')}
         </>
     )
 }
