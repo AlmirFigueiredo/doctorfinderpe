@@ -39,7 +39,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
         // Se userProfileInfo for definido, define os endereços
         if (userProfileInfo) {
             const addresses = userProfileInfo.addresses?.map((addr, index) => ({
-                id: addr.address_id,
+                id: addr.id,
                 endereco: `${addr.street}, ${addr.street_number}, ${addr.city}`
             })) || [];
             setFormData(prevData => ({ ...prevData, enderecos: addresses }));

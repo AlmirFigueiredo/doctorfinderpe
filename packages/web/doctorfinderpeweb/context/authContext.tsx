@@ -1,6 +1,7 @@
 // AuthProvider.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/router';
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -24,6 +25,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const router = useRouter()
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null); 
 
@@ -55,10 +57,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('auth-token-doctorfinderpe');
-    setUser(null);
-    setIsLoggedIn(false);
-  };
+    router.push('/').then(() => {
+      localStorage.removeItem('auth-token-doctorfinderpe');
+      setUser(null);
+      setIsLoggedIn(false);
+    });
+  }
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>

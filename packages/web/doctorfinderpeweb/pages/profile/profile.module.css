@@ -140,6 +140,7 @@
 .userInfo div {
     display: grid;
     grid-template-columns: 160px 1fr;
+    gap: 8px;
     margin-bottom: 12px;
 }
 
@@ -196,7 +197,7 @@
 }
 
 .userInfo div button {
-    max-width: 100px;
+    max-width: max-content;
     border: 0;
     padding: 12px 24px;
     border-radius: 24px;
