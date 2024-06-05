@@ -11,6 +11,7 @@ import {
 import { createPatient} from '../services/patientService';
 import { createDoctor } from '../services/doctorService';
 import { login } from '../services/userService'
+import { createAddress } from '../services/addressService';
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
@@ -39,7 +40,9 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 // Controlador para criar um novo usuário
 export const createUserController = async (req: Request, res: Response) => {
     try {
-        const { name, username, email, password, role, address_id, crm, specialty, accept_money, accept_plan, rg, cpf, plan, description } = req.body;
+        const { name, username, email, password, role, address_id, crm, specialty, accept_money, accept_plan, rg, cpf, plan, description,
+            zip_code, local_number, street, neighborhood, complement, city, local_phone, street_number
+          } = req.body;
 
         if (!name || !username || !email || !password || !role || !rg || !cpf) {
             return res.status(400).json({ error: 'All fields are required' });
@@ -52,7 +55,7 @@ export const createUserController = async (req: Request, res: Response) => {
         const newUser = await createUser({ name, username, email, password, role, rg, cpf });
 
         if (role === "Doctor") {
-            await createDoctor({
+            const doctor = await createDoctor({
                 user_id: newUser.user_id,
                 crm: crm,
                 specialty: specialty,
@@ -60,6 +63,17 @@ export const createUserController = async (req: Request, res: Response) => {
                 accept_plan: accept_plan,
                 description: description
             });
+            const addressData = {
+                doctor_id: doctor.doctor_id, 
+                local_phone: local_phone, 
+                zip_code: zip_code, 
+                city: city, 
+                street_number: street_number, 
+                street: street, 
+                neighborhood: neighborhood, 
+                complement: complement
+            }
+            const address = await createAddress(addressData)
         }
         if (role === "Patient") {
             await createPatient({ user_id: newUser.user_id, plan: plan})
@@ -91,6 +105,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { name, username, picture, email, password, role } = req.body;
+        console.log(req.body)
         const updatedUser = await updateUser(Number(id), { name, username, picture, email, password, role });
         if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });

@@ -107,7 +107,7 @@ export default function Search() {
                                         <img src={doctor.User.picture || "/svg/notPicture.svg"} alt="Foto do Médico" />
                                         <div>
                                             <strong>{doctor.User.name}</strong>
-                                            <p>{doctor.description}</p>
+                                            <p>{doctor.description || 'Esse médico não possui uma descrição'}</p>
                                             {/* Outras informações do médico */}
                                         </div>
                                     </div>

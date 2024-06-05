@@ -18,6 +18,14 @@ type InitialFormData = {
 type DoctorFormData = {
   specialty: string;
   crm: string;
+  zip_code: string;
+  local_number: string;
+  street: string;
+  neighborhood: string;
+  complement: string;
+  city: string;
+  local_phone: string;
+  street_number: string
 };
 
 export default function Login() {
@@ -34,14 +42,22 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       router.push('/')
     }
-}, [isLoggedIn])
+  }, [isLoggedIn])
 
   const [doctorFormData, setDoctorFormData] = useState<DoctorFormData>({
     specialty: "",
-    crm: ""
+    crm: "",
+    zip_code: "",
+    local_number: "",
+    street: "",
+    neighborhood: "",
+    complement: "",
+    city: "",
+    local_phone: "",
+    street_number: ""
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +72,7 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     let formData = { ...initialFormData };
     if (initialFormData.role === 'Doctor') {
       formData = { ...formData, ...doctorFormData };
@@ -64,7 +80,7 @@ export default function Login() {
     console.log(formData)
     try {
       const response = await api.post('/Users', formData);
-    
+
       if (response.status) {
         console.log('Success');
         router.push('/login')
@@ -169,6 +185,7 @@ export default function Login() {
                   id="Doctor"
                 />
               </div>
+    
             </div>
             {initialFormData.role === "Doctor" && (
               <>
@@ -191,6 +208,88 @@ export default function Login() {
                     type="text"
                     placeholder="crm"
                   />
+                </div>
+                <div className={styles.endereço}>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="zip_code"
+                      value={doctorFormData.zip_code}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="cep"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="local_number"
+                      value={doctorFormData.local_number}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="número"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="street"
+                      value={doctorFormData.street}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Rua"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="complement"
+                      value={doctorFormData.complement}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Complemento"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="neighborhood"
+                      value={doctorFormData.neighborhood}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Bairro"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="city"
+                      value={doctorFormData.city}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Cidade"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="local_phone"
+                      value={doctorFormData.local_phone}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Número do consultório"
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <input
+                      name="street_number"
+                      value={doctorFormData.street_number}
+                      required
+                      onChange={handleDoctorChange}
+                      type="text"
+                      placeholder="Número da rua"
+                    />
+                  </div>
                 </div>
               </>
             )}

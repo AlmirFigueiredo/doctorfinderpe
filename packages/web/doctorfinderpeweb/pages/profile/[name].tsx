@@ -38,15 +38,16 @@ export interface UserDoctorResponse {
     addresses: Address[];
 }
 
-export interface Address {
-    address_id: number,
-    local_phone: string,
-    zip_code: string,
-    city: string,
-    street_number: string,
-    street: string,
-    neighborhood: string,
-    complement: string,
+interface Address {
+    id: number;
+    street: string;
+    street_number: string;
+    zip_code: string;
+    neighborhood: string;
+    complement: string;
+    city: string;
+    local_phone: string;
+    local_number: string;
 }
 
 export default function Profile() {
