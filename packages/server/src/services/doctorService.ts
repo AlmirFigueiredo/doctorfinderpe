@@ -11,7 +11,7 @@ export const getAllDoctors = async () => {
             attributes: ['address_id', 'local_phone', 'zip_code', 'city', 'street_number', 'street', 'neighborhood', 'complement']
         }, {
             model: User,
-            attributes: ['name'],
+            attributes: ['name', 'picture'],
         }]
     });
 }
@@ -31,7 +31,13 @@ export const getDoctorById = async (doctorId: number) => {
             include: [{
                 model: Address,
                 as: 'addresses'
-            }]
+            },
+            {
+                model: User,
+                as: 'User',
+                attributes: ['name', 'picture']
+            }
+            ]
         });
         if (!doctor) {
             throw new Error('Doctor not found');

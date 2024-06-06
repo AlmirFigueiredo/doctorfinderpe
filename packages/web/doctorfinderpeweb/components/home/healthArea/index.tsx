@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './healthArea.module.css'
 import Image from 'next/legacy/image'
 
@@ -17,7 +18,7 @@ export function HealthArea() {
                             <li>Permita que os pacientes agendem consultas 24 horas por dia. Chega de esperar pelo horário de atendimento! </li>
                             <li>Fortaleça sua reputação online coletando avaliações verificadas. </li>
                         </ul>
-                        <a href="#">Crie uma conta</a>
+                        <Link href="/register">Crie uma conta</Link>
                     </div>
                 </div>
             </div>
