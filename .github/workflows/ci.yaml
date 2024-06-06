@@ -41,9 +41,13 @@ jobs:
     - name: Install Yarn
       run: npm install -g yarn
 
-    - name: Install dependencies
+    - name: Install dependencies for server
       run: yarn install
       working-directory: ./packages/server  
+
+    - name: Install dependencies for web
+      run: yarn install
+      working-directory: ./packages/web/doctorfinderpe  
 
     - name: Wait for PostgreSQL to be ready
       run: |
@@ -52,8 +56,12 @@ jobs:
           sleep 1
         done
 
-    - name: Run tests
+    - name: Run server tests
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       run: yarn test
       working-directory: ./packages/server 
+
+    - name: Run Cypress tests
+      run: npx cypress run --spec "cypress/e2e/**/*"
+      working-directory: ./packages/web/doctorfinderpe
