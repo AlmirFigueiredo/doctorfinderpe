@@ -49,7 +49,7 @@ export default function Search() {
                     }
                 });
                 setDoctors(response.data);
-
+                console.log(response.data)
                 const initialActiveIndexes = response.data.map(() => 0);
                 setActiveAddressIndexes(initialActiveIndexes);
             } catch (error) {
@@ -106,8 +106,14 @@ export default function Search() {
                                     <div className={styles.doctorInfo}>
                                         <img src={doctor.User.picture || "/svg/notPicture.svg"} alt="Foto do Médico" />
                                         <div>
-                                            <strong>{doctor.User.name}</strong>
+                                            <div className={styles.cardHeader}>
+                                                <strong>{doctor.User.name}</strong>
+                                                {' '}
+                                                <span>{doctor.specialty}</span>
+                                            </div>
+                                            
                                             <p>{doctor.description || 'Esse médico não possui uma descrição'}</p>
+                                            <a href={`feedbacks/${doctor.doctor_id}`} className={styles.feedbacksLink}>Feebbacks</a>
                                             {/* Outras informações do médico */}
                                         </div>
                                     </div>

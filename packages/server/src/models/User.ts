@@ -1,5 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
+import Doctor from './Doctor';
+import Patient from './Patient';
 
 class User extends Model {
     public user_id!: number;

@@ -94,6 +94,18 @@
     gap: 16px;
     padding: 24px 0px 12px 24px;
 }
+.cardHeader span {
+    font-weight: 400;
+    margin-left: 4px;
+    color: #1b2734;
+}
+
+.feedbacksLink {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #006A6A;
+    font-weight: 500;
+}
 
 .doctorInfo {
     display: flex;
