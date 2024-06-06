@@ -27,7 +27,7 @@ export default function Navbar() {
                             <Link href="#">Perguntas Frequentes</Link>
                         </li>
                         <li>
-                            <Link href="#">Médicos</Link>
+                            <Link href="/search">Médicos</Link>
                         </li>
                     </ul>
                 </div>
@@ -49,13 +49,13 @@ export default function Navbar() {
                     <div className={styles.mobileMenu}>
                         <ul>
                             <li>
-                                <Link href="#">Work with us</Link>
+                                <Link href="#">Trabalhe Conosco</Link>
                             </li>
                             <li>
-                                <Link href="#">FAQ</Link>
+                                <Link href="#">Perguntas Frequentes</Link>
                             </li>
                             <li>
-                                <Link href="#">Doctors</Link>
+                                <Link href="/search">Médicos</Link>
                             </li>
                             {isLoggedIn ? (
                                 <>
@@ -68,10 +68,10 @@ export default function Navbar() {
                                 </>
                             ) : <>
                                 <li>
-                                    <Link href="/login">Sign in</Link>
+                                    <Link href="/login">Entrar</Link>
                                 </li>
                                 <li>
-                                    <Link href="/register">Sign up</Link>
+                                    <Link href="/register">Registrar-se</Link>
                                 </li>
                             </>
                             }
