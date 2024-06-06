@@ -88,19 +88,27 @@ export const getDoctorsByCity = async (city: string) => {
 
     try {
         const doctors = await Doctor.findAll({
-            include: [{
-                model: Address,
-                as: 'addresses',
-                where: { city },
-                attributes: ['address_id', 'local_phone', 'zip_code', 'city', 'street_number', 'street', 'neighborhood', 'complement']
-            }]
-        })
+            include: [
+                {
+                    model: Address,
+                    as: 'addresses',
+                    where: { city }, // Filtro por cidade
+                    attributes: ['address_id', 'local_phone', 'zip_code', 'city', 'street_number', 'street', 'neighborhood', 'complement']
+                },
+                {
+                    model: User,
+                    as: 'User',
+                    attributes: ['name', 'picture']
+                }
+            ],
+            attributes: ['doctor_id', 'user_id', 'crm', 'specialty', 'accept_money', 'accept_plan', 'description', 'createdAt', 'updatedAt']
+        });
 
-        if (!doctors) {
-            throw new Error('Doctors not found!')
+        if (!doctors || doctors.length === 0) {
+            return null;
         }
 
-        return doctors
+        return doctors;
     } catch (error) {
         throw new Error('Error when search doctors by city')
     }
