@@ -7,11 +7,15 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "next lint",
-    "dev:server": "json-server server.json -p 3333 -w -d 500"
+    "dev:server": "json-server server.json -p 3333 -w -d 500",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/faker": "^6.6.9",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
+    "faker": "^5.5.3",
     "jwt-decode": "^4.0.0",
     "next": "14.2.3",
     "phosphor-react": "^1.4.1",
@@ -22,6 +26,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cypress": "^13.11.0",
     "json-server": "^0.17.1",
     "typescript": "^5"
   }
