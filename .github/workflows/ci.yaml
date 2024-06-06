@@ -47,7 +47,7 @@ jobs:
 
     - name: Install dependencies for web
       run: yarn install
-      working-directory: ./packages/web/doctorfinderpe  
+      working-directory: ./packages/web/doctorfinderpeweb
 
     - name: Wait for PostgreSQL to be ready
       run: |
