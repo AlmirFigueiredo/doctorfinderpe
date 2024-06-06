@@ -36,18 +36,13 @@ export interface Doctor {
 export default function Search() {
     const { user } = useAuth()
     const [doctors, setDoctors] = useState<Doctor[]>([]);
-    const [query, setQuery] = useState("");
     const [patientId, setPatientId] = useState(0)
     const [activeAddressIndexes, setActiveAddressIndexes] = useState<number[]>([]);
 
     useEffect(() => {
-        async function loadDoctors(query?: string) {
+        async function loadDoctors() {
             try {
-                const response = await api.get('/doctors', {
-                    params: {
-                        q: query
-                    }
-                });
+                const response = await api.get('/doctors');
                 setDoctors(response.data);
                 console.log(response.data)
                 const initialActiveIndexes = response.data.map(() => 0);
@@ -56,8 +51,8 @@ export default function Search() {
                 console.error("Erro ao buscar médicos:", error);
             }
         }
-        loadDoctors(query);
-    }, [query]);
+        loadDoctors();
+    }, []);
 
     useEffect(() => {
 
@@ -78,22 +73,54 @@ export default function Search() {
         setActiveAddressIndexes(newActiveIndexes);
     };
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const searchQuery = String((event.target as HTMLFormElement).querySelector<HTMLInputElement>('input[name="search"]')?.value);
-        setQuery(searchQuery);
+        const form = event.target as HTMLFormElement;
+        const citySelect = form.elements.namedItem('city') as HTMLSelectElement;
+        const searchQuery: string = citySelect.value || '';
+
+        if(searchQuery === "Todos") {
+            try {
+                const response = await api.get(`/doctors/`);
+                setDoctors(response.data);
+                const initialActiveIndexes = response.data.map(() => 0);
+                setActiveAddressIndexes(initialActiveIndexes);
+            } catch (error) {
+                setDoctors([]);
+                console.error("Erro ao buscar médicos:", error);
+            }
+        } else {
+            try {
+                const response = await api.get(`/doctors/city/${searchQuery}`);
+                setDoctors(response.data);
+                const initialActiveIndexes = response.data.map(() => 0);
+                setActiveAddressIndexes(initialActiveIndexes);
+            } catch (error) {
+                setDoctors([]);
+                console.error("Erro ao buscar médicos:", error);
+            }
+        }
+
+        
     };
+
 
     return (
         <main className={styles.formContainer}>
             <div className={styles.centralized}>
                 <form onSubmit={handleSearch}>
                     <div className={styles.inputWrapper}>
-                        <MagnifyingGlass size={20} className={styles.icon} />
-                        <input name="search" list="search-suggestions" type="text" placeholder="Especialidade ou nome" />
-                        <datalist id="search-suggestions">
-                            {/* Sugestões de pesquisa */}
-                        </datalist>
+                        <select
+                            className={styles.searchSelect}
+                            name="city"
+                            required
+                        >
+                            <option value="">Selecione uma cidade</option>
+                            <option value="Todos">Todos</option>
+                            <option value="Recife">Recife</option>
+                            <option value="Olinda">Olinda</option>
+                            {/* Adicione mais opções conforme necessário */}
+                        </select>
                         <button type="submit">Buscar</button>
                     </div>
                 </form>
@@ -111,7 +138,7 @@ export default function Search() {
                                                 {' '}
                                                 <span>{doctor.specialty}</span>
                                             </div>
-                                            
+
                                             <p>{doctor.description || 'Esse médico não possui uma descrição'}</p>
                                             <a href={`feedbacks/${doctor.doctor_id}`} className={styles.feedbacksLink}>Feebbacks</a>
                                             {/* Outras informações do médico */}
