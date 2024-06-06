@@ -198,6 +198,11 @@
     padding: 1rem;
 }
 
+.commentsScore {
+    color: #fff;
+    font-size: 14px;
+}
+
 .commentContent header {
     display: flex;
     align-items: flex-start;
