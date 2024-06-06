@@ -79,9 +79,10 @@ export const deleteFeedbackController = async (req: Request, res: Response) => {
 export const getAllDoctorsFeedbacksController = async(req: Request, res: Response) => {
   try {
     const {doctor_id} = req.params
+    
     const doctorsFeedback = await getAllDoctorsFeedbacks(Number(doctor_id));
     if (!doctorsFeedback) {
-      return res.status(404).json({ error: 'Feedback not found' });
+      return res.status(404).json({ error: 'Feedbacks not found' });
     }
     res.status(200).json(doctorsFeedback);
   } catch (error) {

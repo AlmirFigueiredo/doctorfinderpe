@@ -44,7 +44,12 @@
     color: rgb(209, 13, 13);
 }
 
-.registerBox form input {
+.registerBox form select {
+    margin-bottom: 16px;
+}
+
+.registerBox form input,
+.registerBox form select {
     padding: 8px 10px;
     font-size: 16px;
     border-radius: 4px;

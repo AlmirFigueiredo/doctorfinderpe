@@ -34,22 +34,30 @@ export function Post({ doctorId }: PostProps) {
     const [feedbackScore, setFeedbackScore] = useState(0)
     const [commentCreated, setCommentCreated] = useState(false)
     const [allDoctorFeedbacks, setAllDoctorFeedbacks] = useState<DoctorFeedback[]>([])
+    const [noFeedbacks, setNoFeedbacks] = useState(false)
 
 
 
     useEffect(() => {
         async function fetchAllDoctorsFeedbacks() {
             if (doctorId) {
-                const response = await api.get(`/feedbacks/doctor/${doctorId}`)
-                console.log(response.data)
-                if (response.status) {
-                    setAllDoctorFeedbacks(response.data)
+                try {
+                    const response = await api.get(`/feedbacks/doctor/${doctorId}`);
+                    if (response.status === 200) {
+                        setAllDoctorFeedbacks(response.data);
+                    }
+                } catch (error: any) {
+                    if (error.response && error.response.status === 404) {
+                        console.log("Sem comentários");
+                        setNoFeedbacks(true);
+                    } else {
+                        console.error("Erro ao buscar comentários:", error);
+                    }
                 }
-
             }
         }
-        fetchAllDoctorsFeedbacks()
-    }, [doctorId])
+        fetchAllDoctorsFeedbacks();
+    }, [doctorId]);
 
     async function handleCreateNewComment(e: any) {
         e.preventDefault()
@@ -112,11 +120,16 @@ export function Post({ doctorId }: PostProps) {
                 </form>
             </article>
             {
-                allDoctorFeedbacks.map((feedback) => {
+                allDoctorFeedbacks && allDoctorFeedbacks.map((feedback) => {
                     return (
                         <Comments patientName={feedback.Patient.User.name} picture={feedback.Patient.User.picture} key={feedback.feedback_id} comment={feedback.comment} data={feedback.data} score={feedback.score} />
                     )
                 })
+            }
+            {
+                noFeedbacks && (
+                    <p>Esse médico não tem nenhuma avaliação ainda!</p>
+                )
             }
 
         </>

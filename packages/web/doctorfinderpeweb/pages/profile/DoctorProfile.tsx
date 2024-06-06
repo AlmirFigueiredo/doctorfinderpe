@@ -136,7 +136,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                         </div>
                         <form onSubmit={handleUpdateProfile}>
                             <div className={styles.username}>
-                                <span>Username</span>
+                                <span>Usuário</span>
                                 <div>
                                     <input
                                         type="text"
@@ -150,7 +150,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                             </div>
                             <div className={styles.userInfo}>
                                 <div>
-                                    <label htmlFor="name">Name</label>
+                                    <label htmlFor="name">Nome</label>
                                     <input
                                         type="text"
                                         name="name"
@@ -163,7 +163,7 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="description">Description</label>
+                                    <label htmlFor="description">Descrição</label>
                                     <textarea
                                         name="description"
                                         rows={6}
@@ -176,21 +176,21 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                                     ></textarea>
                                 </div>
                                 <div>
-                                    <label htmlFor="especialidade">Specialty</label>
+                                    <label htmlFor="especialidade">Especialidade</label>
                                     <input
                                         type="text"
                                         name="especialidade"
                                         value={formData.especialidade || ''}
                                         onChange={handleChange}
                                         placeholder='nutritionist'
-                                        disabled={!ownProfile}
+                                        disabled={true}
 
 
                                     />
                                 </div>
                                 <div>
                                     <div>
-                                        <label htmlFor="endereco">Address</label>
+                                        <label htmlFor="endereco">Endereço</label>
                                     </div>
                                     <section>
                                         {formData.enderecos?.map((addr, index) => (
@@ -223,8 +223,8 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
                                 </div>
                                 {ownProfile && (
                                     <div>
-                                        <span>Update profile</span>
-                                        <button type='submit'>Update</button>
+                                        <span>Atualizar perfil</span>
+                                        <button type='submit'>Atualizar</button>
                                     </div>
                                 )}
 
