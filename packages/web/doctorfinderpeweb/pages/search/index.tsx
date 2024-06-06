@@ -113,7 +113,7 @@ export default function Search() {
                                             </div>
                                             
                                             <p>{doctor.description || 'Esse médico não possui uma descrição'}</p>
-                                            <a href={`feedbacks/${doctor.doctor_id}`} className={styles.feedbacksLink}>Feebbacks</a>
+                                            <a href={`feedbacks/${doctor.doctor_id}`} className={styles.feedbacksLink}>Feedbacks</a>
                                             {/* Outras informações do médico */}
                                         </div>
                                     </div>
