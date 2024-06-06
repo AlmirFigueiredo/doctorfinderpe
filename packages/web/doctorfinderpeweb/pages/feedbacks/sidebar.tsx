@@ -23,7 +23,7 @@ export function SideBar({name, description, specialty, picture}: SidebarProps) {
 
             <footer>
                 <small>
-                    {description}
+                    {description || "Esse médico não tem uma descrição"}
                 </small>
 
             </footer>
