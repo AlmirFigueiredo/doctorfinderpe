@@ -271,14 +271,19 @@ export default function Register() {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <input
+                    <select
+                      className={styles.searchSelect}
                       name="city"
-                      value={doctorFormData.city}
                       required
                       onChange={handleDoctorChange}
-                      type="text"
-                      placeholder="Cidade"
-                    />
+
+                      value={doctorFormData.city}
+                    >
+                      <option value="">Selecione uma cidade</option>
+                      <option value="Recife">Recife</option>
+                      <option value="Olinda">Olinda</option>
+                      {/* Adicione mais opções conforme necessário */}
+                    </select>
                   </div>
                   <div className={styles.formGroup}>
                     <input
