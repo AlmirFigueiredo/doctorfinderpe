@@ -1,3 +1,5 @@
+import Patient from '../models/Patient';
+import User from '../models/User';
 import Feedback from '../models/feedback';
 
 export const getAllFeedbacks = async () => {
@@ -66,16 +68,25 @@ export const deleteFeedback = async (feedbackId: number) => {
 
 export const getAllDoctorsFeedbacks = async (doctor_id: number) => {
     try {
-        const feedbacks = await Feedback.findAll({where: {doctor_id}});
-        if (!feedbacks) {
+        const feedbacks = await Feedback.findAll({
+            where: { doctor_id },
+            include: [{
+                model: Patient,
+                include: [{
+                    model: User,
+                    attributes: ['name', 'picture']
+                }]
+            }]
+        });
+        if (!feedbacks || feedbacks.length === 0) {
             throw new Error('Feedbacks not found');
         }
 
         return feedbacks;
     } catch (error) {
-        if (error instanceof Error && error.message === 'Feedback not found') {
+        if (error instanceof Error && error.message === 'Feedbacks not found') {
             throw error;
         }
-        throw new Error('Error deleting feedback');
+        throw new Error('Error retrieving feedbacks');
     }
 };

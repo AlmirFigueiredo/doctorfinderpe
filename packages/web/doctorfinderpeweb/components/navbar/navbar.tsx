@@ -16,7 +16,9 @@ export default function Navbar() {
         <nav className={styles.navbar}>
             <div className={styles.center}>
                 <div className={styles.logoAndLinks}>
-                    <h1>DoctorFinderPE</h1>
+                    <h1>
+                        <Link href="/">DoctorFinderPE</Link>
+                    </h1>
                     <ul>
                         <li>
                             <Link href="#">Trabalhe Conosco</Link>

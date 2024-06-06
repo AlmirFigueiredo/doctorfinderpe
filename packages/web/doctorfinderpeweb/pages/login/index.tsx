@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./login.module.css";
 import { api } from "@/lib/axios";
 import { useRouter } from 'next/router'
@@ -12,7 +12,7 @@ type FormData = {
 
 export default function Login() {
     const { isLoggedIn, login } = useAuth();
-
+    const [errorToConnect, setErrorToConnect] = useState(false)
     const router = useRouter()
     const [formData, setFormData] = React.useState<FormData>({
         email: "",
@@ -34,6 +34,7 @@ export default function Login() {
         e.preventDefault();
         try {
             const response = await api.post('/auth/login', formData);
+            
             if (response.status) {
                 console.log('logged');
                 localStorage.setItem('auth-token-doctorfinderpe', JSON.stringify(response.data.token))
@@ -44,10 +45,11 @@ export default function Login() {
                 console.log('account already created I suppose');
             }
         } catch (error) {
-            console.log(error);
+            setErrorToConnect(true)
+            console.log("Ocorreu um problema durante a Autenticação");
         }
     }
-
+    console.log(errorToConnect)
     return (
         <>
             <header className={styles.header}>
@@ -63,6 +65,9 @@ export default function Login() {
                         <div className={styles.formGroup}>
                             <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Senha" />
                         </div>
+                        {errorToConnect && (
+                            <p className={styles.loginError}>Ocorreu um problema durante a Autenticação</p>
+                        )}
                         <button onClick={handleSubmit}>Entrar</button>
                     </form>
                     <div className={styles.forgetPassword}>

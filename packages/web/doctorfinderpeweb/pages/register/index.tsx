@@ -29,6 +29,7 @@ type DoctorFormData = {
 };
 
 export default function Login() {
+  const [errorToConnect, setErrorToConnect] = useState(false)
   const { isLoggedIn, login } = useAuth();
   const router = useRouter()
   const [initialFormData, setInitialFormData] = useState<InitialFormData>({
@@ -77,7 +78,7 @@ export default function Login() {
     if (initialFormData.role === 'Doctor') {
       formData = { ...formData, ...doctorFormData };
     }
-    console.log(formData)
+
     try {
       const response = await api.post('/Users', formData);
 
@@ -88,7 +89,8 @@ export default function Login() {
         console.log('Account already created, I suppose');
       }
     } catch (error) {
-      console.log(error);
+      setErrorToConnect(true)
+      console.log("Ocorreu um problema durante a criação da conta");
     }
   };
 
@@ -185,7 +187,7 @@ export default function Login() {
                   id="Doctor"
                 />
               </div>
-    
+
             </div>
             {initialFormData.role === "Doctor" && (
               <>
@@ -292,6 +294,9 @@ export default function Login() {
                   </div>
                 </div>
               </>
+            )}
+            {errorToConnect && (
+              <p className={styles.loginError}>Ocorreu um problema durante a Criação da conta</p>
             )}
             <button type="submit">Cria conta</button>
           </form>
