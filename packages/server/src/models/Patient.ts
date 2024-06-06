@@ -43,8 +43,9 @@ Patient.init(
 );
 
 if (process.env.NODE_ENV !== 'test') {
-    Patient.hasOne(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-    User.belongsTo(Patient, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+    Patient.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+    User.hasMany(Patient, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+    
 }
 
 export default Patient;

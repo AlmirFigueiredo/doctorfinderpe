@@ -70,14 +70,19 @@ export const getAllDoctorsFeedbacks = async (doctor_id: number) => {
     try {
         const feedbacks = await Feedback.findAll({
             where: { doctor_id },
-            include: [{
-                model: Patient,
-                include: [{
-                    model: User,
-                    attributes: ['name', 'picture']
-                }]
-            }]
+            include: [
+                {
+                    model: Patient,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'picture']
+                        }
+                    ]
+                }
+            ]
         });
+
         if (!feedbacks || feedbacks.length === 0) {
             throw new Error('Feedbacks not found');
         }
