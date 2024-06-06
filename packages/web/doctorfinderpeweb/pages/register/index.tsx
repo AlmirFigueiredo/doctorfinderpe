@@ -12,7 +12,7 @@ type InitialFormData = {
   password: string;
   role: string;
   cpf: string;
-  rg: string
+  rg: string;
 };
 
 type DoctorFormData = {
@@ -25,13 +25,13 @@ type DoctorFormData = {
   complement: string;
   city: string;
   local_phone: string;
-  street_number: string
+  street_number: string;
 };
 
-export default function Login() {
-  const [errorToConnect, setErrorToConnect] = useState(false)
-  const { isLoggedIn, login } = useAuth();
-  const router = useRouter()
+export default function Register() {
+  const [errorToConnect, setErrorToConnect] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
   const [initialFormData, setInitialFormData] = useState<InitialFormData>({
     username: "",
     name: "",
@@ -39,14 +39,14 @@ export default function Login() {
     password: "",
     role: "",
     cpf: "",
-    rg: ""
+    rg: "",
   });
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push('/')
+      router.push("/");
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, router]);
 
   const [doctorFormData, setDoctorFormData] = useState<DoctorFormData>({
     specialty: "",
@@ -58,7 +58,7 @@ export default function Login() {
     complement: "",
     city: "",
     local_phone: "",
-    street_number: ""
+    street_number: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +75,7 @@ export default function Login() {
     e.preventDefault();
 
     let formData = { ...initialFormData };
-    if (initialFormData.role === 'Doctor') {
+    if (initialFormData.role === "Doctor") {
       formData = { ...formData, ...doctorFormData };
     }
 
@@ -150,7 +150,7 @@ export default function Login() {
                 value={initialFormData.cpf}
                 onChange={handleChange}
                 type="text"
-                placeholder="cpf"
+                placeholder="CPF"
               />
             </div>
             <div className={styles.formGroup}>
@@ -160,7 +160,7 @@ export default function Login() {
                 value={initialFormData.rg}
                 onChange={handleChange}
                 type="text"
-                placeholder="rg"
+                placeholder="RG"
               />
             </div>
             <div className={styles.formGroup}>
@@ -187,30 +187,29 @@ export default function Login() {
                   id="Doctor"
                 />
               </div>
-
             </div>
             {initialFormData.role === "Doctor" && (
               <>
-                <select
-                  name="specialty"
-                  value={doctorFormData.specialty}
-                  required
-                  onChange={handleDoctorChange}
-                >
-                  <option value="">Selecione uma especialidade</option>
-                  <option value="Cardiologia">Cardiologia</option>
-                  <option value="Dermatologia">Dermatologia</option>
-                  <option value="Pediatria">Pediatria</option>
-                  <option value="Ortopedia">Ortopedia</option>
-                  <option value="Nutrologia">Nutrologia</option>
-                  <option value="Pneumologia">Pneumologia</option>
-                  <option value="Nefrologia">Nefrologia</option>
-                  <option value="Hematologia">Hematologia</option>
-                  <option value="Endocrinologia">Endocrinologia</option>
-                  <option value="Outro">Outro</option>
-
-                  {/* Adicione mais opções conforme necessário */}
-                </select>
+                <div className={styles.formGroup}>
+                  <select
+                    name="specialty"
+                    value={doctorFormData.specialty}
+                    required
+                    onChange={handleDoctorChange}
+                  >
+                    <option value="">Selecione uma especialidade</option>
+                    <option value="Cardiologia">Cardiologia</option>
+                    <option value="Dermatologia">Dermatologia</option>
+                    <option value="Pediatria">Pediatria</option>
+                    <option value="Ortopedia">Ortopedia</option>
+                    <option value="Nutrologia">Nutrologia</option>
+                    <option value="Pneumologia">Pneumologia</option>
+                    <option value="Nefrologia">Nefrologia</option>
+                    <option value="Hematologia">Hematologia</option>
+                    <option value="Endocrinologia">Endocrinologia</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
                 <div className={styles.formGroup}>
                   <input
                     name="crm"
@@ -218,10 +217,10 @@ export default function Login() {
                     required
                     onChange={handleDoctorChange}
                     type="text"
-                    placeholder="crm"
+                    placeholder="CRM"
                   />
                 </div>
-                <div className={styles.endereço}>
+                <div className={styles.endereco}>
                   <div className={styles.formGroup}>
                     <input
                       name="zip_code"
@@ -229,7 +228,7 @@ export default function Login() {
                       required
                       onChange={handleDoctorChange}
                       type="text"
-                      placeholder="cep"
+                      placeholder="CEP"
                     />
                   </div>
                   <div className={styles.formGroup}>
@@ -239,7 +238,7 @@ export default function Login() {
                       required
                       onChange={handleDoctorChange}
                       type="text"
-                      placeholder="número"
+                      placeholder="Número"
                     />
                   </div>
                   <div className={styles.formGroup}>
@@ -256,7 +255,6 @@ export default function Login() {
                     <input
                       name="complement"
                       value={doctorFormData.complement}
-                      required
                       onChange={handleDoctorChange}
                       type="text"
                       placeholder="Complemento"
@@ -289,7 +287,7 @@ export default function Login() {
                       required
                       onChange={handleDoctorChange}
                       type="text"
-                      placeholder="Número do consultório"
+                      placeholder="Telefone do consultório"
                     />
                   </div>
                   <div className={styles.formGroup}>
@@ -299,16 +297,16 @@ export default function Login() {
                       required
                       onChange={handleDoctorChange}
                       type="text"
-                      placeholder="Número da rua"
+                      placeholder="Número da Rua"
                     />
                   </div>
                 </div>
               </>
             )}
             {errorToConnect && (
-              <p className={styles.loginError}>Ocorreu um problema durante a Criação da conta</p>
+              <p className={styles.loginError}>Ocorreu um problema durante a criação da conta</p>
             )}
-            <button type="submit">Cria conta</button>
+            <button type="submit">Criar conta</button>
           </form>
           <div className={styles.createAccountLogin}>
             <span>Já tem uma conta?</span>
