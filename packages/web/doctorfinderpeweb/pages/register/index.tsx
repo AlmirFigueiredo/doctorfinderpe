@@ -66,7 +66,7 @@ export default function Login() {
     setInitialFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleDoctorChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleDoctorChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setDoctorFormData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -191,16 +191,26 @@ export default function Login() {
             </div>
             {initialFormData.role === "Doctor" && (
               <>
-                <div className={styles.formGroup}>
-                  <input
-                    name="specialty"
-                    value={doctorFormData.specialty}
-                    required
-                    onChange={handleDoctorChange}
-                    type="text"
-                    placeholder="specialty"
-                  />
-                </div>
+                <select
+                  name="specialty"
+                  value={doctorFormData.specialty}
+                  required
+                  onChange={handleDoctorChange}
+                >
+                  <option value="">Selecione uma especialidade</option>
+                  <option value="Cardiologia">Cardiologia</option>
+                  <option value="Dermatologia">Dermatologia</option>
+                  <option value="Pediatria">Pediatria</option>
+                  <option value="Ortopedia">Ortopedia</option>
+                  <option value="Nutrologia">Nutrologia</option>
+                  <option value="Pneumologia">Pneumologia</option>
+                  <option value="Nefrologia">Nefrologia</option>
+                  <option value="Hematologia">Hematologia</option>
+                  <option value="Endocrinologia">Endocrinologia</option>
+                  <option value="Outro">Outro</option>
+
+                  {/* Adicione mais opções conforme necessário */}
+                </select>
                 <div className={styles.formGroup}>
                   <input
                     name="crm"

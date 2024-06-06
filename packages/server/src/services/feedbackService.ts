@@ -84,7 +84,7 @@ export const getAllDoctorsFeedbacks = async (doctor_id: number) => {
         });
 
         if (!feedbacks || feedbacks.length === 0) {
-            throw new Error('Feedbacks not found');
+            return null
         }
 
         return feedbacks;

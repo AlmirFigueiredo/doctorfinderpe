@@ -42,7 +42,7 @@ export default function doctorId() {
         async function fetchDoctorInfo() {
             if (doctor_id) {
                 const response = await api.get(`/doctors/${doctor_id}`)
-
+                
                 if (response.status) {
                     console.log(response.data)
                     setDoctorInfo(response.data)
