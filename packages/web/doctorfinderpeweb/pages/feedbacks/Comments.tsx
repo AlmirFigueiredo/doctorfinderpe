@@ -8,10 +8,12 @@ import { ptBR } from 'date-fns/locale'
 interface CommentsProps {
     comment: string;
     data: Date;
-    score: number
+    score: number;
+    picture: string
+    patientName: string
 }
 
-export function Comments({ comment, data, score }: CommentsProps) {
+export function Comments({ comment, data, score, picture, patientName }: CommentsProps) {
 
 
 
@@ -20,16 +22,16 @@ export function Comments({ comment, data, score }: CommentsProps) {
         <>
             <div className={styles.comment}>
 
-                <Avatar src="https://github.com/IagoCarvalhoG.png" />
+                <Avatar src={picture || '/svg/notPicture.svg'} />
 
                 <div className={styles.commentBox}>
                     <div className={styles.commentContent}>
                         <header>
                             <div className={styles.authorAndTime}>
-                                <strong>APPLY</strong>
+                                <strong>{patientName}</strong>
 
                                 <time dateTime={data.toString()}>{data.toString()}</time>
-
+                                <span className={styles.commentsScore}>Nota: {score}/5</span>
                                 
                             </div>
 

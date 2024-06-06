@@ -16,7 +16,16 @@ interface DoctorFeedback {
     doctor_id: number;
     data: Date;
     feedback_id: number;
+    Patient: Patient
+}
 
+interface Patient {
+    User: User
+}
+
+interface User {
+    name: string;
+    picture: string
 }
 
 export function Post({ doctorId }: PostProps) {
@@ -105,7 +114,7 @@ export function Post({ doctorId }: PostProps) {
             {
                 allDoctorFeedbacks.map((feedback) => {
                     return (
-                        <Comments key={feedback.feedback_id} comment={feedback.comment} data={feedback.data} score={feedback.score} />
+                        <Comments patientName={feedback.Patient.User.name} picture={feedback.Patient.User.picture} key={feedback.feedback_id} comment={feedback.comment} data={feedback.data} score={feedback.score} />
                     )
                 })
             }
