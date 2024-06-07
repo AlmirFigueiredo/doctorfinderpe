@@ -121,7 +121,20 @@ describe('Patient Registration and Login', () => {
         // Verificar o red para pag de login
         cy.url().should('include', '/login');
     });
+    it('should show error message with invalid login credentials', () => {
+        // Visitar a pag de login
+        cy.visit('http://localhost:8080/login');
 
+        // Preencher form
+        cy.get('input[name="email"]').type('invaliduser@example.com');
+        cy.get('input[name="password"]').type('invalidpassword');
+
+        // Submeter o form de login
+        cy.contains('button', 'Entrar').click();
+
+        // Verificar erro
+        cy.contains('Email ou senha inválidos').should('be.visible');
+    });
     it('should log in with the newly registered user', () => {
         // Visitar a pag de login
         cy.visit('http://localhost:8080/login');
@@ -136,20 +149,5 @@ describe('Patient Registration and Login', () => {
         // verificar o red de login
         cy.url({ timeout: 10000 }).should('not.include', '/login');
         cy.url().should('include', '/');
-    });
-
-    it('should show error message with invalid login credentials', () => {
-        // Visitar a pag de login
-        cy.visit('http://localhost:8080/login');
-
-        // Preencher form
-        cy.get('input[name="email"]').type('invaliduser@example.com');
-        cy.get('input[name="password"]').type('invalidpassword');
-
-        // Submeter o form de login
-        cy.contains('button', 'Entrar').click();
-
-        // Verificar erro
-        cy.contains('Email ou senha inválidos').should('be.visible');
     });
 });

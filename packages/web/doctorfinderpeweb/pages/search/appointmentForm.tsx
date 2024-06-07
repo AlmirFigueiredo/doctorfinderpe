@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import styles from './search.module.css'
-import { Doctor } from './index'
+import styles from './search.module.css';
+import { Doctor } from './index';
 import { useAuth } from '@/context/authContext';
 import { api } from '@/lib/axios';
 import { useRouter } from 'next/router';
 
 interface AppointmentFormProps {
     doctor: Doctor;
-    patientId: number
+    patientId: number;
 }
 
+const generateTimeOptions = () => {
+    const times = [];
+    for (let hour = 9; hour <= 18; hour++) {
+        times.push(`${hour}:00`);
+        if (hour < 18) {
+            times.push(`${hour}:30`);
+        }
+    }
+    return times;
+};
+
 export function AppointmentForm({ doctor, patientId }: AppointmentFormProps) {
-    const router = useRouter()
-    const { user, isLoggedIn } = useAuth()
+    const router = useRouter();
+    const { isLoggedIn } = useAuth();
     const [formValues, setFormValues] = useState({
         data: '', 
         hour: '',
@@ -20,7 +31,7 @@ export function AppointmentForm({ doctor, patientId }: AppointmentFormProps) {
         address_id: doctor.addresses.length > 0 ? doctor.addresses[0].address_id : null,
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormValues((prevValues) => ({
             ...prevValues,
@@ -31,25 +42,29 @@ export function AppointmentForm({ doctor, patientId }: AppointmentFormProps) {
     const handleAddressChange = (addressId: number) => {
         setFormValues((prevValues) => ({
             ...prevValues,
-            addressId,
+            address_id: addressId,
         }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(!isLoggedIn) {
-            router.push('/login')
+        if (!isLoggedIn) {
+            router.push('/login');
+            return;
+        }
+        if (!formValues.data || !formValues.hour) {
+            alert('Por favor, selecione uma data e uma hora.');
+            return;
         }
         const formData = {
             ...formValues,
-            status: "Marcada",
+            status: 'Marcada',
             patient_id: patientId,
-        }
+        };
 
         try {
             const response = await api.post('/Appointments', formData);
-        
-            if (response.status) {
+            if (response.status === 201) {
                 alert('Consulta marcada com sucesso!');
             } else {
                 console.error('Erro ao marcar consulta:', response.statusText);
@@ -62,12 +77,19 @@ export function AppointmentForm({ doctor, patientId }: AppointmentFormProps) {
     return (
         <form className={styles.appointmentForm} onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="date">Data</label>
+                <label htmlFor="date">Data e Hora</label>
                 <input type="date" id="date" value={formValues.data} onChange={handleChange} />
             </div>
             <div>
-                <label htmlFor="hour">Hora</label>
-                <input type="text" id="hour" value={formValues.hour} onChange={handleChange} placeholder="12:00" />
+                <label htmlFor="hour"></label>
+                <select id="hour" value={formValues.hour} onChange={handleChange}>
+                    <option value="">Selecione uma hora</option>
+                    {generateTimeOptions().map((time) => (
+                        <option key={time} value={time}>
+                            {time}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className={styles.location}>
                 {doctor.addresses.map((address) => (

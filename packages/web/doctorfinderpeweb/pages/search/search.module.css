@@ -251,3 +251,8 @@
     
 
 }
+
+.appointmentForm select {
+    border-radius: 5%;
+    margin-bottom: 5%;
+}
