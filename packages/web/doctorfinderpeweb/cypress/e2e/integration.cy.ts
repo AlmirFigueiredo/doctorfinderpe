@@ -19,8 +19,8 @@ describe('Doctor Registration and Login', () => {
         street: faker.location.street(),
         neighborhood: faker.location.county(),
         complement: faker.word.adjective(),
-        city: faker.location.city(),
-        local_phone: faker.phone.number('###########'),
+        city: 'Recife',
+        local_phone: faker.string.numeric('###########'),
         street_number: faker.number.int({ min: 1, max: 1000 }).toString(),
     };
 
@@ -47,7 +47,7 @@ describe('Doctor Registration and Login', () => {
         cy.get('input[name="street"]').type(randomDoctorDetails.street);
         cy.get('input[name="neighborhood"]').type(randomDoctorDetails.neighborhood);
         cy.get('input[name="complement"]').type(randomDoctorDetails.complement);
-        cy.get('input[name="city"]').type(randomDoctorDetails.city);
+        cy.get('select[name="city"]').select(randomDoctorDetails.city);
         cy.get('input[name="local_phone"]').type(randomDoctorDetails.local_phone);
         cy.get('input[name="street_number"]').type(randomDoctorDetails.street_number);
 
