@@ -3,9 +3,9 @@ Diagrama de Casos:
 
 Banco de Dados:
 
-![BancoRelacional](./BancoDeDados.png)
+![BancoRelacional](./BancoDeDados.webp)
 
-![BancoLogico](./BancoDeDadosLogico.jpeg)
+![BancoLogico](./BancoDeDadosLogico.webp)
 
 
 Descrição do Projeto:
