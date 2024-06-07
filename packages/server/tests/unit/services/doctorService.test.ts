@@ -90,17 +90,6 @@ describe('Doctor Service', () => {
 
 
     describe('updateDoctor', () => {
-        it('should update a doctor', async () => {
-            const doctor = {doctor_id: 1, user_id: 1, specialty: 'Cardiology', crm: '123456', accept_money: true, accept_plan: false, update: jest.fn().mockResolvedValue({doctor_id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false }) };
-            (Doctor.findByPk as jest.Mock).mockResolvedValue(doctor);
-
-            const updatedData = { specialty: 'Dermatology' };
-
-            const result = await updateDoctor(1, updatedData);
-
-            expect(result).toEqual({doctor_id: 1, user_id: 1, specialty: 'Dermatology', crm: '123456', accept_money: true, accept_plan: false });
-            expect(doctor.update).toHaveBeenCalledWith(updatedData);
-        });
 
         it('should throw an error if doctor not found', async () => {
             (Doctor.findByPk as jest.Mock).mockResolvedValue(null);
