@@ -51,8 +51,8 @@ export const getDoctorByIdController = async (req: Request, res: Response) => {
 export const updateDoctorController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { crm, specialty, accept_money, accept_plan, description } = req.body;
-    const updatedDoctor = await updateDoctor(Number(id), { crm, specialty, accept_money, accept_plan, description });
+    const { username, name ,crm, specialty, accept_money, accept_plan, description } = req.body;
+    const updatedDoctor = await updateDoctor(Number(id), { username, name ,crm, specialty, accept_money, accept_plan, description });
     if (!updatedDoctor) {
       return res.status(404).json({ error: 'Doctor not found' });
     }

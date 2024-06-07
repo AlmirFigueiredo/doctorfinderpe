@@ -37,7 +37,7 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
     }
 };
 
-// Controlador para criar um novo usuário
+
 export const createUserController = async (req: Request, res: Response) => {
     try {
         const { name, username, email, password, role, address_id, crm, specialty, accept_money, accept_plan, rg, cpf, plan, description,
@@ -85,7 +85,7 @@ export const createUserController = async (req: Request, res: Response) => {
     }
 };
 
-// Controlador para obter um usuário por ID
+
 export const getUserByIdController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -100,13 +100,13 @@ export const getUserByIdController = async (req: Request, res: Response) => {
     }
 };
 
-// Controlador para atualizar um usuário
+
 export const updateUserController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, username, picture, email, password, role } = req.body;
+        const { name, username, picture, email, cpf, rg, password, role, plan } = req.body;
         console.log(req.body)
-        const updatedUser = await updateUser(Number(id), { name, username, picture, email, password, role });
+        const updatedUser = await updateUser(Number(id), { name, cpf, rg, username, picture, email, password, role, plan });
         if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -117,7 +117,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     }
 };
 
-// Controlador para deletar um usuário
+
 export const deleteUserController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

@@ -29,7 +29,7 @@ interface UserProfileProps {
 
 export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
     const router = useRouter()
-    const { user } = useAuth()
+    const { user, updateUsername } = useAuth()
     const [ownProfile, setOwnProfile] = useState(false)
     const [pictureURL, setPictureURL] = useState("")
     const [formData, setFormData] = useState<FormDataTypes>({
@@ -63,11 +63,13 @@ export function DoctorProfile({ userProfileInfo }: UserProfileProps) {
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await api.put(`/doctors/${userProfileInfo.doctor_id}`, formData);
-            
-            if(response.status) {
-                alert("Dados Atualizados!")
-                console.log(response.data)
+            const response = await api.put(`/doctors/${userProfileInfo.user_id}`, formData);
+            if (response.status) {
+                alert('Usuario atualizado com sucesso!');
+                if (formData.username) {
+                    updateUsername(formData.username); // Atualiza o contexto
+                    router.push(`/profile/${formData.username}`); // Redireciona para o novo username
+                }
             }
         } catch (error) {
             console.error('Error updating profile:', error);
