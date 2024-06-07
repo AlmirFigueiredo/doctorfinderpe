@@ -8,6 +8,7 @@ interface AuthContextType {
   user: any; 
   login: () => void;
   logout: () => void;
+  updateUsername: (newUsername: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -64,8 +65,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     });
   }
 
+  const updateUsername = (newUsername: string) => {
+    setUser((prevUser: any) => ({ ...prevUser, username: newUsername }));
+
+  };
+
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, updateUsername }}>
       {children}
     </AuthContext.Provider>
   );

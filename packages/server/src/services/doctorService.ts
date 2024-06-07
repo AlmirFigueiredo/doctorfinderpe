@@ -51,15 +51,42 @@ export const getDoctorById = async (doctorId: number) => {
     }
 };
 
-export const updateDoctor = async (doctorId: number, updatedData: { user_id?: number; crm?: string; specialty?: string; accept_money?: boolean; accept_plan?: boolean; description?: string }) => {
+export const updateDoctor = async (doctorId: number, updatedData: { user_id?: number; username?: string; name?: string; crm?: string; specialty?: string; accept_money?: boolean; accept_plan?: boolean; description?: string }) => {
     try {
+        const { user_id, username, name } = updatedData;
+
         const doctor = await Doctor.findByPk(doctorId);
         if (!doctor) {
             throw new Error('Doctor not found');
         }
-        return await doctor.update(updatedData);
+
+        // Atualizar os dados do médico
+        await doctor.update({
+            crm: updatedData.crm,
+            specialty: updatedData.specialty,
+            accept_money: updatedData.accept_money,
+            accept_plan: updatedData.accept_plan,
+            description: updatedData.description,
+        });
+
+        // Se houver dados de usuário para atualizar
+        if (user_id || username || name) {
+            // Verificar se o médico está associado a um usuário
+            const associatedUser = await User.findByPk(doctor.user_id);
+            if (!associatedUser) {
+                throw new Error('Associated user not found');
+            }
+
+            // Atualizar os dados do usuário
+            await associatedUser.update({
+                username: updatedData.username || associatedUser.username,
+                name: updatedData.name || associatedUser.name,
+            });
+        }
+
+        return doctor;
     } catch (error) {
-        if (error instanceof Error && error.message === 'Doctor not found') {
+        if (error instanceof Error && (error.message === 'Doctor not found' || error.message === 'Associated user not found')) {
             throw error;
         }
         throw new Error('Error updating doctor');

@@ -12,6 +12,10 @@ export default function Navbar() {
         logout()
     }
 
+    useEffect(() => {
+        setMenuOpen(false); 
+    }, [user]);
+
     return (
         <nav className={styles.navbar}>
             <div className={styles.center}>

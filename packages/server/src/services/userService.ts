@@ -4,7 +4,7 @@ import User from '../models/User';
 import address from '../models/address';
 import jwt from 'jsonwebtoken';
 
-const secretKey = 'muitosecreto'; 
+const secretKey = 'muitosecreto';
 
 export const login = async (email: string, password: string) => {
     const user = await User.findOne({ where: { email } });
@@ -42,7 +42,7 @@ export const login = async (email: string, password: string) => {
 
 export const getAllUsers = async () => {
     try {
-        return await User.findAll({attributes: {exclude: ['password']} });
+        return await User.findAll({ attributes: { exclude: ['password'] } });
     } catch (error) {
         console.error('Error on retrieving users:', error);
         throw new Error('Error retrieving users');
@@ -50,17 +50,17 @@ export const getAllUsers = async () => {
 };
 
 export const createUser = async (userData: { name: string; username: string; email: string; password: string; role: string; cpf: string; rg: string; }) => {
-  try {
-    return await User.create(userData);
-  } catch (error) {
-    console.error('Error creating user:', error);
-    throw new Error('Error creating user');
-  }
+    try {
+        return await User.create(userData);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw new Error('Error creating user');
+    }
 };
 
 export const getUserById = async (userId: number) => {
     try {
-        const user = await User.findByPk(userId, {attributes: {exclude: ['password']} });
+        const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
         if (!user) {
             throw new Error('User not found');
         }
@@ -73,15 +73,31 @@ export const getUserById = async (userId: number) => {
     }
 };
 
-export const updateUser = async (userId: number, updatedData: { name?: string;username?: string; picture?: string; email?: string; password?: string; role?: string; rg?: string; cpf?: string; }) => {
-  try {
-    const user = await User.findByPk(userId);
-    if (!user) {
-      throw new Error('User not found');
+export const updateUser = async (userId: number, updatedData: { name?: string; plan?: string; username?: string; picture?: string; email?: string; password?: string; role?: string; rg?: string; cpf?: string; }) => {
+    try {
+        
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error('User not found');
         }
+       
+        if (updatedData.plan) {
+            const patient = await Patient.findOne({ where: { user_id: userId } });
+            if (patient) {
+                await patient.update({ plan: updatedData.plan });
+            } else {
+                throw new Error('Patient not found');
+            }
+            delete updatedData.plan; 
+        }
+
+       
         return await user.update(updatedData);
     } catch (error) {
         if (error instanceof Error && error.message === 'User not found') {
+            throw error;
+        }
+        if (error instanceof Error && error.message === 'Patient not found') {
             throw error;
         }
         throw new Error('Error updating user');
@@ -195,14 +211,14 @@ export const getUserByUsername = async (username: string) => {
 export const getPatientWithUserId = async (id: number) => {
     try {
         const patient = await Patient.findOne({
-            where: { user_id: id }, 
+            where: { user_id: id },
         });
 
         if (!patient) {
             throw new Error('Patient not found');
         }
 
-      
+
         return patient;
     } catch (error) {
         if (error instanceof Error && error.message === 'Patient not found') {
